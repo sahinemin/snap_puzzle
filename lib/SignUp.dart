@@ -1,4 +1,4 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +10,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GlobalKey <FormState> _formKey2 = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -124,6 +125,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   onPressed: () async{
+                    _Register();
                   },
                 ),
               )
@@ -137,4 +139,23 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
+  Future <void> _Register() async {
+    try{final User user = (await _auth.createUserWithEmailAndPassword(email: _emailController.text, password: _passwordController.text)).user;
+    if(user!=null){
+      if(!user.emailVerified){
+        await user.sendEmailVerification();
+      }
+      await user.updateProfile(displayName: _nameController.text);
+      _auth.currentUser;
+      Navigator.of(context).pushNamed('/LogIn').then((value) {
+        setState(() {});
+      });
+    }}
+    catch(e){
+      print(e.toString());
+    }
+
+  }
+
+
 }
