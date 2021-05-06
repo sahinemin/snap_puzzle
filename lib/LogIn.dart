@@ -146,6 +146,24 @@ class _LogInState extends State<LogIn> {
                             },
                           ),
                         ),
+                        Container(
+                          height: 50,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(top: 15),
+                          decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.all(Radius.circular(10)),
+                          ),
+                          // ignore: deprecated_member_use
+                          child: FlatButton(
+                            minWidth: 280,
+                            child: Image(
+                              image: AssetImage('assets/sign_in_google.png'),
+                            ) ,
+                            onPressed: () async {
+
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -168,7 +186,7 @@ class _LogInState extends State<LogIn> {
                         ),
                         TextButton(
                           onPressed: (){
-                            Navigator.of(context).pushNamed('/register');
+                            Navigator.of(context).pushNamed('/SignUp');
                           },
                           child: Text(
                             'Sign up!',
