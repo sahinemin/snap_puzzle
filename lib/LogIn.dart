@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+dynamic user;
+final FirebaseAuth _auth = FirebaseAuth.instance;
 class LogIn extends StatefulWidget {
   const LogIn({Key key}) : super(key: key);
 
@@ -14,6 +16,22 @@ class _LogInState extends State<LogIn> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkValue = false;
+  Future _login() async{
+
+    try{
+      user = (
+          await _auth.signInWithEmailAndPassword(email: _emailController.text, password: _passwordController.text)).user;
+      if(!user.emailVerified){
+        await user.sendEmailVerification();
+      }
+      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Logged in successfully.")));
+      Navigator.of(context).pushNamed('/home');
+
+
+    } catch (e){
+      print("ERRRRORRRRRRRRRR = $e");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -142,7 +160,24 @@ class _LogInState extends State<LogIn> {
                               ),
                             ),
                             onPressed: () async {
-
+                              await _login();
+                            },
+                          ),
+                        ),
+                        Container(
+                          height: 50,
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(top: 15),
+                          decoration: new BoxDecoration(
+                            borderRadius: new BorderRadius.all(Radius.circular(10)),
+                          ),
+                          // ignore: deprecated_member_use
+                          child: FlatButton(
+                            minWidth: 280,
+                            child: Image(
+                              image: AssetImage('assets/sign_in_google.png'),
+                            ) ,
+                            onPressed: () async {
                             },
                           ),
                         ),
@@ -168,7 +203,7 @@ class _LogInState extends State<LogIn> {
                         ),
                         TextButton(
                           onPressed: (){
-                            Navigator.of(context).pushNamed('/register');
+                            Navigator.of(context).pushNamed('/SignUp');
                           },
                           child: Text(
                             'Sign up!',
