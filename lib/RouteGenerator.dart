@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'LogIn.dart';
 import 'main.dart';
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
