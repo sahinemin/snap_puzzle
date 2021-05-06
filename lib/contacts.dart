@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'classroom.dart';
 
 void main() {
   runApp(SwipeablePage());
@@ -46,15 +47,16 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
         body: PageView(
           // physics: NeverScrollableScrollPhysics(),
-          // onPageChanged: (pageNo) {
-          //   setState(() {
-          //     _ExactPageNumber = pageNo++;
-          //   });
-          // },
+          onPageChanged: (pageNo) {
+            setState(() {
+              _ExactPageNumber = pageNo++;
+            });
+          },
           controller: pageController,
           scrollDirection: Axis.horizontal,
           children: <Widget>[
             Page1(),
+            Classroom(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -64,8 +66,8 @@ class _MainPageState extends State<MainPage> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home Page'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.new_releases), label: 'New Books'),
-            BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Profile'),
+                icon: Icon(Icons.school_outlined), label: 'Classes'),
+            BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Profile'),
           ],
           onTap: (currentPageNumber) {
             setState(() {
