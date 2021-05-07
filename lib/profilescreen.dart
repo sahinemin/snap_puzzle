@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(profilescreen());
+}
 class profilescreen extends StatefulWidget {
   const profilescreen({Key key}) : super(key: key);
 
@@ -15,89 +18,99 @@ class _profilescreenState extends State<profilescreen> {
             child: Scaffold(
               floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
               body: SafeArea(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  child: Container(
+                    color: Color(0xFF003942),
+                    child: Column(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: new BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          height:200,
-                          child: Image.network('https://placekitten.com/g/200/200'),
-                        )
-                      ],
-                    ),
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.all(8),
-                              child: Column(
-                                children: [
-                                  Container(
-                                      padding: const EdgeInsets.all(8),
-                                      color: Colors.orange,
-                                      width: 500,
-                                      child: Text(
-                                          "id: 1"
-                                      )
-                                  ),
-                                  Container(
-                                      padding: const EdgeInsets.all(8),
-                                      width: 500,
-                                      color: Colors.orangeAccent,
-                                      child: Text(
-                                          "username: Hikmet42"
-                                      )
-                                  ),
-                                  Container(
-                                      padding: const EdgeInsets.all(8),
-                                      width: 500,
-                                      color: Colors.orange,
-                                      child: Text(
-                                          "name: Hikmet Can"
-                                      )
-                                  ),
-                                  Container(
-                                      padding: const EdgeInsets.all(8),
-                                      width: 500,
-                                      color: Colors.orangeAccent,
-                                      child: Text(
-                                          "surname: Doğancı"
-                                      )
-                                  ),
-                                  Container(
-                                      padding: const EdgeInsets.all(8),
-                                      width: 500,
-                                      color: Colors.orange,
-                                      child: Text(
-                                          "School name: Agü"
-                                      )
-                                  ),
-                                ],
-                              )
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: new BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                height:200,
+                                child: CircleAvatar(
+                                  radius: 200,
+                                  backgroundImage: NetworkImage('https://placekitten.com/g/300/300'),
+                                )
+                            )
+                          ],
+                        ),
+                        Expanded(
+                          child: Stack(
                             children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
+                              Container(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                          padding: const EdgeInsets.all(8),
+                                          //color: Colors.lightBlue,
+                                          color: Colors.orange,
+                                          width: 500,
+                                          child: Text(
+                                              "id: 1"
+                                          )
+                                      ),
+                                      Container(
+                                          padding: const EdgeInsets.all(8),
+                                          width: 500,
+                                          //color: Colors.lightBlue,
+                                          color: Colors.orange[300],
+                                          child: Text(
+                                              "username: Hikmet42"
+                                          )
+                                      ),
+                                      Container(
+                                          padding: const EdgeInsets.all(8),
+                                          width: 500,
+                                          //color: Colors.lightBlue,
+                                          color: Colors.orange,
+                                          child: Text(
+                                              "name: Hikmet Can"
+                                          )
+                                      ),
+                                      Container(
+                                          padding: const EdgeInsets.all(8),
+                                          width: 500,
+                                          //color: Colors.lightBlue,
+                                          color: Colors.orange[300],
+                                          child: Text(
+                                              "surname: Doğancı"
+                                          )
+                                      ),
+                                      Container(
+                                          padding: const EdgeInsets.all(8),
+                                          width: 500,
+                                          color: Colors.orange,
+                                          //color: Colors.lightBlue,
+                                          child: Text(
+                                              "School name: Agü"
+                                          )
+                                      ),
+                                    ],
+                                  )
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  FloatingActionButton(child: Icon(Icons.settings),onPressed: (){
-
-                                  },),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      FloatingActionButton(child: Icon(Icons.settings)),
+                                    ],
+                                  )
                                 ],
                               )
                             ],
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  )
+
               ),
             )
         )
