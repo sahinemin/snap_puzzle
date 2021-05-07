@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+var classname;
 
 class Classroom extends StatelessWidget {
   @override
-  var List1 = ["Class1","Class2","Class3","Class4"];
+  var List1 = ["Class1","Class2","Class3","Class4", "Class5 (Teacher)"];
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -15,21 +16,41 @@ class Classroom extends StatelessWidget {
           ),
           itemCount: List1.length,
           itemBuilder: (BuildContext context, int index){
-            return ListTile(
-              leading: CircleAvatar(),
-              title: Text(List1[index], style: TextStyle(color: Colors.white)),
-              subtitle: Text(
-                'Your hocam uploaded a new image, solve a puzzle',
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.grey,
-                ),
-              ),
-              onTap: (){
-                Navigator.of(context).pushNamed('/ChatClass');
-              }
-            );
+            if(index == 4) {
+              return ListTile(
+                  leading: CircleAvatar(),
+                  title: Text(List1[index], style: TextStyle(color: Colors.white)),
+                  subtitle: Text(
+                    'Your teacher uploaded a new image, solve a puzzle',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  onTap: (){
+                    classname= List1[index];
+                    Navigator.of(context).pushNamed('/TChatClass');
+                  }
+              );
+            } else {
+              return ListTile(
+                  leading: CircleAvatar(),
+                  title: Text(List1[index], style: TextStyle(color: Colors.white)),
+                  subtitle: Text(
+                    'Your teacher uploaded a new image, solve a puzzle',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  onTap: (){
+                    classname= List1[index];
+                    Navigator.of(context).pushNamed('/ChatClass');
+                  }
+              );
+            }
           },
         ),
       ),

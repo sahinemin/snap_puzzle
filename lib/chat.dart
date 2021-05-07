@@ -186,6 +186,7 @@ teacherView() {
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
               child: FloatingActionButton(
+                heroTag: "btn1",
                 onPressed: () {},
                 tooltip: 'Class Settings',
                 backgroundColor: Color(0xFFE19600),
@@ -202,6 +203,7 @@ teacherView() {
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
               child: FloatingActionButton(
+                heroTag: "btn2",
                 backgroundColor: Color(0xFFE19600),
                 tooltip: 'Scoreboard',
                 child: Icon(

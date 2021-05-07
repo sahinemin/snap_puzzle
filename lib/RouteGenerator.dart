@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:snap_puzzle/SignUp.dart';
+import 'package:snap_puzzle/classroom.dart';
 import 'LogIn.dart';
 import 'main.dart';
 import 'contacts.dart';
@@ -18,7 +19,9 @@ class RouteGenerator{
       case '/Chat':
         return MaterialPageRoute(builder: (context) => chat(chatName: passedindex, isClass: false, adminPrivileges: false,));
       case '/ChatClass':
-        return MaterialPageRoute(builder: (context) => chat(chatName: passedindex, isClass: true, adminPrivileges: false,));
+        return MaterialPageRoute(builder: (context) => chat(chatName: classname, isClass: true, adminPrivileges: false,));
+      case '/TChatClass':
+        return MaterialPageRoute(builder: (context) => chat(chatName: classname, isClass: true, adminPrivileges: true,));
     }
   }
 }

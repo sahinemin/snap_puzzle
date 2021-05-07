@@ -14,6 +14,7 @@ class _profilescreenState extends State<profilescreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: Scaffold(
           floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
           body: Container(
@@ -99,7 +100,7 @@ class _profilescreenState extends State<profilescreen> {
                           Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              FloatingActionButton(child: Icon(Icons.settings)),
+                              FloatingActionButton(child: Icon(Icons.settings),onPressed: (){},),
                             ],
                           )
                         ],

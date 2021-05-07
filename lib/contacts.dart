@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'classroom.dart';
 import 'profilescreen.dart';
 import 'chat.dart';
@@ -46,8 +47,9 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor:Color(0xFFE19600),
           currentIndex: _ExactPageNumber,
-          selectedItemColor: Theme.of(context).primaryColor,
+          selectedItemColor: Color(0xFF003942),
           unselectedItemColor: Colors.grey[350],
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home Page'),
@@ -60,7 +62,7 @@ class _MainPageState extends State<MainPage> {
             });
           },
         ),
-        appBar: AppBar( title: const Text('SnapPuzzle'),automaticallyImplyLeading: false,)
+        appBar: AppBar( title: const Text('SnapPuzzle'),automaticallyImplyLeading: false,backgroundColor: Colors.black)
     );
   }
 }
