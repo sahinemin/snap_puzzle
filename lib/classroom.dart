@@ -25,6 +25,9 @@ class Classroom extends StatelessWidget {
                   color: Colors.grey,
                 ),
               ),
+              onTap: (){
+                Navigator.of(context).pushNamed('/ChatClass');
+              }
             );
           },
         ),

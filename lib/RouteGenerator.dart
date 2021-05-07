@@ -17,6 +17,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => MainPage());
       case '/Chat':
         return MaterialPageRoute(builder: (context) => chat(chatName: passedindex, isClass: false, adminPrivileges: false,));
+      case '/ChatClass':
+        return MaterialPageRoute(builder: (context) => chat(chatName: passedindex, isClass: true, adminPrivileges: false,));
     }
   }
 }
