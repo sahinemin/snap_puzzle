@@ -1,24 +1,8 @@
 import 'package:flutter/material.dart';
 import 'classroom.dart';
-
-void main() {
-  runApp(SwipeablePage());
-}
-
-class SwipeablePage extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MainPage(),
-
-    );
-  }
-}
+import 'profilescreen.dart';
+import 'chat.dart';
+var passedindex;
 
 class MainPage extends StatefulWidget {
   @override
@@ -57,6 +41,7 @@ class _MainPageState extends State<MainPage> {
           children: <Widget>[
             Page1(),
             Classroom(),
+            profilescreen(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -65,8 +50,7 @@ class _MainPageState extends State<MainPage> {
           unselectedItemColor: Colors.grey[350],
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home Page'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.school_outlined), label: 'Classes'),
+            BottomNavigationBarItem(icon: Icon(Icons.school_outlined), label: 'Classes'),
             BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Profile'),
           ],
           onTap: (currentPageNumber) {
@@ -95,6 +79,10 @@ class Page1 extends StatelessWidget {
           itemCount: List1.length,
           itemBuilder: (BuildContext context, int index){
             return ListTile(
+              onTap: (){
+                passedindex=List1[index];
+                Navigator.of(context).pushNamed('/Chat');
+              },
               leading: CircleAvatar(),
               title: Text(List1[index]),
               subtitle: Text(
