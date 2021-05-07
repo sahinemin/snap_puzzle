@@ -26,7 +26,7 @@ class _LogInState extends State<LogIn> {
       if(!user.emailVerified){
         await user.sendEmailVerification();
       }
-      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Logged in successfully.")));
+      //_scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Logged in successfully.")));
       Navigator.of(context).pushNamed('/MainPage');
 
 
@@ -35,13 +35,21 @@ class _LogInState extends State<LogIn> {
     }
   }
   Future _googlelogin() async{
-    final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+    try{final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication= await googleSignInAccount.authentication;
     final AuthCredential credential=GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
-     user = (await _auth.signInWithCredential(credential)).user;
+    user = (await _auth.signInWithCredential(credential)).user;
+    print(user.toString());
+    Navigator.of(context).pushNamed('/MainPage');
+
+    }
+    catch(e){
+      print(e.toString());
+    }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -190,7 +198,7 @@ class _LogInState extends State<LogIn> {
                               image: AssetImage('assets/sign_in_google.png'),
                             ) ,
                             onPressed: () async {
-                              _googlelogin();
+                              await _googlelogin();
                             },
                           ),
                         ),

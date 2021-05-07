@@ -86,7 +86,9 @@ class _profilescreenState extends State<profilescreen> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  FloatingActionButton(child: Icon(Icons.settings)),
+                                  FloatingActionButton(child: Icon(Icons.settings),onPressed: (){
+
+                                  },),
                                 ],
                               )
                             ],

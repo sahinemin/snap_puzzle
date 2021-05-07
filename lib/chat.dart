@@ -42,10 +42,7 @@ class directContact extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back, color: Colors.orange),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
+        automaticallyImplyLeading: false,
         title: Text(
           contactName,
           style: new TextStyle(color: Colors.white),
