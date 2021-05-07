@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(profilescreen());
-}
 class profilescreen extends StatefulWidget {
   const profilescreen({Key key}) : super(key: key);
 
