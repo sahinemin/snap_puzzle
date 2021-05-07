@@ -17,7 +17,12 @@ class chat extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: isClass ? Class(className: chatName, adminPrivilege: adminPrivileges,) : directContact(chatName)
+        home: isClass
+            ? Class(
+          className: chatName,
+          adminPrivilege: adminPrivileges,
+        )
+            : directContact(chatName)
       // home: DirectContact(contactName: "Contact Name"),
     );
   }
@@ -36,7 +41,15 @@ class directContact extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(contactName),
+        backgroundColor: Colors.lightBlue,
+        leading: new IconButton(
+          icon: new Icon(Icons.arrow_back, color: Colors.orange),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: Text(
+          contactName,
+          style: new TextStyle(color: Colors.white),
+        ),
       ),
       body: Center(
         child: Align(
@@ -65,28 +78,43 @@ class Class extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(className),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            adminPrivilege ? teacherView() : studentView(),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(20, 5, 20, 20),
-                child: chatBox(context),
-              ),
-            ),
-          ],
+        title: Text(
+          className,
+          style: new TextStyle(color: Colors.white),
         ),
+      ),
+
+      body: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              color: Colors.black,
+              child: ListView(),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              adminPrivilege ? teacherView() : studentView(),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 5, 20, 20),
+                  child: chatBox(context),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 }
+
 //the chatbox
 chatBox(context) {
+  TextEditingController message = new TextEditingController();
   return Container(
     decoration: BoxDecoration(
       color: Colors.blueGrey,
@@ -98,30 +126,61 @@ chatBox(context) {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: 12),
-          child: Transform.rotate(
-            angle: pi / 5,
-            child: Icon(
-              Icons.attach_file,
-              color: Colors.pink,
-              size: 27,
-              semanticLabel: 'Attachment',
+          padding: EdgeInsets.only(left: 5),
+          child: Material(
+            color: Colors.transparent,
+            child: Center(
+              child: IconButton(
+                onPressed: () {},
+                splashRadius: 18,
+                splashColor: Colors.red,
+                icon: Padding(
+                  padding: EdgeInsets.only(bottom: 3),
+                  child: Transform.rotate(
+                    angle: pi / 5,
+                    child: Icon(
+                      Icons.attach_file,
+                      color: Colors.pink,
+                      size: 25,
+                      semanticLabel: 'Attachment',
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         ),
+        Expanded(
+          child: TextField(
+            decoration: null,
+            controller: message,
+            cursorColor: Colors.lightBlue,
+            style: TextStyle(fontSize: 18, color: Colors.white70),
+          ),
+        ),
         Padding(
-          padding: EdgeInsets.only(right: 12),
-          child: Icon(
-            Icons.send,
-            color: Colors.blue,
-            size: 27,
-            semanticLabel: 'Send button',
+          padding: EdgeInsets.only(right: 5),
+          child: Material(
+            color: Colors.transparent,
+            shape: CircleBorder(),
+            child: IconButton(
+              splashColor: Colors.red,
+              splashRadius: 18,
+              icon: Icon(
+                Icons.send,
+                color: Colors.blue,
+                size: 25,
+                semanticLabel: 'Send button',
+              ),
+              onPressed: () {},
+            ),
           ),
         ),
       ],
     ),
   );
 }
+
 //teacher buttons (scoreboard and administration)
 teacherView() {
   return Expanded(
@@ -135,7 +194,11 @@ teacherView() {
               child: FloatingActionButton(
                 onPressed: () {},
                 tooltip: 'Class Settings',
-                child: Icon(Icons.account_circle, size: 30),
+                child: Icon(
+                  Icons.account_circle,
+                  size: 30,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
@@ -145,15 +208,18 @@ teacherView() {
               padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
               child: FloatingActionButton(
                 tooltip: 'Scoreboard',
-                child: Icon(Icons.emoji_events),
+                child: Icon(
+                  Icons.emoji_events,
+                  color: Colors.white,
+                ),
                 onPressed: () {},
               ),
             ),
           ),
         ],
-      )
-  );
+      ));
 }
+
 //student buttons (scoreboard)
 studentView() {
   return Expanded(
@@ -163,7 +229,10 @@ studentView() {
         padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
         child: FloatingActionButton(
           tooltip: 'Scoreboard',
-          child: Icon(Icons.emoji_events),
+          child: Icon(
+            Icons.emoji_events,
+            color: Colors.white,
+          ),
           onPressed: () {},
         ),
       ),
