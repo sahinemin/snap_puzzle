@@ -17,10 +17,6 @@ class _profilescreenState extends State<profilescreen> {
         home: SafeArea(
             child: Scaffold(
               floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-              appBar: AppBar(
-                title: Text("SnapPuzzle"),
-                centerTitle: true,
-              ),
               body: SafeArea(
                 child: Column(
                   children: [
@@ -41,40 +37,52 @@ class _profilescreenState extends State<profilescreen> {
                       child: Stack(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(20),
-                            child: Text(
-                              '''
-id: 1
-
-username: Hikmet42
-             
-name: Hikmet Can
-                    
-surname: Doğancı
-
-School name: Agü
-
-                    ''',
-                              style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
-
-                            ),
-                            alignment: Alignment.topLeft,
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      padding: const EdgeInsets.all(8),
+                                      color: Colors.orange,
+                                      width: 500,
+                                      child: Text(
+                                          "id: 1"
+                                      )
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.all(8),
+                                      width: 500,
+                                      color: Colors.orangeAccent,
+                                      child: Text(
+                                          "username: Hikmet42"
+                                      )
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.all(8),
+                                      width: 500,
+                                      color: Colors.orange,
+                                      child: Text(
+                                          "name: Hikmet Can"
+                                      )
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.all(8),
+                                      width: 500,
+                                      color: Colors.orangeAccent,
+                                      child: Text(
+                                          "surname: Doğancı"
+                                      )
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.all(8),
+                                      width: 500,
+                                      color: Colors.orange,
+                                      child: Text(
+                                          "School name: Agü"
+                                      )
+                                  ),
+                                ],
+                              )
                           ),
-                          /*ListView.separated(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: 20,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      height: 60,
-                      color: Colors.amber,
-                      child: Center(
-                          child: Text("contacts here")
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) =>
-                  const Divider(),
-                ),*/
                           Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -89,14 +97,6 @@ School name: Agü
                         ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(padding:const EdgeInsets.all(8),child: Icon(Icons.home,size: 50,)),
-                        Container(padding:const EdgeInsets.all(8),child: Icon(Icons.chat,size: 50,)),
-                        Container(padding:const EdgeInsets.all(8),child: Icon(Icons.account_circle,size: 50,))
-                      ],
-                    )
                   ],
                 ),
               ),
