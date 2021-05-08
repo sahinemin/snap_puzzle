@@ -62,7 +62,7 @@ class _MainPageState extends State<MainPage> {
             });
           },
         ),
-        appBar: AppBar( title: const Text('SnapPuzzle'),automaticallyImplyLeading: false,backgroundColor: Colors.black)
+        appBar: AppBar( title: const Text('SnapPuzzle'),automaticallyImplyLeading: false,backgroundColor: Colors.black,elevation: 5,)
     );
   }
 }
