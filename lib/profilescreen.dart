@@ -25,16 +25,15 @@ class _profilescreenState extends State<profilescreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: new BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                height:200,
-                                child: CircleAvatar(
-                                  radius: 200,
-                                  backgroundImage: NetworkImage('https://placekitten.com/g/300/300'),
-                                )
+                            Flexible(
+                              child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: new BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(image: NetworkImage('https://lh3.googleusercontent.com/a-/AOh14GizcmzP7CO5wct3xq6ZBTj-SYgPsvjyoQemuIEDbA=s96-c'),fit: BoxFit.fitHeight)
+                                  ),
+                                  height:200,
+                              ),
                             )
                           ],
                         ),
