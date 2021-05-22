@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-<<<<<<< Updated upstream
-final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn _googleSignIn = new GoogleSignIn();
-=======
-
->>>>>>> Stashed changes
 void main() {
   runApp(profilescreen());
 }
@@ -114,11 +108,7 @@ class _profilescreenState extends State<profilescreen> {
                                             ),
                                           ),
                                           onPressed: ()async {
-<<<<<<< Updated upstream
                                             await googlelogout();
-=======
-                                            await _googlelogout();
->>>>>>> Stashed changes
                                             Navigator.of(context).pushNamed('/LogIn');
                                           },
                                         ),
@@ -149,26 +139,17 @@ class _profilescreenState extends State<profilescreen> {
         )
     );
   }
-<<<<<<< Updated upstream
+
   Future googlelogout()async{
-=======
-  Future _googlelogout()async{
->>>>>>> Stashed changes
     try{
       await _auth.signOut();
       await _googleSignIn.disconnect();
       await _googleSignIn.signOut();
     }
-<<<<<<< Updated upstream
+
    catch(e){
       print(e.toString());
    }
-=======
-    catch(e){
-      print (e.toString());
-    }
->>>>>>> Stashed changes
-
   }
 }
 
