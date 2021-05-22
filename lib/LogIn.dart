@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-dynamic user;
+import 'package:snap_puzzle/SignUp.dart';
+import 'DatabaseService.dart';
+User user;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = new GoogleSignIn();
 class LogIn extends StatefulWidget {
@@ -181,6 +183,7 @@ class _LogInState extends State<LogIn> {
                             ),
                             onPressed: () async {
                               await _login();
+                              DatabaseService().addUserData();
                             },
                           ),
                         ),
