@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snap_puzzle/LogIn.dart';
-
 void main() {
   runApp(profilescreen());
 }
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn _googleSignIn = new GoogleSignIn();
 class profilescreen extends StatefulWidget {
   static String fullname;
   static String photo;
@@ -36,7 +39,8 @@ class _profilescreenState extends State<profilescreen> {
                                   padding: const EdgeInsets.all(8),
                                   decoration: new BoxDecoration(
                                     shape: BoxShape.circle,
-                                    image: DecorationImage(image: NetworkImage(profilescreen.photo),fit: BoxFit.fitHeight)
+
+                                    image: DecorationImage(image: NetworkImage(user.photoURL),fit: BoxFit.fitHeight)
                                   ),
                                   height:200,
                               ),
@@ -77,6 +81,27 @@ class _profilescreenState extends State<profilescreen> {
                                               "School name: Agü"
                                           )
                                       ),
+                                      Container(
+                                        height: 50,
+                                        alignment: Alignment.center,
+                                        margin: EdgeInsets.fromLTRB(150, 20, 150, 0),
+                                        decoration: new BoxDecoration(
+                                          color: Color(0xFFE19600),
+                                          borderRadius: new BorderRadius.all(Radius.circular(10)),
+                                        ),
+                                        child: FlatButton(
+                                          child: Text('LOG OUT',
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          onPressed: ()async {
+                                            await googlelogout();
+                                            Navigator.of(context).pushNamed('/LogIn');
+                                          },
+                                        ),
+                                      )
                                     ],
                                   )
                               ),
@@ -86,7 +111,7 @@ class _profilescreenState extends State<profilescreen> {
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      FloatingActionButton(child: Icon(Icons.settings)),
+                                      FloatingActionButton(child: Icon(Icons.settings),onPressed:(){}),
                                     ],
                                   )
                                 ],
@@ -102,6 +127,18 @@ class _profilescreenState extends State<profilescreen> {
             )
         )
     );
+  }
+
+  Future googlelogout()async{
+    try{
+      await _auth.signOut();
+      await _googleSignIn.disconnect();
+      await _googleSignIn.signOut();
+    }
+
+   catch(e){
+      print(e.toString());
+   }
   }
 }
 

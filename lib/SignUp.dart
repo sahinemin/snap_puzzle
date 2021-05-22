@@ -1,21 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:snap_puzzle/LogIn.dart';
 class SignUp extends StatefulWidget {
   const SignUp({Key key}) : super(key: key);
 
   @override
   _SignUpState createState() => _SignUpState();
 }
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GlobalKey <FormState> _formKey2 = GlobalKey<FormState>();
+final TextEditingController _emailController = TextEditingController();
+final TextEditingController _nameController = TextEditingController();
+final TextEditingController _schoolController = TextEditingController();
+final TextEditingController _passwordController = TextEditingController();
+final GlobalKey<ScaffoldState> _scaffoldKey2 = GlobalKey<ScaffoldState>();
 
 class _SignUpState extends State<SignUp> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GlobalKey <FormState> _formKey2 = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldKey2 = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,7 +112,34 @@ class _SignUpState extends State<SignUp> {
                         )
 
                     ),
-                  )),
+                  )
+              ),
+              Container(
+                  height: 60,
+                  padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                  margin: EdgeInsets.all(20),
+                  decoration: new BoxDecoration(
+                    color: Color(0x60FFFFFF),
+                    borderRadius: new BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child:TextFormField(
+                    controller: _schoolController,
+                    validator: (String val){
+                      if(val.isEmpty){
+                        return "Please enter an e-mail";
+                      }
+                      return null;
+                    },
+                    obscureText: false,
+                    decoration: const InputDecoration(
+                      hintText: "School",
+                      hintStyle: TextStyle(
+                          color: Colors.white
+                      ),
+                    ),
+
+
+                  ) ),
               Container(
                 height: 50,
                 alignment: Alignment.center,
@@ -158,4 +189,14 @@ class _SignUpState extends State<SignUp> {
   }
 
 
+}
+
+class DatabaseService {
+
+  //DatabaseService(this.uid);
+  final DocumentReference userCollection = FirebaseFirestore.instance.collection('Users').doc(user.uid);
+  Future addUserData() async {
+    print(user.metadata.toString());
+    await userCollection.set({'name': _nameController.text,'school': _schoolController.text});
+  }
 }
