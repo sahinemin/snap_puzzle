@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:snap_puzzle/LogIn.dart';
 void main() {
   runApp(profilescreen());
 }
@@ -17,6 +18,7 @@ class _profilescreenState extends State<profilescreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         home: SafeArea(
             child: Scaffold(
               floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
@@ -33,7 +35,7 @@ class _profilescreenState extends State<profilescreen> {
                                   padding: const EdgeInsets.all(8),
                                   decoration: new BoxDecoration(
                                     shape: BoxShape.circle,
-                                    image: DecorationImage(image: NetworkImage('https://lh3.googleusercontent.com/a-/AOh14GizcmzP7CO5wct3xq6ZBTj-SYgPsvjyoQemuIEDbA=s96-c'),fit: BoxFit.fitHeight)
+                                    image: DecorationImage(image: NetworkImage(user.photoURL),fit: BoxFit.fitHeight)
                                   ),
                                   height:200,
                               ),
