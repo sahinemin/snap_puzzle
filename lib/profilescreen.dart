@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:snap_puzzle/LogIn.dart';
 
 void main() {
   runApp(profilescreen());
 }
 class profilescreen extends StatefulWidget {
+  static String fullname;
+  static String photo;
   const profilescreen({Key key}) : super(key: key);
-
   @override
   _profilescreenState createState() => _profilescreenState();
 }
@@ -14,6 +16,7 @@ class _profilescreenState extends State<profilescreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
         home: SafeArea(
             child: Scaffold(
               floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
@@ -30,7 +33,7 @@ class _profilescreenState extends State<profilescreen> {
                                   padding: const EdgeInsets.all(8),
                                   decoration: new BoxDecoration(
                                     shape: BoxShape.circle,
-                                    image: DecorationImage(image: NetworkImage('https://lh3.googleusercontent.com/a-/AOh14GizcmzP7CO5wct3xq6ZBTj-SYgPsvjyoQemuIEDbA=s96-c'),fit: BoxFit.fitHeight)
+                                    image: DecorationImage(image: NetworkImage(profilescreen.photo),fit: BoxFit.fitHeight)
                                   ),
                                   height:200,
                               ),
@@ -46,18 +49,9 @@ class _profilescreenState extends State<profilescreen> {
                                     children: [
                                       Container(
                                           padding: const EdgeInsets.all(8),
-                                          //color: Colors.lightBlue,
+                                          width: 500,
                                           color: Colors.orange,
-                                          width: 500,
-                                          child: Text(
-                                              "id: 1"
-                                          )
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.all(8),
-                                          width: 500,
                                           //color: Colors.lightBlue,
-                                          color: Colors.orange[300],
                                           child: Text(
                                               "username: Hikmet42"
                                           )
@@ -66,18 +60,9 @@ class _profilescreenState extends State<profilescreen> {
                                           padding: const EdgeInsets.all(8),
                                           width: 500,
                                           //color: Colors.lightBlue,
-                                          color: Colors.orange,
-                                          child: Text(
-                                              "name: Hikmet Can"
-                                          )
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.all(8),
-                                          width: 500,
-                                          //color: Colors.lightBlue,
                                           color: Colors.orange[300],
                                           child: Text(
-                                              "surname: Doğancı"
+                                              "Fullname: ${profilescreen.fullname}"
                                           )
                                       ),
                                       Container(
