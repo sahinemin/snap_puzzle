@@ -8,8 +8,9 @@ void main() {
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = new GoogleSignIn();
 class profilescreen extends StatefulWidget {
+  static String fullname;
+  static String photo;
   const profilescreen({Key key}) : super(key: key);
-
   @override
   _profilescreenState createState() => _profilescreenState();
 }
@@ -17,6 +18,7 @@ class profilescreen extends StatefulWidget {
 class _profilescreenState extends State<profilescreen> {
   @override
   Widget build(BuildContext context) {
+    if(profilescreen.photo==null)profilescreen.photo='https://via.placeholder.com/150';
     return MaterialApp(
       debugShowCheckedModeBanner: false,
         home: SafeArea(
@@ -26,7 +28,9 @@ class _profilescreenState extends State<profilescreen> {
                   child: Container(
                     color: Color(0xFF003942),
                     child: Column(
+
                       children: [
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -35,6 +39,7 @@ class _profilescreenState extends State<profilescreen> {
                                   padding: const EdgeInsets.all(8),
                                   decoration: new BoxDecoration(
                                     shape: BoxShape.circle,
+
                                     image: DecorationImage(image: NetworkImage(user.photoURL),fit: BoxFit.fitHeight)
                                   ),
                                   height:200,
@@ -51,18 +56,9 @@ class _profilescreenState extends State<profilescreen> {
                                     children: [
                                       Container(
                                           padding: const EdgeInsets.all(8),
-                                          //color: Colors.lightBlue,
+                                          width: 500,
                                           color: Colors.orange,
-                                          width: 500,
-                                          child: Text(
-                                              "id: 1"
-                                          )
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.all(8),
-                                          width: 500,
                                           //color: Colors.lightBlue,
-                                          color: Colors.orange[300],
                                           child: Text(
                                               "username: Hikmet42"
                                           )
@@ -71,18 +67,9 @@ class _profilescreenState extends State<profilescreen> {
                                           padding: const EdgeInsets.all(8),
                                           width: 500,
                                           //color: Colors.lightBlue,
-                                          color: Colors.orange,
-                                          child: Text(
-                                              "name: Hikmet Can"
-                                          )
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.all(8),
-                                          width: 500,
-                                          //color: Colors.lightBlue,
                                           color: Colors.orange[300],
                                           child: Text(
-                                              "surname: Doğancı"
+                                              "Fullname: ${profilescreen.fullname}"
                                           )
                                       ),
                                       Container(
