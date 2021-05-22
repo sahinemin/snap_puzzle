@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snap_puzzle/profilescreen.dart';
+
 String fullname;
 dynamic user;
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,28 +29,30 @@ class _LogInState extends State<LogIn> {
       if(!user.emailVerified){
         await user.sendEmailVerification();
       }
+      print(user.uid.toString());
       //_scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Logged in successfully.")));
       Navigator.of(context).pushNamed('/MainPage');
-
 
     } catch (e){
       print("ERRRRORRRRRRRRRR = $e");
     }
   }
   Future _googlelogin() async{
-    try{final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication= await googleSignInAccount.authentication;
-    final AuthCredential credential=GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
-    );
-    user = (await _auth.signInWithCredential(credential)).user;
-    print(user.toString());
-    profilescreen.fullname=user.displayName.toString();
-    profilescreen.photo=user.photoURL.toString();
-    print(profilescreen.fullname);
-    Navigator.of(context).pushNamed('/MainPage');
-
+    try {
+      final GoogleSignInAccount googleSignInAccount = await _googleSignIn
+          .signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount
+          .authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      user = (await _auth.signInWithCredential(credential)).user;
+      print(user.toString());
+      profilescreen.fullname = user.displayName.toString();
+      profilescreen.photo = user.photoURL.toString();
+      print(profilescreen.fullname);
+      Navigator.of(context).pushNamed('/MainPage');
     }
     catch(e){
       print(e.toString());
