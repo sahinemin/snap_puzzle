@@ -14,9 +14,6 @@ class chat extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
         home: isClass
             ? Class(
           className: chatName,
@@ -41,21 +38,24 @@ class directContact extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
-        automaticallyImplyLeading: false,
+        backgroundColor: Colors.black,
         title: Text(
           contactName,
           style: new TextStyle(color: Colors.white),
         ),
       ),
-      body: Center(
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Container(
+            color: Color(0xFF003942),
+            child: ListView(),
+          ),
+          Padding(
             padding: EdgeInsets.fromLTRB(20, 5, 20, 20),
             child: chatBox(context),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -75,6 +75,7 @@ class Class extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(
           className,
           style: new TextStyle(color: Colors.white),
@@ -84,11 +85,9 @@ class Class extends StatelessWidget {
       body: Stack(
         alignment: Alignment.center,
         children: <Widget>[
-          Expanded(
-            child: Container(
-              color: Colors.black,
-              child: ListView(),
-            ),
+          Container(
+            color: Color(0xFF003942),
+            child: ListView(),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +113,7 @@ chatBox(context) {
   TextEditingController message = new TextEditingController();
   return Container(
     decoration: BoxDecoration(
-      color: Colors.blueGrey,
+      color: Color(0x60FFFFFF),
       borderRadius: BorderRadius.circular(50),
     ),
     height: MediaQuery.of(context).size.height * 1 / 15,
@@ -130,7 +129,6 @@ chatBox(context) {
               child: IconButton(
                 onPressed: () {},
                 splashRadius: 18,
-                splashColor: Colors.red,
                 icon: Padding(
                   padding: EdgeInsets.only(bottom: 3),
                   child: Transform.rotate(
@@ -161,7 +159,6 @@ chatBox(context) {
             color: Colors.transparent,
             shape: CircleBorder(),
             child: IconButton(
-              splashColor: Colors.red,
               splashRadius: 18,
               icon: Icon(
                 Icons.send,
@@ -189,8 +186,10 @@ teacherView() {
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
               child: FloatingActionButton(
+                heroTag: "btn1",
                 onPressed: () {},
                 tooltip: 'Class Settings',
+                backgroundColor: Color(0xFFE19600),
                 child: Icon(
                   Icons.account_circle,
                   size: 30,
@@ -204,6 +203,8 @@ teacherView() {
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
               child: FloatingActionButton(
+                heroTag: "btn2",
+                backgroundColor: Color(0xFFE19600),
                 tooltip: 'Scoreboard',
                 child: Icon(
                   Icons.emoji_events,
@@ -226,6 +227,7 @@ studentView() {
         padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
         child: FloatingActionButton(
           tooltip: 'Scoreboard',
+          backgroundColor: Color(0xFFE19600),
           child: Icon(
             Icons.emoji_events,
             color: Colors.white,

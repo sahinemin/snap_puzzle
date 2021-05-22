@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'classroom.dart';
 import 'profilescreen.dart';
 import 'chat.dart';
@@ -29,6 +30,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF003942),
         body: PageView(
           // physics: NeverScrollableScrollPhysics(),
           onPageChanged: (pageNo) {
@@ -45,8 +47,9 @@ class _MainPageState extends State<MainPage> {
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
+          backgroundColor:Color(0xFFE19600),
           currentIndex: _ExactPageNumber,
-          selectedItemColor: Theme.of(context).primaryColor,
+          selectedItemColor: Color(0xFF003942),
           unselectedItemColor: Colors.grey[350],
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home Page'),
@@ -59,7 +62,7 @@ class _MainPageState extends State<MainPage> {
             });
           },
         ),
-        appBar: AppBar( title: const Text('SnapPuzzle'),automaticallyImplyLeading: false,)
+        appBar: AppBar( title: const Text('SnapPuzzle'),automaticallyImplyLeading: false,backgroundColor: Colors.black,elevation: 5,)
     );
   }
 }
@@ -71,10 +74,11 @@ class Page1 extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
+        color: Color(0xFF003942),
         height: 120.0,
         child: ListView.separated(
           separatorBuilder: (context, index) => Divider(
-            color: Colors.grey[560],
+            color: Colors.grey[400],
           ),
           itemCount: List1.length,
           itemBuilder: (BuildContext context, int index){
@@ -84,7 +88,7 @@ class Page1 extends StatelessWidget {
                 Navigator.of(context).pushNamed('/Chat');
               },
               leading: CircleAvatar(),
-              title: Text(List1[index]),
+              title: Text(List1[index], style: TextStyle(color: Colors.white)),
               subtitle: Text(
                 'Hey wanna see the image? heres a puzzle!',
                 overflow: TextOverflow.ellipsis,
