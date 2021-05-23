@@ -5,10 +5,10 @@ import 'package:snap_puzzle/Scoreboard.dart';
 import 'package:snap_puzzle/SignUp.dart';
 import 'package:snap_puzzle/classroom.dart';
 import 'LogIn.dart';
-import 'main.dart';
 import 'contacts.dart';
 import 'chat.dart';
 import 'package:snap_puzzle/Administration.dart';
+import 'settings.dart';
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
     final args = settings.arguments;
@@ -31,7 +31,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => administration(classname));
       case '/GoogleRegister':
         return MaterialPageRoute(builder: (_) => Register());
-
+      case '/Settings':
+        return MaterialPageRoute(builder: (_) => SettingsPage());
     }
   }
 }
