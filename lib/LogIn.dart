@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snap_puzzle/SignUp.dart';
 import 'DatabaseService.dart';
+import 'package:snap_puzzle/profilescreen.dart';
 User user;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = new GoogleSignIn();
@@ -29,6 +30,8 @@ class _LogInState extends State<LogIn> {
         await user.sendEmailVerification();
       }
       print(user.uid.toString());
+      profilescreen.photo='https://via.placeholder.com/150';
+      print(profilescreen.photo);
       //_scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("Logged in successfully.")));
       Navigator.of(context).pushNamed('/MainPage');
 
@@ -50,7 +53,6 @@ class _LogInState extends State<LogIn> {
       print(user.toString());
       profilescreen.fullname = user.displayName.toString();
       profilescreen.photo = user.photoURL.toString();
-      print(profilescreen.fullname);
       Navigator.of(context).pushNamed('/MainPage');
     }
     catch(e){
