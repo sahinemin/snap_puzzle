@@ -209,6 +209,7 @@ class _LogInState extends State<LogIn> {
                             ) ,
                             onPressed: () async {
                               await _googlelogin();
+                              Navigator.of(context).pushNamed('/GoogleRegister');
                             },
                           ),
                         ),

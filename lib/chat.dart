@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
 
+TextEditingController message = new TextEditingController();
+
 class chat extends StatelessWidget {
-  chat({this.isClass, this.chatName, this.adminPrivileges}) : super();
+
+  chat({ this.isClass,  this.chatName, this.adminPrivileges}) : super();
 
   String chatName;
   bool isClass;
@@ -25,35 +28,132 @@ class chat extends StatelessWidget {
   }
 }
 
-class directContact extends StatelessWidget {
+class directContact extends StatefulWidget {
   directContact(this.contactName) : super();
   final String contactName;
 
   @override
-  // _MyHomePageState createState() => _MyHomePageState();
-//}
 
-//class _MyHomePageState extends State<MyHomePage> {
+  _directContactState createState() => _directContactState();
+
+}
+
+final List<String> entries = <String>['1', '2', '3','4', '5', '6','7', '8', '9','10', '11', '12','13', '14', '15','16', '17', '18'];
+final List<int> colorCodes = <int>[600, 600, 400, 400, 400, 600, 600, 600, 400,  400,  600, 600,  600, 400,   400, 400,  600,   600];
+final List<int> fromLeft = <int>[    0,   0, 240, 240, 240,   0,   0,   0, 240,  240,    0,   0,    0, 240,   240, 240,    0,     0];
+final List<int> fromRight = <int>[ 240, 240,   0,   0,   0, 240, 240, 240,   0,    0,  240, 240,  240,   0,     0,   0,  240,   240];
+
+class _directContactState extends State<directContact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF003942),
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          contactName,
+          widget.contactName,
           style: new TextStyle(color: Colors.white),
         ),
       ),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          Container(
-            color: Color(0xFF003942),
-            child: ListView(),
-          ),
+          ListView.builder(
+              itemCount: entries.length,
+              padding: const EdgeInsets.fromLTRB(15,15,15,75),
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.fromLTRB(fromLeft[index].toDouble(), 0, fromRight[index].toDouble(), 8),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                      color: Colors.amber[colorCodes[index]],
+                    ),
+                    height: 50,
+                    child: Align(
+                      alignment: fromLeft[index] == 0 ? Alignment.centerLeft : Alignment.centerRight,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(8, 15, 8, 15),
+                        child: Text('${entries[index]}'),
+                      ),
+                    ),
+                  ),
+                );
+              }),
           Padding(
             padding: EdgeInsets.fromLTRB(20, 5, 20, 20),
-            child: chatBox(context),
+            //child: chatBox(context),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white70,
+                borderRadius: BorderRadius.circular(50),
+              ),
+              height: MediaQuery.of(context).size.height * 1 / 15,
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 5),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Center(
+                        child: IconButton(
+                          onPressed: () {},
+                          splashRadius: 18,
+                          icon: Padding(
+                            padding: EdgeInsets.only(bottom: 3),
+                            child: Transform.rotate(
+                              angle: pi / 5,
+                              child: Icon(
+                                Icons.attach_file,
+                                color: Colors.pink,
+                                size: 25,
+                                semanticLabel: 'Attachment',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: TextField(
+                      decoration: null,
+                      controller: message,
+                      cursorColor: Colors.lightBlue,
+                      style: TextStyle(fontSize: 18, color: Colors.black),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 5),
+                    child: Material(
+                      color: Colors.transparent,
+                      shape: CircleBorder(),
+                      child: IconButton(
+                        splashRadius: 18,
+                        icon: Icon(
+                          Icons.send,
+                          color: Colors.blue,
+                          size: 25,
+                          semanticLabel: 'Send button',
+                        ),
+                        onPressed: () {
+                          if (message.text != '') {
+                            entries.add('${message.text}');
+                            message.clear();
+                            fromLeft.add(240);
+                            fromRight.add(0);
+                            colorCodes.add(400);
+                            setState(() {});
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -61,23 +161,23 @@ class directContact extends StatelessWidget {
   }
 }
 
-class Class extends StatelessWidget {
-  Class({this.className, this.adminPrivilege}) : super();
+class Class extends StatefulWidget {
+  Class({ this.className,  this.adminPrivilege}) : super();
   final String className;
   final bool adminPrivilege;
 
   @override
-  // _MyHomePageState createState() => _MyHomePageState();
-//}
+  _ClassState createState() => _ClassState();
+}
 
-//class _MyHomePageState extends State<MyHomePage> {
+class _ClassState extends State<Class> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          className,
+          widget.className,
           style: new TextStyle(color: Colors.white),
         ),
       ),
@@ -87,17 +187,109 @@ class Class extends StatelessWidget {
         children: <Widget>[
           Container(
             color: Color(0xFF003942),
-            child: ListView(),
+            child:ListView.builder(
+                itemCount: entries.length,
+                padding: const EdgeInsets.fromLTRB(15,15,15,75),
+                itemBuilder: (BuildContext context, int index) {
+                  return Padding(
+                    padding: EdgeInsets.fromLTRB(fromLeft[index].toDouble(), 0, fromRight[index].toDouble(), 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+                        color: Colors.amber[colorCodes[index]],
+                      ),
+                      height: 50,
+                      child: Align(
+                        alignment: fromLeft[index] == 0 ? Alignment.centerLeft : Alignment.centerRight,
+                        child: Padding(
+                          padding: EdgeInsets.fromLTRB(8, 15, 8, 15),
+                          child: Text('${entries[index]}'),
+                        ),
+                      ),
+                    ),
+                  );
+                }),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              adminPrivilege ? teacherView() : studentView(),
+              widget.adminPrivilege ? teacherView(context) : studentView(context),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(20, 5, 20, 20),
-                  child: chatBox(context),
+                  //child: chatBox(context),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    height: MediaQuery.of(context).size.height * 1 / 15,
+                    width: MediaQuery.of(context).size.width,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Material(
+                            color: Colors.transparent,
+                            child: Center(
+                              child: IconButton(
+                                onPressed: () {},
+                                splashRadius: 18,
+                                icon: Padding(
+                                  padding: EdgeInsets.only(bottom: 3),
+                                  child: Transform.rotate(
+                                    angle: pi / 5,
+                                    child: Icon(
+                                      Icons.attach_file,
+                                      color: Colors.pink,
+                                      size: 25,
+                                      semanticLabel: 'Attachment',
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextField(
+                            decoration: null,
+                            controller: message,
+                            cursorColor: Colors.lightBlue,
+                            style: TextStyle(fontSize: 18, color: Colors.black),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: 5),
+                          child: Material(
+                            color: Colors.transparent,
+                            shape: CircleBorder(),
+                            child: IconButton(
+                              splashRadius: 18,
+                              icon: Icon(
+                                Icons.send,
+                                color: Colors.blue,
+                                size: 25,
+                                semanticLabel: 'Send button',
+                              ),
+                              onPressed: () {
+                                if (message.text != '') {
+                                  entries.add('${message.text}');
+                                  message.clear();
+                                  fromLeft.add(240);
+                                  fromRight.add(0);
+                                  colorCodes.add(400);
+                                  setState(() {});
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -109,11 +301,12 @@ class Class extends StatelessWidget {
 }
 
 //the chatbox
+/*
 chatBox(context) {
   TextEditingController message = new TextEditingController();
   return Container(
     decoration: BoxDecoration(
-      color: Color(0x60FFFFFF),
+      color: Colors.white70,
       borderRadius: BorderRadius.circular(50),
     ),
     height: MediaQuery.of(context).size.height * 1 / 15,
@@ -150,7 +343,7 @@ chatBox(context) {
             decoration: null,
             controller: message,
             cursorColor: Colors.lightBlue,
-            style: TextStyle(fontSize: 18, color: Colors.white70),
+            style: TextStyle(fontSize: 18, color: Colors.black),
           ),
         ),
         Padding(
@@ -174,9 +367,10 @@ chatBox(context) {
     ),
   );
 }
+*/
 
 //teacher buttons (scoreboard and administration)
-teacherView() {
+teacherView(BuildContext context) {
   return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -187,7 +381,9 @@ teacherView() {
               padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
               child: FloatingActionButton(
                 heroTag: "btn1",
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/Administration');
+                },
                 tooltip: 'Class Settings',
                 backgroundColor: Color(0xFFE19600),
                 child: Icon(
@@ -210,7 +406,9 @@ teacherView() {
                   Icons.emoji_events,
                   color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/Scoreboard');
+                },
               ),
             ),
           ),
@@ -219,7 +417,7 @@ teacherView() {
 }
 
 //student buttons (scoreboard)
-studentView() {
+studentView(BuildContext context) {
   return Expanded(
     child: Align(
       alignment: Alignment.bottomRight,
@@ -232,7 +430,9 @@ studentView() {
             Icons.emoji_events,
             color: Colors.white,
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushNamed('/Scoreboard');
+          },
         ),
       ),
     ),

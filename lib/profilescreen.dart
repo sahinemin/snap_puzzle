@@ -53,15 +53,6 @@ class _profilescreenState extends State<profilescreen> {
                                       Container(
                                           padding: const EdgeInsets.all(8),
                                           width: 500,
-                                          color: Colors.orange,
-                                          //color: Colors.lightBlue,
-                                          child: Text(
-                                              "username: Hikmet42"
-                                          )
-                                      ),
-                                      Container(
-                                          padding: const EdgeInsets.all(8),
-                                          width: 500,
                                           //color: Colors.lightBlue,
                                           color: Colors.orange[300],
                                           child: Text(

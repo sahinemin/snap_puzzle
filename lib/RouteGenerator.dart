@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:snap_puzzle/GoogleRegister.dart';
+import 'package:snap_puzzle/Scoreboard.dart';
 import 'package:snap_puzzle/SignUp.dart';
 import 'package:snap_puzzle/classroom.dart';
 import 'LogIn.dart';
 import 'main.dart';
 import 'contacts.dart';
 import 'chat.dart';
+import 'package:snap_puzzle/Administration.dart';
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
     final args = settings.arguments;
@@ -22,6 +25,13 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (context) => chat(chatName: classname, isClass: true, adminPrivileges: false,));
       case '/TChatClass':
         return MaterialPageRoute(builder: (context) => chat(chatName: classname, isClass: true, adminPrivileges: true,));
+      case '/Scoreboard':
+        return MaterialPageRoute(builder: (_) => Scoreboard());
+      case '/Administration':
+        return MaterialPageRoute(builder: (_) => administration(classname));
+      case '/GoogleRegister':
+        return MaterialPageRoute(builder: (_) => Register());
+
     }
   }
 }
