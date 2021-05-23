@@ -121,6 +121,7 @@ class _profilescreenState extends State<profilescreen> {
         )));
   }
 
+
   Future googlelogout() async {
     try {
       await _auth.signOut();

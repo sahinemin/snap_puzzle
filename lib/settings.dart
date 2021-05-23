@@ -14,6 +14,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xFF003942),
       appBar: AppBar(
         backgroundColor: Colors.black,

@@ -5,6 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snap_puzzle/SignUp.dart';
 import 'DatabaseService.dart';
 import 'package:snap_puzzle/profilescreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 User user;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = new GoogleSignIn();
@@ -38,6 +39,10 @@ class _LogInState extends State<LogIn> {
     } catch (e){
       print("ERRRRORRRRRRRRRR = $e");
     }
+    FirebaseFirestore.instance.collection('Users').snapshots().listen((data)=> data.docs.forEach((doc){
+      profilescreen.fullname=doc['name'];
+    profilescreen.school=doc['school'];}));
+    
   }
   Future _googlelogin() async{
     try {
@@ -190,7 +195,7 @@ class _LogInState extends State<LogIn> {
                             ),
                             onPressed: () async {
                               await _login();
-                              DatabaseService().addUserData();
+                              await DatabaseService().addUserData();
                             },
                           ),
                         ),
@@ -255,3 +260,4 @@ class _LogInState extends State<LogIn> {
         ) );
   }
 }
+
