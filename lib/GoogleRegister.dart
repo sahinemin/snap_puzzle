@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:snap_puzzle/LogIn.dart';
+import 'package:snap_puzzle/profilescreen.dart';
 
 final TextEditingController _nameController = TextEditingController();
 final TextEditingController _schoolController = TextEditingController();
@@ -94,12 +98,25 @@ class Register extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () //async
+                  onPressed: () async //async
                   {
+                   await DatabaseService().addUserData();
+                   profilescreen.fullname=_nameController.text;
+                   profilescreen.school=_schoolController.text;
+                   Navigator.of(context).pushNamed('/MainPage');
                     //    _Register();
                   },
                 )
               ],
             )));
+  }
+}
+class DatabaseService {
+
+  //DatabaseService(this.uid);
+  final DocumentReference userCollection = FirebaseFirestore.instance.collection('Users').doc(user.uid);
+  Future addUserData() async {
+    print(user.metadata.toString());
+    await userCollection.set({'name': _nameController.text,'school': _schoolController.text});
   }
 }

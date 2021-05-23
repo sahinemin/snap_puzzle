@@ -23,6 +23,7 @@ class _SignUpState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: _scaffoldKey2,
       backgroundColor: Color(0xFF003942),
       appBar: AppBar(

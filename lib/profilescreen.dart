@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snap_puzzle/LogIn.dart';
+import 'package:snap_puzzle/GoogleRegister.dart';
 
 void main() {
   runApp(profilescreen());
@@ -13,6 +14,7 @@ final GoogleSignIn _googleSignIn = new GoogleSignIn();
 class profilescreen extends StatefulWidget {
   static String fullname;
   static String photo;
+  static String school;
 
   const profilescreen({Key key}) : super(key: key);
 
@@ -68,7 +70,8 @@ class _profilescreenState extends State<profilescreen> {
                                   width: 500,
                                   color: Colors.orange,
                                   //color: Colors.lightBlue,
-                                  child: Text("School name: Agü")),
+                                  child: Text(
+                                      "Schoolname: ${profilescreen.school}")),
                               Container(
                                 height: 50,
                                 alignment: Alignment.center,

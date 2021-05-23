@@ -2,10 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 //Settigns Page Class
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  bool isSwitchedNoti = false;
+  bool isSwitchedNotiClass = false;
   @override
   Widget build(BuildContext context) {
-    bool isSwitchedNoti = false;
+
     return Scaffold(
       backgroundColor: Color(0xFF003942),
       appBar: AppBar(
@@ -80,8 +87,36 @@ class SettingsPage extends StatelessWidget {
                     ),
                     Switch(
                       value: isSwitchedNoti,
-                      onChanged: (value) => {},
-                      activeTrackColor: Colors.white,
+                      onChanged: (value){
+                        setState(() {
+                          isSwitchedNoti = value;
+                        });},
+                      activeTrackColor: Color(0xFFE19600),
+                      activeColor: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Classroom Notifications',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Switch(
+                      value: isSwitchedNotiClass,
+                      onChanged: (value){
+                        setState(() {
+                          isSwitchedNotiClass = value;
+                        });},
+                      activeTrackColor: Color(0xFFE19600),
+                      activeColor: Colors.white,
                     ),
                   ],
                 ),
@@ -154,10 +189,11 @@ class SettingsPage extends StatelessWidget {
             ],
           ),
         ),
+        onTap: () {
+
+        },
       ),
-      onTap: () {
-        print('${optionTitle} pressed');
-      },
+
     );
   }
 }
