@@ -18,7 +18,6 @@ class profilescreen extends StatefulWidget {
 class _profilescreenState extends State<profilescreen> {
   @override
   Widget build(BuildContext context) {
-    if(profilescreen.photo==null)profilescreen.photo='https://via.placeholder.com/150';
     return MaterialApp(
       debugShowCheckedModeBanner: false,
         home: SafeArea(
@@ -28,9 +27,7 @@ class _profilescreenState extends State<profilescreen> {
                   child: Container(
                     color: Color(0xFF003942),
                     child: Column(
-
                       children: [
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -39,8 +36,7 @@ class _profilescreenState extends State<profilescreen> {
                                   padding: const EdgeInsets.all(8),
                                   decoration: new BoxDecoration(
                                     shape: BoxShape.circle,
-
-                                    image: DecorationImage(image: NetworkImage(user.photoURL),fit: BoxFit.fitHeight)
+                                    image: DecorationImage(image: NetworkImage(profilescreen.photo),fit: BoxFit.fitHeight)
                                   ),
                                   height:200,
                               ),
