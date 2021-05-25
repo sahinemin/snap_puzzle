@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'classroom.dart';
 import 'profilescreen.dart';
-import 'chat.dart';
-var passedindex;
+
+var passedChatName;
 
 class MainPage extends StatefulWidget {
   @override
@@ -84,7 +83,7 @@ class Page1 extends StatelessWidget {
           itemBuilder: (BuildContext context, int index){
             return ListTile(
               onTap: (){
-                passedindex=List1[index];
+                passedChatName = List1[index];
                 Navigator.of(context).pushNamed('/Chat');
               },
               leading: CircleAvatar(),

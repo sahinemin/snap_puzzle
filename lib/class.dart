@@ -5,9 +5,9 @@ import 'dart:math';
 
 TextEditingController message = new TextEditingController();
 
-class chat extends StatelessWidget {
+class classroom extends StatelessWidget {
 
-  chat({this.chatName}) : super();
+  classroom({this.chatName}) : super();
 
   String chatName;
 
