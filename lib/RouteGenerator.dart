@@ -5,6 +5,7 @@ import 'package:snap_puzzle/Scoreboard.dart';
 import 'package:snap_puzzle/SignUp.dart';
 import 'package:snap_puzzle/classroom.dart';
 import 'LogIn.dart';
+import 'class.dart';
 import 'contacts.dart';
 import 'chat.dart';
 import 'package:snap_puzzle/Administration.dart';
@@ -20,11 +21,9 @@ class RouteGenerator{
       case '/MainPage':
         return MaterialPageRoute(builder: (_) => MainPage());
       case '/Chat':
-        return MaterialPageRoute(builder: (context) => chat(chatName: passedindex, isClass: false, adminPrivileges: false,));
-      case '/ChatClass':
-        return MaterialPageRoute(builder: (context) => chat(chatName: classname, isClass: true, adminPrivileges: false,));
-      case '/TChatClass':
-        return MaterialPageRoute(builder: (context) => chat(chatName: classname, isClass: true, adminPrivileges: true,));
+        return MaterialPageRoute(builder: (context) => chat(chatName: passedChatName)); //this code needs to be change for implementation
+      case '/Class':
+        return MaterialPageRoute(builder: (context) => classroom(chatName: passedClassName)); //this code needs to be change for implementation
       case '/Scoreboard':
         return MaterialPageRoute(builder: (_) => Scoreboard());
       case '/Administration':

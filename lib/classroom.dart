@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 var classname;
 
+var passedClassName;
+
 class Classroom extends StatelessWidget {
   @override
-  var List1 = ["Class1","Class2","Class3","Class4", "Class5 (Teacher)"];
+  var List1 = ["Classroom1","Classroom2","Classroom3","Classroom4","Classroom5"];
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -16,41 +18,22 @@ class Classroom extends StatelessWidget {
           ),
           itemCount: List1.length,
           itemBuilder: (BuildContext context, int index){
-            if(index == 4) {
-              return ListTile(
-                  leading: CircleAvatar(),
-                  title: Text(List1[index], style: TextStyle(color: Colors.white)),
-                  subtitle: Text(
-                    'Your teacher uploaded a new image, solve a puzzle',
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  onTap: (){
-                    classname= List1[index];
-                    Navigator.of(context).pushNamed('/TChatClass');
-                  }
-              );
-            } else {
-              return ListTile(
-                  leading: CircleAvatar(),
-                  title: Text(List1[index], style: TextStyle(color: Colors.white)),
-                  subtitle: Text(
-                    'Your teacher uploaded a new image, solve a puzzle',
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Colors.grey,
-                    ),
-                  ),
-                  onTap: (){
-                    classname= List1[index];
-                    Navigator.of(context).pushNamed('/ChatClass');
-                  }
-              );
-            }
+            return ListTile(
+              onTap: (){
+                passedClassName = List1[index];
+                Navigator.of(context).pushNamed('/Class');
+              },
+              leading: CircleAvatar(),
+              title: Text(List1[index], style: TextStyle(color: Colors.white)),
+              subtitle: Text(
+                'Hey wanna see the image? heres a puzzle!',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey,
+                ),
+              ),
+            );
           },
         ),
       ),
