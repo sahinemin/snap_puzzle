@@ -20,11 +20,7 @@ class RouteGenerator{
       case '/MainPage':
         return MaterialPageRoute(builder: (_) => MainPage());
       case '/Chat':
-        return MaterialPageRoute(builder: (context) => chat(chatName: passedindex, isClass: false, adminPrivileges: false,));
-      case '/ChatClass':
-        return MaterialPageRoute(builder: (context) => chat(chatName: classname, isClass: true, adminPrivileges: false,));
-      case '/TChatClass':
-        return MaterialPageRoute(builder: (context) => chat(chatName: classname, isClass: true, adminPrivileges: true,));
+        return MaterialPageRoute(builder: (context) => chat(chatName: passedindex)); //this code needs to be change for implementation
       case '/Scoreboard':
         return MaterialPageRoute(builder: (_) => Scoreboard());
       case '/Administration':
