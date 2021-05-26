@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'Scoreboard.dart';
 import 'classroom.dart';
+import 'createPuzzle.dart';
 import 'profilescreen.dart';
 
 var passedChatName;
@@ -26,10 +28,12 @@ class _MainPageState extends State<MainPage> {
     super.dispose();
     pageController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF003942),
+      resizeToAvoidBottomInset: false,
+        backgroundColor: Color(0xFF003942),
         body: PageView(
           // physics: NeverScrollableScrollPhysics(),
           onPageChanged: (pageNo) {
@@ -42,18 +46,38 @@ class _MainPageState extends State<MainPage> {
           children: <Widget>[
             Page1(),
             Classroom(),
+            CreatePuzzle(),
+            Scoreboard(),
             profilescreen(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor:Color(0xFFE19600),
+          //type: BottomNavigationBarType.fixed, //this will make background have color from backgroundColor and make lables always appear. if you want shifting type with color, give items color one by one
+          //backgroundColor: Color(0xFFE19600),
           currentIndex: _ExactPageNumber,
           selectedItemColor: Color(0xFF003942),
           unselectedItemColor: Colors.grey[350],
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home Page'),
-            BottomNavigationBarItem(icon: Icon(Icons.school_outlined), label: 'Classes'),
-            BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Profile'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home Page',
+                backgroundColor: Color(0xFFE19600)),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.school_outlined),
+                label: 'Classes',
+                backgroundColor: Color(0xFFE19600)),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.add_circle_outline),
+                label: 'New Puzzle',
+                backgroundColor: Color(0xFFE19600)),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.emoji_events_outlined),
+                label: 'Scoreboard',
+                backgroundColor: Color(0xFFE19600)),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle),
+                label: 'Profile',
+                backgroundColor: Color(0xFFE19600)),
           ],
           onTap: (currentPageNumber) {
             setState(() {
@@ -61,14 +85,19 @@ class _MainPageState extends State<MainPage> {
             });
           },
         ),
-        appBar: AppBar( title: const Text('SnapPuzzle'),automaticallyImplyLeading: false,backgroundColor: Colors.black,elevation: 5,)
-    );
+        appBar: AppBar(
+          title: const Text('SnapPuzzle'),
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.black,
+          elevation: 5,
+        ));
   }
 }
 
 class Page1 extends StatelessWidget {
   @override
-  var List1 = ["User1","User2","User3","User4","User5","User6"];
+  var List1 = ["User1", "User2", "User3", "User4", "User5", "User6"];
+
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -80,9 +109,9 @@ class Page1 extends StatelessWidget {
             color: Colors.grey[400],
           ),
           itemCount: List1.length,
-          itemBuilder: (BuildContext context, int index){
+          itemBuilder: (BuildContext context, int index) {
             return ListTile(
-              onTap: (){
+              onTap: () {
                 passedChatName = List1[index];
                 Navigator.of(context).pushNamed('/Chat');
               },
@@ -103,6 +132,3 @@ class Page1 extends StatelessWidget {
     );
   }
 }
-
-
-
