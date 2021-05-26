@@ -9,6 +9,7 @@ import 'class.dart';
 import 'contacts.dart';
 import 'chat.dart';
 import 'package:snap_puzzle/Administration.dart';
+import 'createPuzzle.dart';
 import 'settings.dart';
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -32,6 +33,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => Register());
       case '/Settings':
         return MaterialPageRoute(builder: (_) => SettingsPage());
+      case '/CreatePuzzle' :
+        return MaterialPageRoute(builder: (_) => CreatePuzzle());
     }
   }
 }

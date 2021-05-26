@@ -11,32 +11,33 @@ class Scoreboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-            backgroundColor: Color(0xFF003942),
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: Text('Scoreboard'),
-            ),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Container(
-                    height: 150,
-                    child: Icon(Icons.emoji_events,
-                        color: Color(0xFFE19600), size: 100)),
-                Expanded(
-                  child: ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(75,0,75,25),
-                      itemCount: entries.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          height: 50,
-                          color: Colors.amber[colorCodes[index]],
-                          child: Center(child: Text('Student ${entries[index]} - ${(18-index)*125} pts')),
-                        );
-                      }),
-                )
-              ],
-            )));
+        home: Container(
+          color: Color(0xFF003942),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Container(
+            height: 150,
+            child: Icon(Icons.emoji_events,
+                color: Color(0xFFE19600), size: 100)),
+        Expanded(
+          child: ListView.builder(
+              padding: const EdgeInsets.fromLTRB(45,0,45,25),
+              itemCount: entries.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  height: 50,
+                  color: Colors.amber[colorCodes[index]],
+                  child: Center(child: Text('Student ${entries[index]} - ${(18-index)*125} pts', style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                    decoration: TextDecoration.none, //fix to underline that appears
+                  ))),
+                );
+              }),
+        )
+      ],
+    )),
+        );
   }
 }
