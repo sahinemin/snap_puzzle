@@ -3,9 +3,10 @@ import 'Scoreboard.dart';
 import 'classroom.dart';
 import 'createPuzzle.dart';
 import 'profilescreen.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 var passedChatName;
-
+String passedindex;
+String message;
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
@@ -96,7 +97,7 @@ class _MainPageState extends State<MainPage> {
 
 class Page1 extends StatelessWidget {
   @override
-  var List1 = ["User1", "User2", "User3", "User4", "User5", "User6"];
+
 
   Widget build(BuildContext context) {
     return Padding(
@@ -104,31 +105,55 @@ class Page1 extends StatelessWidget {
       child: Container(
         color: Color(0xFF003942),
         height: 120.0,
-        child: ListView.separated(
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.grey[400],
-          ),
-          itemCount: List1.length,
-          itemBuilder: (BuildContext context, int index) {
-            return ListTile(
-              onTap: () {
-                passedChatName = List1[index];
-                Navigator.of(context).pushNamed('/Chat');
-              },
-              leading: CircleAvatar(),
-              title: Text(List1[index], style: TextStyle(color: Colors.white)),
-              subtitle: Text(
-                'Hey wanna see the image? heres a puzzle!',
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.grey,
+        child: StreamBuilder(stream: FirebaseFirestore.instance.collection('Chat').snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+              if(snapshot.hasError){
+                return Text("${snapshot.error}");
+              }
+              if(snapshot.connectionState==ConnectionState.waiting){
+                return Text('Loading:');
+              }
+              //return ListView.separated(
+              //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
+              //);
+              var receiver_id =[];
+              snapshot.data.docs.map((doc) {receiver_id.add(doc['senderid']);} ).toList();
+              //print(receiver_id[0]+"yazdıımm"+receiver_id[1]);
+              return ListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.grey[400],
                 ),
-              ),
-            );
-          },
-        ),
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (BuildContext context, int index){
+                  return ListTile(
+                    onTap: (){
+                      passedChatName=receiver_id[index];
+                      Navigator.of(context).pushNamed('/Chat');
+                    },
+                    leading: CircleAvatar(),
+                    title: Text(receiver_id[index].toString(), style: TextStyle(color: Colors.white)),
+                    subtitle: Text(
+                      'Hey wanna see the image? heres a puzzle!',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  );
+                },
+              );
+
+            })
+
+
+        //insert the messaging part here
+
+        ,
       ),
     );
+
+
+
   }
 }

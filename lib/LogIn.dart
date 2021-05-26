@@ -41,25 +41,37 @@ class _LogInState extends State<LogIn> {
     }
     FirebaseFirestore.instance.collection('Users').snapshots().listen((data)=> data.docs.forEach((doc){
       profilescreen.fullname=doc['name'];
-    profilescreen.school=doc['school'];}));
-    
+      profilescreen.school=doc['school'];}));
+
   }
   Future _googlelogin() async{
-    try {
-      final GoogleSignInAccount googleSignInAccount = await _googleSignIn
-          .signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount
-          .authentication;
+    try{
+      FirebaseFirestore.instance.collection('Users').doc(user.uid);
+      Navigator.of(context).pushNamed('/MainPage');
+    }
+
+
+    catch(e){
+      final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleSignInAuthentication.accessToken,
         idToken: googleSignInAuthentication.idToken,
       );
       user = (await _auth.signInWithCredential(credential)).user;
-      print(user.toString());
       profilescreen.fullname = user.displayName.toString();
       profilescreen.photo = user.photoURL.toString();
-      Navigator.of(context).pushNamed('/MainPage');
+      Navigator.of(context).pushNamed('/GoogleRegister');
     }
+
+
+
+
+
+
+    //print(user.toString());
+
+
     catch(e){
       print(e.toString());
     }
@@ -68,7 +80,7 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: false,
         key: _scaffoldKey,
         body:Container(
           alignment: Alignment.center,
@@ -214,7 +226,7 @@ class _LogInState extends State<LogIn> {
                             ) ,
                             onPressed: () async {
                               await _googlelogin();
-                              Navigator.of(context).pushNamed('/GoogleRegister');
+
                             },
                           ),
                         ),
