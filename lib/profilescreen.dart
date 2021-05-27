@@ -72,7 +72,16 @@ class _profilescreenState extends State<profilescreen> {
                                   //color: Colors.lightBlue,
                                   child: Text(
                                       "Schoolname: ${profilescreen.school}")),
-                              Container(
+                  Container(padding: const EdgeInsets.all(8),
+                      width: 500,
+                      color: Colors.orange,
+                      //color: Colors.lightBlue,
+                      child: Text(
+                          "Score"))
+                  ,
+
+
+                  Container(
                                 height: 50,
                                 alignment: Alignment.center,
                                 margin: EdgeInsets.fromLTRB(150, 20, 150, 0),
@@ -81,7 +90,8 @@ class _profilescreenState extends State<profilescreen> {
                                   borderRadius:
                                       new BorderRadius.all(Radius.circular(10)),
                                 ),
-                                child: FlatButton(
+                                child: MaterialButton(
+                                  color: Color(0xFFE19600),
                                   child: Text(
                                     'LOG OUT',
                                     style: TextStyle(
@@ -96,7 +106,9 @@ class _profilescreenState extends State<profilescreen> {
                                 ),
                               )
                             ],
-                          )),
+                          ),
+
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
@@ -125,8 +137,10 @@ class _profilescreenState extends State<profilescreen> {
   Future googlelogout() async {
     try {
       await _auth.signOut();
-      await _googleSignIn.disconnect();
+      //await _googleSignIn.disconnect();
       await _googleSignIn.signOut();
+      print(_googleSignIn.currentUser.id);
+
     } catch (e) {
       print(e.toString());
     }
