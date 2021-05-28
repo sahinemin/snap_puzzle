@@ -20,7 +20,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        color: Color(0xFF003942),
+        color: Colors.white,
         height: 120.0,
         child: Padding(
           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
@@ -30,7 +30,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                 child: Text(
                   'Create Your Own Quiz!',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 25,
                   ),
                 ),
@@ -43,7 +43,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                   padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                   margin: EdgeInsets.only(top: 20),
                   decoration: new BoxDecoration(
-                    color: Color(0x60FFFFFF),
+                    color: Colors.green.shade400,
                     borderRadius: new BorderRadius.all(Radius.circular(10)),
                   ),
                   child: TextFormField(
@@ -57,7 +57,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                       return null;
                     },
                     decoration: InputDecoration.collapsed(
-                      hintStyle: TextStyle(color: Colors.white60, fontSize: 15),
+                      hintStyle: TextStyle(color: Colors.white70, fontSize: 15),
                       hintText: 'Description',
                       border: InputBorder.none,
                     ),
@@ -68,7 +68,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                 children: [
                   Radio(
                     fillColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.orange),
+                        (states) => Colors.redAccent[400]),
                     value: 1,
                     groupValue: _answer,
                     onChanged: (value) {
@@ -85,7 +85,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                         decoration: new BoxDecoration(
-                          color: Color(0x60FFFFFF),
+                          color: Colors.green.shade400,
                           borderRadius:
                               new BorderRadius.all(Radius.circular(10)),
                         ),
@@ -115,7 +115,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                 children: [
                   Radio(
                     fillColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.orange),
+                        (states) => Colors.redAccent[400]),
                     value: 2,
                     groupValue: _answer,
                     onChanged: (value) {
@@ -132,7 +132,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                         decoration: new BoxDecoration(
-                          color: Color(0x60FFFFFF),
+                          color: Colors.green.shade400,
                           borderRadius:
                               new BorderRadius.all(Radius.circular(10)),
                         ),
@@ -162,7 +162,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                 children: [
                   Radio(
                     fillColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.orange),
+                        (states) => Colors.redAccent[400]),
                     value: 3,
                     groupValue: _answer,
                     onChanged: (value) {
@@ -179,7 +179,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                         decoration: new BoxDecoration(
-                          color: Color(0x60FFFFFF),
+                          color: Colors.green.shade400,
                           borderRadius:
                               new BorderRadius.all(Radius.circular(10)),
                         ),
@@ -209,7 +209,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                 children: [
                   Radio(
                     fillColor: MaterialStateColor.resolveWith(
-                        (states) => Colors.orange),
+                        (states) => Colors.redAccent[400]),
                     value: 4,
                     groupValue: _answer,
                     onChanged: (value) {
@@ -226,7 +226,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                         decoration: new BoxDecoration(
-                          color: Color(0x60FFFFFF),
+                          color: Colors.green.shade400,
                           borderRadius:
                               new BorderRadius.all(Radius.circular(10)),
                         ),
@@ -256,8 +256,12 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: MaterialButton(
-                      color: Colors.orange,
-                      child: Text('submit'),
+                      color: Colors.redAccent[400],
+                      child: Text(
+                        'submit',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                       height: 40,
                       minWidth: 120,
                       onPressed: () => print(_answer)),

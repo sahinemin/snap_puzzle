@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'Scoreboard.dart';
 import 'classroom.dart';
 import 'createPuzzle.dart';
@@ -34,7 +35,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xFF003942),
+        backgroundColor: Colors.white,
         body: PageView(
           // physics: NeverScrollableScrollPhysics(),
           onPageChanged: (pageNo) {
@@ -57,28 +58,28 @@ class _MainPageState extends State<MainPage> {
           //backgroundColor: Color(0xFFE19600),
           currentIndex: _ExactPageNumber,
           selectedItemColor: Color(0xFF003942),
-          unselectedItemColor: Colors.grey[350],
+          unselectedItemColor: Colors.grey[100],
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home),
                 label: 'Home Page',
-                backgroundColor: Color(0xFFE19600)),
+                backgroundColor: Colors.greenAccent[400]),
             BottomNavigationBarItem(
                 icon: Icon(Icons.school_outlined),
                 label: 'Classes',
-                backgroundColor: Color(0xFFE19600)),
+                backgroundColor: Colors.greenAccent[400]),
             BottomNavigationBarItem(
                 icon: Icon(Icons.add_circle_outline),
                 label: 'New Puzzle',
-                backgroundColor: Color(0xFFE19600)),
+                backgroundColor: Colors.greenAccent[400]),
             BottomNavigationBarItem(
                 icon: Icon(Icons.emoji_events_outlined),
                 label: 'Scoreboard',
-                backgroundColor: Color(0xFFE19600)),
+                backgroundColor: Colors.greenAccent[400]),
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle),
                 label: 'Profile',
-                backgroundColor: Color(0xFFE19600)),
+                backgroundColor: Colors.greenAccent[400]),
           ],
           onTap: (currentPageNumber) {
             setState(() {
@@ -87,9 +88,16 @@ class _MainPageState extends State<MainPage> {
           },
         ),
         appBar: AppBar(
-          title: const Text('SnapPuzzle'),
+          title: Text(
+            'SnapPuzzle',
+            style: GoogleFonts.roboto(
+              fontWeight: FontWeight.bold,
+              fontSize: 24 * MediaQuery.textScaleFactorOf(context),
+            ),
+          ),
+          centerTitle: true,
           automaticallyImplyLeading: false,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.greenAccent[400],
           elevation: 5,
         ));
   }
@@ -103,7 +111,7 @@ class Page1 extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        color: Color(0xFF003942),
+        color: Colors.white,
         height: 120.0,
         child: StreamBuilder(stream: FirebaseFirestore.instance.collection('Chat').snapshots(),
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
@@ -121,7 +129,7 @@ class Page1 extends StatelessWidget {
               //print(receiver_id[0]+"yazdıımm"+receiver_id[1]);
               return ListView.separated(
                 separatorBuilder: (context, index) => Divider(
-                  color: Colors.grey[400],
+                  color: Colors.grey[800],
                 ),
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (BuildContext context, int index){
@@ -130,14 +138,18 @@ class Page1 extends StatelessWidget {
                       passedChatName=receiver_id[index];
                       Navigator.of(context).pushNamed('/Chat');
                     },
-                    leading: CircleAvatar(),
-                    title: Text(receiver_id[index].toString(), style: TextStyle(color: Colors.white)),
+                    leading: CircleAvatar(backgroundColor: Colors.greenAccent[400]),
+                    trailing: Icon(
+                      Icons.east_outlined,
+                      color: Colors.purple[900],
+                    ),
+                    title: Text(receiver_id[index].toString(), style: TextStyle(color: Colors.black)),
                     subtitle: Text(
                       'Hey wanna see the image? heres a puzzle!',
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 16.0,
-                        color: Colors.grey,
+                        color: Colors.grey[600],
                       ),
                     ),
                   );

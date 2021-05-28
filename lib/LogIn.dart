@@ -84,7 +84,7 @@ class _LogInState extends State<LogIn> {
         key: _scaffoldKey,
         body:Container(
           alignment: Alignment.center,
-          color: Color(0xFF003942),
+          color: Colors.greenAccent[400],
           child:Column(
             children: <Widget>[
               Expanded(

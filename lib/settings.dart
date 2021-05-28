@@ -15,9 +15,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xFF003942),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.greenAccent[400],
         title: Text(
           "Settings",
           style: TextStyle(),
@@ -30,12 +30,13 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               Row(
                 children: [
-                  Icon(Icons.person, color: Color(0xFFE19600)),
+                  Icon(Icons.person, color: Colors.redAccent[400]),
+                  SizedBox(width: 15),
                   Text(
                     "Account Settings",
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
                   )
@@ -56,12 +57,13 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               Row(
                 children: [
-                  Icon(Icons.notifications, color: Color(0xFFE19600)),
+                  Icon(Icons.notifications, color: Colors.redAccent[400]),
+                  SizedBox(width: 15),
                   Text(
                     "Notifications",
                     style: TextStyle(
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -83,7 +85,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       'Chat Notifications',
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                     Switch(
@@ -92,7 +94,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         setState(() {
                           isSwitchedNoti = value;
                         });},
-                      activeTrackColor: Color(0xFFE19600),
+                      activeTrackColor: Colors.redAccent[400],
                       activeColor: Colors.white,
                     ),
                   ],
@@ -107,7 +109,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       'Classroom Notifications',
                       style: TextStyle(
                         fontSize: 15,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                     Switch(
@@ -116,7 +118,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         setState(() {
                           isSwitchedNotiClass = value;
                         });},
-                      activeTrackColor: Color(0xFFE19600),
+                      activeTrackColor: Colors.redAccent[400],
                       activeColor: Colors.white,
                     ),
                   ],
@@ -127,14 +129,15 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               Row(
                 children: [
-                  Icon(Icons.games_outlined, color: Color(0xFFE19600)),
+                  Icon(Icons.games_outlined, color: Colors.redAccent[400]),
+                  SizedBox(width: 15),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 3.0),
                     child: Text(
                       "Puzzle Settings",
                       style: TextStyle(
                           fontSize: 20,
-                          color: Colors.white,
+                          color: Colors.black,
                           fontWeight: FontWeight.bold
                       ),
                     ),
@@ -158,7 +161,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         'Layouts',
                         style: TextStyle(
                           fontSize: 15,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -184,7 +187,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 optionTitle,
                 style: TextStyle(
                   fontSize: 15,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
               ),
             ],
