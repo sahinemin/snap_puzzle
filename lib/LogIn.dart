@@ -105,7 +105,7 @@ catch(e){
           child:Column(
             children: <Widget>[
               Expanded(
-                flex: 7,
+                flex: 5,
                 child: Container(
                   margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
                   alignment: Alignment.center,
@@ -120,7 +120,7 @@ catch(e){
                 ),
               ),
               Expanded(
-                flex: 10,
+                flex: 8,
                 child: Container(
                   margin: EdgeInsets.only(top: 20,right: 30, left: 30),
                   child: Form(
