@@ -10,7 +10,7 @@ import 'LogIn.dart';
 import 'contacts.dart';
 int a;
 TextEditingController message = new TextEditingController();
-
+bool isSwitcheden = false;
 class chat extends StatelessWidget {
 
   chat({this.chatName}) : super();
@@ -41,10 +41,20 @@ class directContact extends StatefulWidget {
 class _directContactState extends State<directContact> {
   @override
   Widget build(BuildContext context) {
-
+    bool _answer=false;
     return Scaffold(
       backgroundColor: Color(0xFF003942),
       appBar: AppBar(
+        actions: [
+          Switch(
+            value: isSwitcheden,
+            onChanged: (value){
+              setState(() {
+                isSwitcheden = value;
+              });},
+            activeTrackColor: Color(0xFFE19600),
+            activeColor: Colors.white,
+          )],
         backgroundColor: Colors.black,
         title: Text(
           widget.contactName,
@@ -173,8 +183,8 @@ class _directContactState extends State<directContact> {
                             semanticLabel: 'Send button',
                           ),
                           onPressed: ()async {//sending the message
-                            await sendmessage();
                             if (message.text != '') {
+                              await sendmessage();
                               message.clear();
                               setState(() {});
                             }

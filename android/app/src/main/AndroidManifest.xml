@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.snap_puzzle">
    <application
+
         android:label="snap_puzzle"
         android:icon="@mipmap/ic_launcher">
         <activity

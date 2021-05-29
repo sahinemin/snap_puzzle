@@ -53,38 +53,80 @@ class _profilescreenState extends State<profilescreen> {
                         radius: 55.0,
                         backgroundImage: NetworkImage(profilescreen.photo),
                       ),
-                    )),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Username123',
-                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '${profilescreen.fullname}"',
-                style: TextStyle(
-                    fontSize: 15.0,
-                    fontWeight: FontWeight.w200,
-                    color: Colors.grey[500]),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Container(
-                  width: 150.0,
-                  color: Colors.transparent,
-                  child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 1,
-                            blurRadius: 10,
-                            offset: Offset(0, 4), // changes position of shadow
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Container(
+                          padding: const EdgeInsets.all(8),
+                          child: Column(
+                            children: [
+                              Container(
+                                  padding: const EdgeInsets.all(8),
+                                  width: 500,
+                                  //color: Colors.lightBlue,
+                                  color: Colors.orange[300],
+                                  child: Text(
+                                      "Fullname: ${profilescreen.fullname}")),
+                              Container(
+                                  padding: const EdgeInsets.all(8),
+                                  width: 500,
+                                  color: Colors.orange,
+                                  //color: Colors.lightBlue,
+                                  child: Text(
+                                      "Schoolname: ${profilescreen.school}")),
+                  Container(padding: const EdgeInsets.all(8),
+                      width: 500,
+                      color: Colors.orange,
+                      //color: Colors.lightBlue,
+                      child: Text(
+                          "Score"))
+                  ,
+
+
+                  Container(
+                                height: 50,
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.fromLTRB(150, 20, 150, 0),
+                                decoration: new BoxDecoration(
+                                  color: Color(0xFFE19600),
+                                  borderRadius:
+                                      new BorderRadius.all(Radius.circular(10)),
+                                ),
+                                child: MaterialButton(
+                                  color: Color(0xFFE19600),
+                                  child: Text(
+                                    'LOG OUT',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  onPressed: () async {
+                                    await googlelogout();
+                                    Navigator.of(context).pushNamed('/LogIn');
+                                  },
+                                ),
+                              )
+                            ],
                           ),
+
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              FloatingActionButton(
+                                  child: Icon(Icons.settings),
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed('/Settings');
+                                  }),
+                            ],
+                          )
                         ],
                       ),
                       child: new Center(
@@ -152,8 +194,10 @@ class _profilescreenState extends State<profilescreen> {
   Future googlelogout() async {
     try {
       await _auth.signOut();
-      await _googleSignIn.disconnect();
+      //await _googleSignIn.disconnect();
       await _googleSignIn.signOut();
+      print(_googleSignIn.currentUser.id);
+
     } catch (e) {
       print(e.toString());
     }

@@ -6,6 +6,8 @@ import 'package:snap_puzzle/SignUp.dart';
 import 'DatabaseService.dart';
 import 'package:snap_puzzle/profilescreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:developer';
+
 User user;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = new GoogleSignIn();
@@ -39,42 +41,57 @@ class _LogInState extends State<LogIn> {
     } catch (e){
       print("ERRRRORRRRRRRRRR = $e");
     }
+    FirebaseFirestore.instance.collection('Users').doc(user.uid).snapshots().listen((event) {
+      profilescreen.fullname= event['name'];
+      profilescreen.school=event['school'];
+    });
+    /*
     FirebaseFirestore.instance.collection('Users').snapshots().listen((data)=> data.docs.forEach((doc){
       profilescreen.fullname=doc['name'];
       profilescreen.school=doc['school'];}));
-
+*/
   }
   Future _googlelogin() async{
-    try{
-      FirebaseFirestore.instance.collection('Users').doc(user.uid);
-      Navigator.of(context).pushNamed('/MainPage');
+try{
+  final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+  final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+  final AuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleSignInAuthentication.accessToken,
+    idToken: googleSignInAuthentication.idToken,
+  );
+  bool a =false;
+  user = (await _auth.signInWithCredential(credential)).user;
+  profilescreen.fullname = user.displayName.toString();
+  profilescreen.photo = user.photoURL.toString();
+  CollectionReference collectionReference = FirebaseFirestore.instance.collection('Users');
+  collectionReference.get().then((value) => {
+    for(int i=0; i<value.docs.length; i++){
+      if(user.uid==value.docs[i].id)
+        a=true
+    },
+
+    if(a){
+      collectionReference.doc(user.uid).snapshots().listen((event) {
+    profilescreen.fullname= event['name'];
+    profilescreen.school=event['school'];
+  }),
+      Navigator.of(context).pushNamed('/MainPage'),
+
     }
 
-
-    catch(e){
-      final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleSignInAuthentication.accessToken,
-        idToken: googleSignInAuthentication.idToken,
-      );
-      user = (await _auth.signInWithCredential(credential)).user;
-      profilescreen.fullname = user.displayName.toString();
-      profilescreen.photo = user.photoURL.toString();
-      Navigator.of(context).pushNamed('/GoogleRegister');
+    else{
+      Navigator.of(context).pushNamed('/GoogleRegister'),
     }
 
+  });
+}
+catch(e){
+  print(e.toString());
+}
 
 
+    
 
-
-
-    //print(user.toString());
-
-
-    catch(e){
-      print(e.toString());
-    }
 
   }
   @override
@@ -88,7 +105,7 @@ class _LogInState extends State<LogIn> {
           child:Column(
             children: <Widget>[
               Expanded(
-                flex: 7,
+                flex: 5,
                 child: Container(
                   margin: EdgeInsets.fromLTRB(0, 50, 0, 0),
                   alignment: Alignment.center,
@@ -103,7 +120,7 @@ class _LogInState extends State<LogIn> {
                 ),
               ),
               Expanded(
-                flex: 10,
+                flex: 8,
                 child: Container(
                   margin: EdgeInsets.only(top: 20,right: 30, left: 30),
                   child: Form(
