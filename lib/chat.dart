@@ -43,7 +43,7 @@ class _directContactState extends State<directContact> {
   Widget build(BuildContext context) {
     bool _answer=false;
     return Scaffold(
-      backgroundColor: Color(0xFF003942),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         actions: [
           Switch(
@@ -52,10 +52,10 @@ class _directContactState extends State<directContact> {
               setState(() {
                 isSwitcheden = value;
               });},
-            activeTrackColor: Color(0xFFE19600),
+            activeTrackColor: Colors.redAccent[400],
             activeColor: Colors.white,
           )],
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.greenAccent[400],
         title: Text(
           widget.contactName,
           style: new TextStyle(color: Colors.white),
@@ -65,7 +65,7 @@ class _directContactState extends State<directContact> {
         children: [Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            color: Color(0xFF003942),
+            color: Colors.white,
             padding: EdgeInsets.only(bottom: 75),
             child: StreamBuilder(stream: FirebaseFirestore.instance.collection('Chat').doc(user.uid+"-"+passedChatName).collection("Messages").snapshots(),
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
@@ -105,10 +105,10 @@ class _directContactState extends State<directContact> {
                         //return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
                       }
                       else if (messagearr[index].isenc&&messagearr[index].sender_id==user.uid){
-                        return Container(child: Text(messagearr[index].message.toString(), style: TextStyle(color: Colors.white)),alignment:Alignment.bottomRight );
+                        return Container( child: Text(messagearr[index].message.toString(), style: TextStyle(color: Colors.black)),alignment:Alignment.bottomRight );
                       }
                       else{
-                        return Container(child: Text(messagearr[index].message.toString(), style: TextStyle(color: Colors.white)),alignment:Alignment.bottomLeft );
+                        return Container(child: Text(messagearr[index].message.toString(), style: TextStyle(color: Colors.black)),alignment:Alignment.bottomLeft );
                       }
 
                     },
@@ -129,7 +129,7 @@ class _directContactState extends State<directContact> {
               //child: chatBox(context),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white70,
+                  color: Colors.green[200],
                   borderRadius: BorderRadius.circular(50),
                 ),
                 height: MediaQuery.of(context).size.height * 1 / 15,
@@ -178,7 +178,7 @@ class _directContactState extends State<directContact> {
                           splashRadius: 18,
                           icon: Icon(
                             Icons.send,
-                            color: Colors.blue,
+                            color: Colors.green[700],
                             size: 25,
                             semanticLabel: 'Send button',
                           ),

@@ -35,19 +35,25 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                   ),
                 ),
               ),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pushNamed('/CreateTextQuiz');
-                },
-                leading: CircleAvatar(),
-                title: Text('Text Quiz', style: TextStyle(color: Colors.white)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/CreateTextQuiz');
+                  },
+                  leading: Icon(Icons.text_fields, size: 40),
+                  title: Text('Text Quiz', style: TextStyle(color: Colors.black,fontSize: 18)),
+                ),
               ),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pushNamed('/CreatePhotoQuiz');
-                },
-                leading: CircleAvatar(),
-                title: Text('Photo Quiz', style: TextStyle(color: Colors.white)),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/CreatePhotoQuiz');
+                  },
+                  leading: Icon(Icons.photo, size: 40),
+                  title: Text('Photo Quiz', style: TextStyle(color: Colors.black, fontSize: 18)),
+                ),
               ),
             ],
           ),

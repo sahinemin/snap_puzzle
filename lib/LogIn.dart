@@ -101,7 +101,7 @@ catch(e){
         key: _scaffoldKey,
         body:Container(
           alignment: Alignment.center,
-          color: Colors.greenAccent[400],
+          color: Colors.greenAccent[700],
           child:Column(
             children: <Widget>[
               Expanded(
@@ -275,7 +275,7 @@ catch(e){
                             'Sign up!',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.amber[700],
+                              color: Colors.green[800],
                               fontSize: 15,
                             ),
                           ),

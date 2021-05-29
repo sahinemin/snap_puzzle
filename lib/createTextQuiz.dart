@@ -34,9 +34,10 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
         return Future.value(true);
       },
       child: Scaffold(
-        backgroundColor: Color(0xFF003942),
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.greenAccent[400],
+          title: Text('Text Quiz Creator'),
         ),
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
@@ -47,7 +48,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                   child: Text(
                     'Create Your Own Quiz!',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 25,
                     ),
                   ),
@@ -60,7 +61,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                     padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                     margin: EdgeInsets.only(top: 20),
                     decoration: new BoxDecoration(
-                      color: Color(0x60FFFFFF),
+                      color: Colors.green.shade400,
                       borderRadius: new BorderRadius.all(Radius.circular(10)),
                     ),
                     child: TextFormField(
@@ -103,7 +104,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                           alignment: Alignment.centerLeft,
                           padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                           decoration: new BoxDecoration(
-                            color: Color(0x60FFFFFF),
+                            color: Colors.green.shade400,
                             borderRadius:
                                 new BorderRadius.all(Radius.circular(10)),
                           ),
@@ -150,7 +151,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                           alignment: Alignment.centerLeft,
                           padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                           decoration: new BoxDecoration(
-                            color: Color(0x60FFFFFF),
+                            color: Colors.green.shade400,
                             borderRadius:
                                 new BorderRadius.all(Radius.circular(10)),
                           ),
@@ -197,7 +198,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                           alignment: Alignment.centerLeft,
                           padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                           decoration: new BoxDecoration(
-                            color: Color(0x60FFFFFF),
+                            color: Colors.green.shade400,
                             borderRadius:
                                 new BorderRadius.all(Radius.circular(10)),
                           ),
@@ -244,7 +245,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                           alignment: Alignment.centerLeft,
                           padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                           decoration: new BoxDecoration(
-                            color: Color(0x60FFFFFF),
+                            color: Colors.green.shade400,
                             borderRadius:
                                 new BorderRadius.all(Radius.circular(10)),
                           ),
