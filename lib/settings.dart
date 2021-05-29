@@ -127,47 +127,6 @@ class _SettingsPageState extends State<SettingsPage> {
               SizedBox(
                 height: 17,
               ),
-              Row(
-                children: [
-                  Icon(Icons.games_outlined, color: Colors.redAccent[400]),
-                  SizedBox(width: 15),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                    child: Text(
-                      "Puzzle Settings",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                height: 15,
-                thickness: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Layouts',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
             ],
           )),
     );

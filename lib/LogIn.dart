@@ -209,7 +209,7 @@ catch(e){
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(top: 20),
                           decoration: new BoxDecoration(
-                            color: Color(0xFFE19600),
+                            color: Colors.redAccent[400],
                             borderRadius: new BorderRadius.all(Radius.circular(10)),
                           ),
                           // ignore: deprecated_member_use
@@ -219,7 +219,7 @@ catch(e){
                             child: Text('LOG IN',
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                             ),
                             onPressed: () async {

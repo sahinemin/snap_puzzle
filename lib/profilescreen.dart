@@ -241,7 +241,7 @@ class UserInfoContainer extends StatelessWidget {
                       size: iconSize,
                     ),
                     title: Text(
-                      'Kayseri, Turkey',
+                      '***************',
                       style: GoogleFonts.roboto(
                         textStyle: TextStyle(),
                         fontSize: MediaQuery.of(context).textScaleFactor * 14,
@@ -262,7 +262,7 @@ class UserInfoContainer extends StatelessWidget {
                       size: iconSize,
                     ),
                     title: Text(
-                      'Username45@gmail.com',
+                      'Rank',
                       style: GoogleFonts.roboto(
                         textStyle: TextStyle(),
                         fontSize: MediaQuery.of(context).textScaleFactor * 12,
@@ -546,7 +546,7 @@ class BadgeContainer extends StatelessWidget {
                       color: Colors.green[200],
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(Icons.celebration_outlined,
+                    child: Icon(Icons.military_tech_outlined,
                         color: Colors.yellow, size: 60),
                   ),
                 ],

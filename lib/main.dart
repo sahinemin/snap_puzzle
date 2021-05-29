@@ -10,7 +10,3 @@ Future  main() async {
     onGenerateRoute: RouteGenerator.generateRoute,
   ));
 }
-
-
-
-
