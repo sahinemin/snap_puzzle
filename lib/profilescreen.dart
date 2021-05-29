@@ -191,6 +191,7 @@ class UserInfoContainer extends StatelessWidget {
               child: Container(
                 height: cardSize,
                 child: Card(
+                  elevation: 0.0,
                   child: ListTile(
                     leading: Icon(
                       Icons.person_outlined,
@@ -201,7 +202,7 @@ class UserInfoContainer extends StatelessWidget {
                       '${profilescreen.fullname}"',
                       style: GoogleFonts.roboto(
                         textStyle: TextStyle(),
-                        fontSize: MediaQuery.of(context).textScaleFactor * 15,
+                        fontSize: MediaQuery.of(context).textScaleFactor * 17,
                       ),
                     ),
                   ),

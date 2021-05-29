@@ -36,9 +36,9 @@ class _directContactState extends State<directContact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF003942),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.greenAccent[400],
         title: Text(
           widget.contactName,
           style: new TextStyle(color: Colors.white),
@@ -57,7 +57,7 @@ class _directContactState extends State<directContact> {
               //child: chatBox(context),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white70,
+                  color: Colors.green[200],
                   borderRadius: BorderRadius.circular(50),
                 ),
                 height: MediaQuery.of(context).size.height * 1 / 15,
