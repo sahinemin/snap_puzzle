@@ -10,11 +10,11 @@ class Classroom extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        color: Color(0xFF003942),
+        color: Colors.white,
         height: 120.0,
         child: ListView.separated(
           separatorBuilder: (context, index) => Divider(
-            color: Colors.grey[400],
+            color: Colors.grey[800],
           ),
           itemCount: List1.length,
           itemBuilder: (BuildContext context, int index){
@@ -23,14 +23,18 @@ class Classroom extends StatelessWidget {
                 passedClassName = List1[index];
                 Navigator.of(context).pushNamed('/Class');
               },
-              leading: CircleAvatar(),
-              title: Text(List1[index], style: TextStyle(color: Colors.white)),
+              leading: CircleAvatar(backgroundColor: Colors.greenAccent[400],),
+              trailing: Icon(
+                Icons.east_outlined,
+                color: Colors.purple[900],
+              ),
+              title: Text(List1[index], style: TextStyle(color: Colors.black)),
               subtitle: Text(
                 'Hey wanna see the image? heres a puzzle!',
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: Colors.grey,
+                  color: Colors.grey[600],
                 ),
               ),
             );

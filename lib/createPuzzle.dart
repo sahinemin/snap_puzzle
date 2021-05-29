@@ -20,7 +20,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        color: Color(0xFF003942),
+        color: Colors.white,
         height: 120.0,
         child: Padding(
           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
@@ -30,7 +30,7 @@ class _CreatePuzzleState extends State<CreatePuzzle> {
                 child: Text(
                   'Create Your Own Puzzle!',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontSize: 25,
                   ),
                 ),
