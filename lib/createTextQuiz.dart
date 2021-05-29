@@ -87,7 +87,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                   children: [
                     Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.orange),
+                          (states) => Colors.redAccent[400]),
                       value: 1,
                       groupValue: _answer,
                       onChanged: (value) {
@@ -134,7 +134,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                   children: [
                     Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.orange),
+                          (states) => Colors.redAccent[400]),
                       value: 2,
                       groupValue: _answer,
                       onChanged: (value) {
@@ -181,7 +181,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                   children: [
                     Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.orange),
+                          (states) => Colors.redAccent[400]),
                       value: 3,
                       groupValue: _answer,
                       onChanged: (value) {
@@ -228,7 +228,7 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                   children: [
                     Radio(
                       fillColor: MaterialStateColor.resolveWith(
-                          (states) => Colors.orange),
+                          (states) => Colors.redAccent[400]),
                       value: 4,
                       groupValue: _answer,
                       onChanged: (value) {
@@ -355,8 +355,12 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: MaterialButton(
-                        color: Colors.orange,
-                        child: Text('submit'),
+                        color: Colors.redAccent[400],
+                        child: Text(
+                          'submit',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         height: 40,
                         minWidth: 120,
                         onPressed: () {
