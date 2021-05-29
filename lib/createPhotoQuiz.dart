@@ -25,9 +25,10 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
         return Future.value(true);
       },
       child: Scaffold(
-        backgroundColor: Color(0xFF003942),
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.greenAccent[400],
+          title: Text('Photo Quiz Creator'),
         ),
         body: Padding(
           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
@@ -38,7 +39,7 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
                   child: Text(
                     'Create Your Own Quiz!',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 25,
                     ),
                   ),
@@ -51,7 +52,7 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
                     padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                     margin: EdgeInsets.only(top: 20),
                     decoration: new BoxDecoration(
-                      color: Color(0x60FFFFFF),
+                      color: Colors.green.shade400,
                       borderRadius: new BorderRadius.all(Radius.circular(10)),
                     ),
                     child: TextFormField(
@@ -81,7 +82,7 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
                     padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
                     margin: EdgeInsets.only(top: 20),
                     decoration: new BoxDecoration(
-                      color: Color(0x60FFFFFF),
+                      color: Colors.green.shade400,
                       borderRadius: new BorderRadius.all(Radius.circular(10)),
                     ),
                     child: TextFormField(
@@ -187,8 +188,8 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: MaterialButton(
-                        color: Colors.orange,
-                        child: Text('submit'),
+                        color: Colors.redAccent[400],
+                        child: Text('submit',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                         height: 40,
                         minWidth: 120,
                         onPressed: () {
