@@ -112,8 +112,11 @@ class _directContactState extends State<directContact> {
                           return Container(
                             width: 10,
                             alignment: Alignment.bottomLeft,
-                            child: TextButton(
-                                child: Text('ENCRYPTED'), onPressed: () {}),
+                            child: Card(
+                              color: Colors.grey[100],
+                              child: TextButton(
+                                  child: Text('ENCRYPTED'), onPressed: () {}),
+                            ),
                           );
                           //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft
                           //return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
