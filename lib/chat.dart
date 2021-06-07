@@ -137,6 +137,22 @@ class _directContactState extends State<directContact> {
                               ),
                             ),
                           );
+                        } else  if(!messagearr[index].isenc &&
+                            messagearr[index].sender_id == user.uid){
+                        return Align(
+                          alignment: Alignment.bottomRight,
+                          child: Padding(
+                          padding: const EdgeInsets.only(left:55.0),
+                            child: Card(
+                            color: Colors.green[400],
+                             child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(messagearr[index].message.toString(),
+                              style: TextStyle(color: Colors.white,fontSize: 17)),
+                              ),
+                             ),
+                          ),
+                        );
                         } else {
                           return Align(
                             alignment: Alignment.bottomLeft,
@@ -227,7 +243,7 @@ class _directContactState extends State<directContact> {
                             //sending the message,
                             //Added extra condition if its empty
                             if (message.text != '' || message.text.isNotEmpty) {
-                              await sendmessage();
+                              await sendmessage(isSwitcheden);
                               message.clear();
                               setState(() {});
                             }
@@ -245,7 +261,7 @@ class _directContactState extends State<directContact> {
     );
   }
 
-  Future sendmessage() async {
+  Future sendmessage(bool isenc) async {
     final DocumentReference userCollection = FirebaseFirestore.instance
         .collection('Chat')
         .doc(user.uid.toString() + "-" + passedChatName)
@@ -254,7 +270,7 @@ class _directContactState extends State<directContact> {
     await userCollection.set({
       'message': message.text,
       'sender_id': user.uid.toString(),
-      'isencrypted': true
+      'isencrypted': isenc
     });
   }
 }
