@@ -80,14 +80,12 @@ class _addfriendState extends State<addfriend> {
                   for(int i=0;i<snapshot.data.docs.length;i++){
                     names.add(snapshot.data.docs.elementAt(i).get("name"));
                   }
-                  print(names);
                   for(int i=0;i<names.length;i++){
                     if(names[i].toString().contains(friendname.text)){
                       namesbool.add(true);
                       indexes.add(i);
                     }
                   }
-                  print(namesbool.length);
                   return ListView.separated(
                     separatorBuilder: (context, index) => Divider(
                       color: Colors.grey[800],
@@ -95,8 +93,6 @@ class _addfriendState extends State<addfriend> {
                     itemCount: indexes.length,
                     itemBuilder: (BuildContext context, int index){
                       if(names[indexes[index]].toString().contains(friendname.text)){
-                        print(names[indexes[index]]);
-                        print(indexes);
                         return ListTile(
                           leading: CircleAvatar(backgroundImage: NetworkImage(profilescreen.photo),),
                           trailing: IconButton(
@@ -121,3 +117,4 @@ class _addfriendState extends State<addfriend> {
     );
   }
 }
+
