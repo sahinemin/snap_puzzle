@@ -2,16 +2,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:snap_puzzle/LogIn.dart';
 import 'contacts.dart';
 
 class Friends extends StatefulWidget {
+  static var friends = [];
+  static var friendsid=[];
   const Friends({Key key}) : super(key: key);
-
   @override
   _FriendsState createState() => _FriendsState();
 }
-
 class _FriendsState extends State<Friends> {
   @override
   Widget build(BuildContext context) {
@@ -51,27 +51,28 @@ class _FriendsState extends State<Friends> {
             }).toList();
             return StreamBuilder(
               stream: FirebaseFirestore.instance.collection('Users')
-                  .doc('6T7CtmUj4PgsGPmQIAgM9DRq7y42')
+                  .doc(user.uid)
                   .collection('Friends')
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
+                Friends.friends.clear();
                 if (snapshot.connectionState == ConnectionState.waiting) {return Container(width: 0,height: 0,);}
                 if (snapshot.hasError) {return Container(width: 0,height: 0,);}
-                var friends = [];
                 for (int i = 0; i < snapshot.data.docs.length; i++) {
-                  friends.add(snapshot.data.docs.elementAt(i).get('name').toString());
+                  Friends.friendsid.add(snapshot.data.docs.elementAt(i).id);
+                  Friends.friends.add(snapshot.data.docs.elementAt(i).get('name').toString());
                 }
                 return ListView.separated(
                   separatorBuilder: (context, index) =>
                       Divider(
                         color: Colors.grey[800],
                       ),
-                  itemCount: friends.length,
+                  itemCount: Friends.friends.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       onTap: () {
-                        passedChatName = friends[index];
+                        passedChatName = Friends.friends[index];
                         Navigator.of(context).pushNamed('/Chat');
                       },
                       leading:
@@ -80,7 +81,7 @@ class _FriendsState extends State<Friends> {
                         Icons.east_outlined,
                         color: Colors.purple[900],
                       ),
-                      title: Text(friends[index].toString(),
+                      title: Text(Friends.friends[index].toString(),
                           style: TextStyle(color: Colors.black)),
                     );
                   },

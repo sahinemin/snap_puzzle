@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:snap_puzzle/friends.dart';
 import 'package:snap_puzzle/profilescreen.dart';
 
+import 'LogIn.dart';
 import 'contacts.dart';
 
 TextEditingController friendname = new TextEditingController();
@@ -77,8 +79,10 @@ class _addfriendState extends State<addfriend> {
                   var names =[];
                   var namesbool =[];
                   var indexes=[];
+                  var userids=[];
                   for(int i=0;i<snapshot.data.docs.length;i++){
                     names.add(snapshot.data.docs.elementAt(i).get("name"));
+                    userids.add(snapshot.data.docs.elementAt(i).id);
                   }
                   for(int i=0;i<names.length;i++){
                     if(names[i].toString().contains(friendname.text)){
@@ -93,16 +97,32 @@ class _addfriendState extends State<addfriend> {
                     itemCount: indexes.length,
                     itemBuilder: (BuildContext context, int index){
                       if(names[indexes[index]].toString().contains(friendname.text)){
-                        return ListTile(
+                        if(Friends.friends.contains(names[indexes[index]])){
+                          return ListTile(
                           leading: CircleAvatar(backgroundImage: NetworkImage(profilescreen.photo),),
                           trailing: IconButton(
-                            icon: Icon(Icons.add),
+                            icon: Icon(Icons.check),
                             color: Colors.purple[900],
                             onPressed: (){
                             },
                           ),
                           title: Text(names[indexes[index]].toString(), style: TextStyle(color: Colors.black)),
-                        );
+                        );}
+                          else{
+                            String id=userids[indexes[index]];
+                            String name=names[indexes[index]].toString();
+                          return ListTile(
+                            leading: CircleAvatar(backgroundImage: NetworkImage(profilescreen.photo),),
+                            trailing: IconButton(
+                              icon: Icon(Icons.add),
+                              color: Colors.purple[900],
+                              onPressed: () async{
+                                  await addfriend(id, name);
+                              },
+                            ),
+                            title: Text(names[indexes[index]].toString(), style: TextStyle(color: Colors.black)),
+                          );
+                        }
                       }else{
                         print("Dude why are you even here?");
                         return Container(width: 0,height: 0,);
@@ -115,6 +135,16 @@ class _addfriendState extends State<addfriend> {
         ],
       )
     );
+  }
+  Future addfriend(String id,String name)async{
+    final DocumentReference userCollection = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user.uid)
+        .collection('Friends')
+        .doc(id);
+    await userCollection.set({
+      'name': name,
+    });
   }
 }
 
