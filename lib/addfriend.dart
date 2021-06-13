@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:snap_puzzle/profilescreen.dart';
 
 import 'contacts.dart';
 
@@ -58,55 +59,63 @@ class _addfriendState extends State<addfriend> {
                 onSubmitted: (text)
                 {
                   friendname.text;
-
                   setState(() {});
                 },
               ),
             ),
           ),
           SizedBox(height: 20,),
-          StreamBuilder(stream: FirebaseFirestore.instance.collection('Users').snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                if(snapshot.hasError){
-                  return Text("${snapshot.error}");
-                }
-                if(snapshot.connectionState==ConnectionState.waiting){
-                  return Text('Loading:');
-                }
-                var names =[];
-                snapshot.data.docs.where((element) => friendname.text);
-                for(int i=0;i<names.length;i++){
-                  
-                }
-                return ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                    color: Colors.grey[800],
-                  ),
-                  itemCount: snapshot.data.docs.length,
-                  itemBuilder: (BuildContext context, int index){
-                    return ListTile(
-                      onTap: (){
-                        passedChatName=names[index];
-                      },
-                      leading: CircleAvatar(backgroundColor: Colors.greenAccent[400]),
-                      trailing: Icon(
-                        Icons.east_outlined,
-                        color: Colors.purple[900],
-                      ),
-                      title: Text(names[index].toString(), style: TextStyle(color: Colors.black)),
-                      subtitle: Text(
-                        'Hey wanna see the image? heres a puzzle!',
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                    );
-                  },
-                );
+          Flexible(
+            child: StreamBuilder(stream: FirebaseFirestore.instance.collection('Users').snapshots(),
+                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                  if(snapshot.hasError){
+                    return Text("${snapshot.error}");
+                  }
+                  if(snapshot.connectionState==ConnectionState.waiting){
+                    return Text('Loading:');
+                  }
+                  var names =[];
+                  var namesbool =[];
+                  var indexes=[];
+                  for(int i=0;i<snapshot.data.docs.length;i++){
+                    names.add(snapshot.data.docs.elementAt(i).get("name"));
+                  }
+                  print(names);
+                  for(int i=0;i<names.length;i++){
+                    if(names[i].toString().contains(friendname.text)){
+                      namesbool.add(true);
+                      indexes.add(i);
+                    }
+                  }
+                  print(namesbool.length);
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => Divider(
+                      color: Colors.grey[800],
+                    ),
+                    itemCount: indexes.length,
+                    itemBuilder: (BuildContext context, int index){
+                      if(names[indexes[index]].toString().contains(friendname.text)){
+                        print(names[indexes[index]]);
+                        print(indexes);
+                        return ListTile(
+                          leading: CircleAvatar(backgroundImage: NetworkImage(profilescreen.photo),),
+                          trailing: IconButton(
+                            icon: Icon(Icons.add),
+                            color: Colors.purple[900],
+                            onPressed: (){
+                            },
+                          ),
+                          title: Text(names[indexes[index]].toString(), style: TextStyle(color: Colors.black)),
+                        );
+                      }else{
+                        print("Dude why are you even here?");
+                        return Container(width: 0,height: 0,);
+                      }
+                    },
+                  );
 
-              })
+                }),
+          )
         ],
       )
     );
