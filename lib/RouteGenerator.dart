@@ -26,7 +26,7 @@ class RouteGenerator{
       case '/MainPage':
         return MaterialPageRoute(builder: (_) => MainPage());
       case '/Chat':
-        return MaterialPageRoute(builder: (context) => chat(chatName: passedChatName)); //this code needs to be change for implementation
+        return MaterialPageRoute(builder: (context) => chat(chatName: passedChatName,friendid: passedid,)); //this code needs to be change for implementation
       case '/Class':
         return MaterialPageRoute(builder: (context) => classroom(chatName: passedClassName)); //this code needs to be change for implementation
       case '/Scoreboard':

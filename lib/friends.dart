@@ -73,6 +73,7 @@ class _FriendsState extends State<Friends> {
                     return ListTile(
                       onTap: () {
                         passedChatName = Friends.friends[index];
+                        passedid = Friends.friendsid[index];
                         Navigator.of(context).pushNamed('/Chat');
                       },
                       leading:

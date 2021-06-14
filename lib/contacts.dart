@@ -6,6 +6,7 @@ import 'createPuzzle.dart';
 import 'profilescreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 var passedChatName;
+var passedid;
 String passedindex;
 String message;
 class MainPage extends StatefulWidget {

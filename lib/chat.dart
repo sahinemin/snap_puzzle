@@ -15,21 +15,22 @@ TextEditingController message = new TextEditingController();
 bool isSwitcheden = false;
 
 class chat extends StatelessWidget {
-  chat({this.chatName}) : super();
+  chat({this.chatName,this.friendid}) : super();
 
   String chatName;
+  String friendid;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false, home: directContact(chatName)
+        debugShowCheckedModeBanner: false, home: directContact(chatName,friendid)
         // home: DirectContact(contactName: "Contact Name"),
         );
   }
 }
 
 class directContact extends StatefulWidget {
-  directContact(this.contactName) : super();
+  directContact(this.contactName, String friendid) : super();
   final String contactName;
 
   @override
@@ -88,7 +89,7 @@ class _directContactState extends State<directContact> {
                       return Text('Loading:');
                     }
                     a = snapshot.data.size;
-                    print(user.uid + "-" + passedChatName);
+                    print(user.uid + "-" + passedid.toString().trim());
                     //return ListView.separated(
                     //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
                     //);
@@ -264,7 +265,7 @@ class _directContactState extends State<directContact> {
   Future sendmessage(bool isenc) async {
     final DocumentReference userCollection = FirebaseFirestore.instance
         .collection('Chat')
-        .doc(user.uid.toString() + "-" + passedChatName)
+        .doc(user.uid.toString() + "-" + passedid)
         .collection("Messages")
         .doc(a.toString());
     await userCollection.set({
