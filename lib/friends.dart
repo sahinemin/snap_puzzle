@@ -45,10 +45,11 @@ class _FriendsState extends State<Friends> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Text('Loading:');
             }
-            var receiver_id = [];
-            snapshot.data.docs.map((doc) {
-              receiver_id.add(doc['senderid']);
-            }).toList();
+            var chats=[];
+            for(int i=0;i<snapshot.data.size;i++){
+              chats.add(i);
+              snapshot.data.docs.elementAt(i).id.contains(user.uid);
+            }
             return StreamBuilder(
               stream: FirebaseFirestore.instance.collection('Users')
                   .doc(user.uid)

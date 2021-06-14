@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'LogIn.dart';
 import 'Scoreboard.dart';
 import 'classroom.dart';
 import 'createPuzzle.dart';
@@ -7,6 +8,8 @@ import 'profilescreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 var passedChatName;
 var passedid;
+var chats=[];
+var words=[];
 String passedindex;
 String message;
 class MainPage extends StatefulWidget {
@@ -121,50 +124,69 @@ class Page1 extends StatelessWidget {
         height: 120.0,
         child: Stack(
           children: [
-            StreamBuilder(stream: FirebaseFirestore.instance.collection('Chat').snapshots(),
-                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                  if(snapshot.hasError){
-                    return Text("${snapshot.error}");
+              StreamBuilder(
+              stream: FirebaseFirestore.instance.collection('Chat').snapshots(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                words.clear();
+                chats.clear();
+                for(int i=0;i<snapshot.data.size;i++){
+                  print(snapshot.data.docs.elementAt(i).id);
+                  print(i);
+                  String temp=snapshot.data.docs.elementAt(i).id;
+                  if(temp.contains(user.uid)){
+                    words.add(temp.split("-")[1]);
+                    chats.add(i);
+                    print(chats);
                   }
-                  if(snapshot.connectionState==ConnectionState.waiting){
-                    return Text('Loading:');
-                  }
-                  //return ListView.separated(
-                  //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
-                  //);
-                  var receiver_id =[];
-                  snapshot.data.docs.map((doc) {receiver_id.add(doc['senderid']);} ).toList();
-                  //print(receiver_id[0]+"yazdıımm"+receiver_id[1]);
-                  return ListView.separated(
-                    separatorBuilder: (context, index) => Divider(
-                      color: Colors.grey[800],
-                    ),
-                    itemCount: snapshot.data.docs.length,
-                    itemBuilder: (BuildContext context, int index){
-                      return ListTile(
-                        onTap: (){
-                          passedChatName=receiver_id[index];
-                          Navigator.of(context).pushNamed('/Chat');
-                        },
-                        leading: CircleAvatar(backgroundColor: Colors.greenAccent[400]),
-                        trailing: Icon(
-                          Icons.east_outlined,
-                          color: Colors.purple[900],
-                        ),
-                        title: Text(receiver_id[index].toString(), style: TextStyle(color: Colors.black)),
-                        subtitle: Text(
-                          'Hey wanna see the image? heres a puzzle!',
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.grey[600],
-                          ),
-                        ),
-                      );
-                    },
-                  );
+                }
+                return Container(width: 0,height: 0,);
+               }
+               ),
+              StreamBuilder(stream: FirebaseFirestore.instance.collection('Users').snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                    if(snapshot.hasError){
+                      return Text("${snapshot.error}");
+                    }
+                    if(snapshot.connectionState==ConnectionState.waiting){
+                      return Text('Loading:');
+                    }
 
-                })
+                    return ListView.separated(
+                      separatorBuilder: (context, index) => Divider(
+                        color: Colors.grey[800],
+                      ),
+                      itemCount: chats.length,
+                      itemBuilder: (BuildContext context, int index){
+                        print(words[index]);
+                        var names=[];
+                        String here;
+                        snapshot.data.docs.map((e) => names.add(e["name"])).toList();
+                        return ListTile(
+                          onTap: (){
+                            passedChatName=names[index];
+                            passedid=words[index];
+                            Navigator.of(context).pushNamed('/Chat');
+                          },
+                          leading: CircleAvatar(backgroundColor: Colors.greenAccent[400]),
+                          trailing: Icon(
+                            Icons.east_outlined,
+                            color: Colors.purple[900],
+                          ),
+                          title: Text(names[index], style: TextStyle(color: Colors.black)),
+                          subtitle: Text(
+                            'Hey wanna see the image? heres a puzzle!',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+
+                  }),
+
           ],
         )
 
@@ -172,8 +194,5 @@ class Page1 extends StatelessWidget {
         ,
       ),
     );
-
-
-
   }
 }

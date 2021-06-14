@@ -77,7 +77,7 @@ class _directContactState extends State<directContact> {
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('Chat')
-                      .doc(user.uid + "-" + passedChatName)
+                      .doc(user.uid+"-"+passedid.toString().trim())
                       .collection("Messages")
                       .snapshots(),
                   builder: (BuildContext context,
@@ -263,17 +263,23 @@ class _directContactState extends State<directContact> {
   }
 
   Future sendmessage(bool isenc) async {
-    final DocumentReference userCollection = FirebaseFirestore.instance
-        .collection('Chat')
-        .doc(user.uid.toString() + "-" + passedid)
-        .collection("Messages")
+    final DocumentReference userCollection = FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString() + "-" + passedid.toString().trim());
+
+    Future addUserData() async {
+      await userCollection.set({'name':"text"});
+    }
+    addUserData();
+    final DocumentReference userCollection1 =
+        userCollection.collection("Messages")
         .doc(a.toString());
-    await userCollection.set({
+    await userCollection1.set({
       'message': message.text,
       'sender_id': user.uid.toString(),
       'isencrypted': isenc
     });
+
   }
+
 }
 
 class MessageArray {
