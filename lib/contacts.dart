@@ -134,7 +134,8 @@ class Page1 extends StatelessWidget {
                   print(i);
                   String temp=snapshot.data.docs.elementAt(i).id;
                   if(temp.contains(user.uid)){
-                    words.add(temp.split("-")[1]);
+                    if(temp.split("-")[0]==user.uid)words.add(temp.split("-")[1]);
+                      else words.add(temp.split("-")[0]);
                     chats.add(i);
                     print(chats);
                   }
@@ -159,12 +160,13 @@ class Page1 extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index){
                         print(words[index]);
                         var names=[];
-                        String here;
                         snapshot.data.docs.map((e) => names.add(e["name"])).toList();
                         return ListTile(
                           onTap: (){
                             passedChatName=names[index];
                             passedid=words[index];
+                            print(words[index]);
+                            print(passedid);
                             Navigator.of(context).pushNamed('/Chat');
                           },
                           leading: CircleAvatar(backgroundColor: Colors.greenAccent[400]),

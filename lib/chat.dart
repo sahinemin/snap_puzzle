@@ -77,7 +77,7 @@ class _directContactState extends State<directContact> {
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('Chat')
-                      .doc(user.uid+"-"+passedid.toString().trim())
+                      .doc(passedid.toString().trim()+"-"+user.uid)
                       .collection("Messages")
                       .snapshots(),
                   builder: (BuildContext context,
