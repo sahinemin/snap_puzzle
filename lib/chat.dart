@@ -263,20 +263,34 @@ class _directContactState extends State<directContact> {
   }
 
   Future sendmessage(bool isenc) async {
-    final DocumentReference userCollection = FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString() + "-" + passedid.toString().trim());
+    if(!alreadychatted){
+      final DocumentReference userCollection = FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString() + "-" + passedid.toString().trim());
 
-    Future addUserData() async {
-      await userCollection.set({'name':"text"});
+      Future addUserData() async {
+        await userCollection.set({'name':"text"});
+      }
+      addUserData();
     }
-    addUserData();
-    final DocumentReference userCollection1 =
-        userCollection.collection("Messages")
-        .doc(a.toString());
-    await userCollection1.set({
-      'message': message.text,
-      'sender_id': user.uid.toString(),
-      'isencrypted': isenc
+    try{
+      final DocumentReference userCollection1 =
+      FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString() + "-" + passedid.toString().trim()).collection("Messages")
+          .doc(a.toString());
+      await userCollection1.set({
+        'message': message.text,
+        'sender_id': user.uid.toString(),
+        'isencrypted': isenc
+      });
+    }catch(e){
+      final DocumentReference userCollection1 =
+      FirebaseFirestore.instance.collection('Chat').doc(passedid.toString().trim()+"-"+user.uid.toString()).collection("Messages")
+          .doc(a.toString());
+      await userCollection1.set({
+    'message': message.text,
+    'sender_id': user.uid.toString(),
+    'isencrypted': isenc
     });
+    }
+
 
   }
 

@@ -10,6 +10,7 @@ var passedChatName;
 var passedid;
 var chats=[];
 var words=[];
+bool alreadychatted=false;
 String passedindex;
 String message;
 class MainPage extends StatefulWidget {
@@ -134,6 +135,7 @@ class Page1 extends StatelessWidget {
                   print(i);
                   String temp=snapshot.data.docs.elementAt(i).id;
                   if(temp.contains(user.uid)){
+                    alreadychatted=true;
                     if(temp.split("-")[0]==user.uid)words.add(temp.split("-")[1]);
                       else words.add(temp.split("-")[0]);
                     chats.add(i);
