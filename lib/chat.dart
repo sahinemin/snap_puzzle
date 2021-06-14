@@ -271,25 +271,28 @@ class _directContactState extends State<directContact> {
       }
       addUserData();
     }
+    bool x= false;
+    String y;
     try{
+      y=user.uid.toString() + "-" + passedid.toString().trim();
       final DocumentReference userCollection1 =
       FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString() + "-" + passedid.toString().trim()).collection("Messages")
           .doc(a.toString());
-      await userCollection1.set({
-        'message': message.text,
-        'sender_id': user.uid.toString(),
-        'isencrypted': isenc
-      });
+
     }catch(e){
+      x =true;
+      y=passedid.toString().trim()+"-"+user.uid.toString();
       final DocumentReference userCollection1 =
       FirebaseFirestore.instance.collection('Chat').doc(passedid.toString().trim()+"-"+user.uid.toString()).collection("Messages")
           .doc(a.toString());
-      await userCollection1.set({
-    'message': message.text,
-    'sender_id': user.uid.toString(),
-    'isencrypted': isenc
-    });
     }
+
+    await FirebaseFirestore.instance.collection('Chat').doc(y).collection("Messages")
+        .doc(a.toString()).set({
+      'message': message.text,
+      'sender_id': user.uid.toString(),
+      'isencrypted': isenc
+    });
 
 
   }
