@@ -89,7 +89,7 @@ class _directContactState extends State<directContact> {
                       return Text('Loading:');
                     }
                     a = snapshot.data.size;
-                    print(user.uid + "-" + passedid.toString().trim());
+                    //print(user.uid + "-" + passedid.toString().trim());
                     //return ListView.separated(
                     //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
                     //);
@@ -98,7 +98,7 @@ class _directContactState extends State<directContact> {
                     snapshot.data.docs.map((doc) {
                       messagearr.add(MessageArray(doc['isencrypted'],
                           doc['message'], doc['sender_id']));
-                      print(doc['isencrypted']);
+                      //print(doc['isencrypted']);
                     }).toList();
                     return ListView.separated(
                       separatorBuilder: (context, index) => Divider(
@@ -243,6 +243,7 @@ class _directContactState extends State<directContact> {
                           onPressed: () async {
                             //sending the message,
                             //Added extra condition if its empty
+
                             if (message.text != '' || message.text.isNotEmpty) {
                               await sendmessage(isSwitcheden);
                               message.clear();
@@ -261,32 +262,45 @@ class _directContactState extends State<directContact> {
       ),
     );
   }
-
+  bool idfirst=false;
   Future sendmessage(bool isenc) async {
+    Stream <QuerySnapshot> snapshot2 =FirebaseFirestore.instance.collection('Chat').snapshots();
+    snapshot2.listen((event) {
+    for(int i=0; i<event.docs.length; i++){
+      if(event.docs.elementAt(i).toString()==user.uid.toString()+ "-" +passedid.toString().trim()){
+        alreadychatted=true;
+        idfirst=true;
+      }
+      else if(event.docs.elementAt(i).toString()==passedid.toString().trim()+"-"+user.uid.toString()){
+        alreadychatted=true;
+      }
+    }
+
+
+    });
+
+
+
+
+
+
     if(!alreadychatted){
       final DocumentReference userCollection = FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString() + "-" + passedid.toString().trim());
 
       Future addUserData() async {
         await userCollection.set({'name':"text"});
       }
-      addUserData();
+      await addUserData();
     }
-    bool x= false;
     String y;
-    try{
-      y=user.uid.toString() + "-" + passedid.toString().trim();
-      final DocumentReference userCollection1 =
-      FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString() + "-" + passedid.toString().trim()).collection("Messages")
-          .doc(a.toString());
-
-    }catch(e){
-      x =true;
-      y=passedid.toString().trim()+"-"+user.uid.toString();
-      final DocumentReference userCollection1 =
-      FirebaseFirestore.instance.collection('Chat').doc(passedid.toString().trim()+"-"+user.uid.toString()).collection("Messages")
-          .doc(a.toString());
+    if(idfirst){
+      y =user.uid.toString()+ "-" +passedid.toString().trim();
     }
-
+    else {
+      y=passedid.toString().trim()+"-"+user.uid.toString();
+    }
+    print (y);
+    
     await FirebaseFirestore.instance.collection('Chat').doc(y).collection("Messages")
         .doc(a.toString()).set({
       'message': message.text,

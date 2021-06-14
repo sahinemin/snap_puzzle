@@ -131,8 +131,8 @@ class Page1 extends StatelessWidget {
                 words.clear();
                 chats.clear();
                 for(int i=0;i<snapshot.data.size;i++){
-                  print(snapshot.data.docs.elementAt(i).id);
-                  print(i);
+                  //print(snapshot.data.docs.elementAt(i).id);
+                  //print(i);
                   String temp=snapshot.data.docs.elementAt(i).id;
                   if(temp.contains(user.uid)){
                     alreadychatted=true;
@@ -168,7 +168,7 @@ class Page1 extends StatelessWidget {
                             passedChatName=names[index];
                             passedid=words[index];
                             print(words[index]);
-                            print(passedid);
+                            //print(passedid);
                             Navigator.of(context).pushNamed('/Chat');
                           },
                           leading: CircleAvatar(backgroundColor: Colors.greenAccent[400]),
