@@ -58,6 +58,7 @@ class _FriendsState extends State<Friends> {
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 Friends.friends.clear();
+                Friends.friendsid.clear();
                 if (snapshot.connectionState == ConnectionState.waiting) {return Container(width: 0,height: 0,);}
                 if (snapshot.hasError) {return Container(width: 0,height: 0,);}
                 for (int i = 0; i < snapshot.data.docs.length; i++) {

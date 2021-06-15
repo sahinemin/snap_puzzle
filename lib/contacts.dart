@@ -10,7 +10,7 @@ var passedChatName;
 var passedid;
 var chats=[];
 var words=[];
-bool alreadychatted=false;
+
 String passedindex;
 String message;
 class MainPage extends StatefulWidget {
@@ -128,6 +128,12 @@ class Page1 extends StatelessWidget {
               StreamBuilder(
               stream: FirebaseFirestore.instance.collection('Chat').snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                if(snapshot.hasError){
+                  return Text("${snapshot.error}");
+                }
+                if(snapshot.connectionState==ConnectionState.waiting){
+                  return Text('Loading:');
+                }
                 words.clear();
                 chats.clear();
                 for(int i=0;i<snapshot.data.size;i++){
@@ -135,62 +141,60 @@ class Page1 extends StatelessWidget {
                   //print(i);
                   String temp=snapshot.data.docs.elementAt(i).id;
                   if(temp.contains(user.uid)){
-                    alreadychatted=true;
                     if(temp.split("-")[0]==user.uid)words.add(temp.split("-")[1]);
                       else words.add(temp.split("-")[0]);
                     chats.add(i);
-                    print(chats);
+                    //print(chats.toString()+"yazz");
                   }
                 }
-                return Container(width: 0,height: 0,);
+                return StreamBuilder(stream: FirebaseFirestore.instance.collection('Users').snapshots(),
+                    builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+                      if(snapshot.hasError){
+                        return Text("${snapshot.error}");
+                      }
+                      if(snapshot.connectionState==ConnectionState.waiting){
+                        return Text('Loading:');
+                      }
+
+                      return ListView.separated(
+                        separatorBuilder: (context, index) => Divider(
+                          color: Colors.grey[800],
+                        ),
+                        itemCount: chats.length,
+                        itemBuilder: (BuildContext context, int index){
+                          //print(words[index]);
+                          var names=[];
+                          snapshot.data.docs.map((e) => names.add(e["name"])).toList();
+                          return ListTile(
+                            onTap: (){
+                              passedChatName=names[index];
+                              passedid=words[index];
+                              //print(words[index]+"şurada");
+                              //print(passedid);
+                              //print (index.toString()+"kaç");
+                              Navigator.of(context).pushNamed('/Chat');
+                            },
+                            leading: CircleAvatar(backgroundColor: Colors.greenAccent[400]),
+                            trailing: Icon(
+                              Icons.east_outlined,
+                              color: Colors.purple[900],
+                            ),
+                            title: Text(names[index], style: TextStyle(color: Colors.black)),
+                            subtitle: Text(
+                              'Hey wanna see the image? heres a puzzle!',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                color: Colors.grey[600],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+
+                    });
                }
                ),
-              StreamBuilder(stream: FirebaseFirestore.instance.collection('Users').snapshots(),
-                  builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
-                    if(snapshot.hasError){
-                      return Text("${snapshot.error}");
-                    }
-                    if(snapshot.connectionState==ConnectionState.waiting){
-                      return Text('Loading:');
-                    }
-
-                    return ListView.separated(
-                      separatorBuilder: (context, index) => Divider(
-                        color: Colors.grey[800],
-                      ),
-                      itemCount: chats.length,
-                      itemBuilder: (BuildContext context, int index){
-                        print(words[index]);
-                        var names=[];
-                        snapshot.data.docs.map((e) => names.add(e["name"])).toList();
-                        return ListTile(
-                          onTap: (){
-                            passedChatName=names[index];
-                            passedid=words[index];
-                            print(words[index]);
-                            //print(passedid);
-                            Navigator.of(context).pushNamed('/Chat');
-                          },
-                          leading: CircleAvatar(backgroundColor: Colors.greenAccent[400]),
-                          trailing: Icon(
-                            Icons.east_outlined,
-                            color: Colors.purple[900],
-                          ),
-                          title: Text(names[index], style: TextStyle(color: Colors.black)),
-                          subtitle: Text(
-                            'Hey wanna see the image? heres a puzzle!',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              color: Colors.grey[600],
-                            ),
-                          ),
-                        );
-                      },
-                    );
-
-                  }),
-
           ],
         )
 
