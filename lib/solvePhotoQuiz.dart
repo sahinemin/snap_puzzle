@@ -24,7 +24,7 @@ class _SolvePhotoQuizState extends State<SolvePhotoQuiz> {
         .collection('PhotoQuiz')
         .doc('Normal')
         .collection('Results');
-    print(resultsCol.doc('.resultsDoc').toString());
+
     super.initState();
   }
   @override

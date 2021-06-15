@@ -9,6 +9,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:snap_puzzle/contacts.dart';
 import 'LogIn.dart';
 import 'contacts.dart';
+
+var _type;
+var _category;
+var _difficulty;
+
 int size;
 TextEditingController message = new TextEditingController();
 bool isSwitcheden = false;
@@ -22,8 +27,8 @@ class chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //print(passedid);
-    return MaterialApp(
-        debugShowCheckedModeBanner: false, home: directContact(chatName,friendid)
+    return Scaffold(
+        body: directContact(chatName,friendid)
         // home: DirectContact(contactName: "Contact Name"),
         );
   }
@@ -170,7 +175,9 @@ class _directContactState extends State<directContact> {
                                 child: Card(
                                   color: Colors.grey[100],
                                   child: TextButton(
-                                      child: Text('ENCRYPTED'), onPressed: () {}),
+                                      child: Text('ENCRYPTED'), onPressed: () {
+                                    Navigator.of(context).pushNamed('/SolvePhotoQuiz');
+                                  }),
                                 ),
                               );
                               //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft
@@ -233,6 +240,130 @@ class _directContactState extends State<directContact> {
                   ,
                 ),
               ),
+
+                isSwitcheden ?  Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(25,0,25,70),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 85,
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            focusColor: Colors.white,
+                            value: _type,
+                            //elevation: 5,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                            iconEnabledColor: Colors.black,
+                            items: <String>[
+                              'Text',
+                              'Photo',
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              );
+                            }).toList(),
+                            hint: Text(
+                              "Type",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            onChanged: (String value) {
+                              setState(() {
+                                _type = value;
+                              });
+                            },
+                          ),
+                        ),
+                        Container(
+                          width: 85,
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            focusColor: Colors.white,
+                            value: _category,
+                            //elevation: 5,
+                            style: TextStyle(color: Colors.white),
+                            iconEnabledColor: Colors.black,
+                            items: <String>[
+                              'Math',
+                              'History',
+                              'Science',
+                              'Computer',
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              );
+                            }).toList(),
+                            hint: Text(
+                              "Category",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            onChanged: (String value) {
+                              setState(() {
+                                _category = value;
+                              });
+                            },
+                          ),
+                        ),
+                        Container(
+                          width: 85,
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            focusColor: Colors.white,
+                            value: _difficulty,
+                            //elevation: 5,
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                            iconEnabledColor: Colors.black,
+                            items: <String>[
+                              'Easy',
+                              'Normal',
+                              'Hard',
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(
+                                  value,
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              );
+                            }).toList(),
+                            hint: Text(
+                              "Difficulty",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            onChanged: (String value) {
+                              setState(() {
+                                _difficulty = value;
+                              });
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ) : Container(),
                 Align(
                   // this is the chat part at the below
                   alignment: Alignment.bottomCenter,
