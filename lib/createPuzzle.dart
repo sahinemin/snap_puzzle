@@ -1,14 +1,5 @@
 import 'package:flutter/material.dart';
 
-final TextEditingController _descriptionController =
-new TextEditingController();
-final TextEditingController _selection1Controller = new TextEditingController();
-final TextEditingController _selection2Controller = new TextEditingController();
-final TextEditingController _selection3Controller = new TextEditingController();
-final TextEditingController _selection4Controller = new TextEditingController();
-
-var _answer = 1;
-
 class CreatePuzzle extends StatefulWidget {
   @override
   _CreatePuzzleState createState() => _CreatePuzzleState();

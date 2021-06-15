@@ -15,24 +15,32 @@ class TextQuiz {
       this.sel2, this.sel3, this.sel4, this.answer);
 
   void submit() {
-    FirebaseFirestore.instance
+
+    String docName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    var resultsCol = FirebaseFirestore.instance
         .collection('Puzzles')
         .doc(category)
         .collection(type)
         .doc(difficulty)
-        .collection('Results')
-        .add({
+        .collection('Results');
+
+    resultsCol.doc(docName).set({
+      '_createdOn' : FieldValue.serverTimestamp(),
       'desc': desc,
       'sel1': sel1,
       'sel2': sel2,
       'sel3': sel3,
       'sel4': sel4,
       'answer': answer
-    }).then((value) {
+    }, SetOptions(merge: false)).then((value) {
       print('submit success');
     }).catchError((onError) {
-      print('error');
+      print('submit error');
     });
+    resultsCol.doc('.resultsDoc').set({
+      docName : true,
+    }, SetOptions(merge: true));
   }
 }
 
@@ -47,13 +55,17 @@ class PhotoQuiz {
 
 
   void submit() {
-    FirebaseFirestore.instance
+    String docName = DateTime.now().millisecondsSinceEpoch.toString();
+
+    var resultsCol = FirebaseFirestore.instance
         .collection('Puzzles')
         .doc(category)
         .collection(type)
         .doc(difficulty)
-        .collection('Results')
-        .add(  {
+        .collection('Results');
+
+    resultsCol.doc(docName).set({
+      '_createdOn' : FieldValue.serverTimestamp(),
       'type': type,
       'category': category,
       'difficulty': difficulty,
@@ -64,5 +76,10 @@ class PhotoQuiz {
     }).catchError((onError) {
       print('error');
     });
+
+    resultsCol.doc('.resultsDoc').set({
+      docName : true,
+    }, SetOptions(merge: true));
   }
 }
+

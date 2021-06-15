@@ -15,6 +15,9 @@ import 'createPuzzle.dart';
 import 'createTextQuiz.dart';
 import 'settings.dart';
 import 'friends.dart';
+import 'solvePhotoQuiz.dart';
+import 'solveTextQuiz.dart';
+
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
     final args = settings.arguments;
@@ -47,6 +50,10 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => Friends());
       case '/addfriend' :
         return MaterialPageRoute(builder: (_) => addfriend());
+      case '/SolvePhotoQuiz' :
+        return MaterialPageRoute(builder: (_) => SolvePhotoQuiz());
+      case '/SolveTextQuiz' :
+        return MaterialPageRoute(builder: (_) => SolveTextQuiz());
     }
   }
 }
