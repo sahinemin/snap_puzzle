@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:snap_puzzle/LogIn.dart';
 import 'package:snap_puzzle/GoogleRegister.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
   runApp(profilescreen());
@@ -25,6 +26,27 @@ class profilescreen extends StatefulWidget {
 }
 
 class _profilescreenState extends State<profilescreen> {
+
+  CollectionReference getUserData = FirebaseFirestore.instance.collection('Users');
+  
+  Future<int> getUserScore() async {
+    var based = await getUserData.where('name', isEqualTo: profilescreen.fullname).get();
+    print('reached here');
+    List<dynamic> temp = [];
+    based.docs.forEach((doc) {
+      temp.add(doc['score']);
+    });
+    
+    int userScore = int.parse(temp[0]);
+    return userScore;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUserScore();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,7 +80,7 @@ class _profilescreenState extends State<profilescreen> {
                   height: 15,
                 ),
                 Text(
-                  'Username123',
+                  '${profilescreen.fullname}',
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                 ),
                 Text(
@@ -88,14 +110,29 @@ class _profilescreenState extends State<profilescreen> {
                           ],
                         ),
                         child: new Center(
-                          child: new Text(
-                            "1000 pts",
-                            style: TextStyle(
-                                color: Colors.redAccent[400],
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
+                          child: FutureBuilder(
+                                        future: getUserScore(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                              '${snapshot.data} pts',
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.roboto(
+                                                decoration: TextDecoration.none,
+                                                textStyle: TextStyle(
+                                                  color: Colors.redAccent[400],
+                                                ),
+                                                fontSize: MediaQuery.of(context)
+                                                        .textScaleFactor *
+                                                    14,
+                                                    fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          } else {
+                                            return Text('Loading...');
+                                          }
+                                        },
+                                      ),
                         )),
                   ),
                 ),
@@ -451,108 +488,194 @@ class StatisticsContainer extends StatelessWidget {
 }
 
 //Carousel for Badge
-class BadgeContainer extends StatelessWidget {
+class BadgeContainer extends StatefulWidget {
+  String userFullName;
+
+  BadgeContainer({Key key, this.userFullName}) : super(key: key);
+
+  @override
+  State<BadgeContainer> createState() => _BadgeContainerState();
+}
+
+class _BadgeContainerState extends State<BadgeContainer> {
+  int score = 1700;
+
+  CollectionReference getUserData = FirebaseFirestore.instance.collection('Users');
+
+  Future<int> getUserScore() async {
+    var based = await getUserData.where('name', isEqualTo: profilescreen.fullname).get();
+    List<dynamic> temp = [];
+    based.docs.forEach((doc) {
+      temp.add(doc['score']);
+    });
+    int userScore = int.parse(temp[0]);
+    return userScore;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getUserScore();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        margin: EdgeInsets.symmetric(horizontal: 5.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: 2.0, left: 20.0, right: 20.0),
-              child: Row(children: <Widget>[
-                Expanded(child: Divider()),
-                Text(
-                  'Badges',
-                  style: TextStyle(
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green.shade700),
+    return FutureBuilder(
+          future: getUserScore(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+          return Container(
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.symmetric(horizontal: 5.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(top: 2.0, left: 20.0, right: 20.0),
+                child: Row(children: <Widget>[
+                  Expanded(child: Divider()),
+                  Text(
+                    'Badges',
+                    style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green.shade700),
+                  ),
+                  Expanded(child: Divider()),
+                ]),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 4.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: score < 200
+                          ? Container()
+                          : Container(
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                              decoration: new BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/badge_wood.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: snapshot.data < 200
+                          ? Container()
+                          : Container(
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                              decoration: new BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/badge_bronze.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: snapshot.data < 500
+                          ? Container(
+                              color: Colors.transparent,
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                              decoration: new BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/badge_silver.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                    ),
+                  ],
                 ),
-                Expanded(child: Divider()),
-              ]),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 4.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.18,
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    decoration: new BoxDecoration(
-                      color: Colors.deepPurple,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.emoji_events_outlined,
-                        color: Colors.yellow, size: 60),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.18,
-                    height: MediaQuery.of(context).size.height * 0.14,
-                    decoration: new BoxDecoration(
-                      color: Colors.yellow,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.emoji_events_outlined,
-                        color: Colors.grey, size: 60),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.18,
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    decoration: new BoxDecoration(
-                      color: Colors.grey,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.emoji_events_outlined,
-                        color: Colors.brown, size: 60),
-                  ),
-                ],
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 7.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.18,
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    decoration: new BoxDecoration(
-                      color: Colors.blue,
-                      shape: BoxShape.circle,
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 7.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: snapshot.data < 700
+                          ? Container(
+                              color: Colors.transparent,
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                              decoration: new BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                  image:
+                                      AssetImage('assets/images/badge_gold.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
                     ),
-                    child: Icon(Icons.star,
-                        color: Colors.yellow, size: 60),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.18,
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    decoration: new BoxDecoration(
-                      color: Colors.orange,
-                      shape: BoxShape.circle,
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: snapshot.data < 1200
+                          ? Container(
+                              color: Colors.transparent,
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width * 0.19,
+                              height: MediaQuery.of(context).size.height * 0.12,
+                              decoration: new BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/badge_platinum.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
                     ),
-                    child: Icon(Icons.military_tech_outlined,
-                        color: Colors.yellow, size: 60),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.18,
-                    height: MediaQuery.of(context).size.height * 0.12,
-                    decoration: new BoxDecoration(
-                      color: Colors.green[200],
-                      shape: BoxShape.circle,
+                    Padding(
+                      padding: const EdgeInsets.all(0.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.18,
+                        height: MediaQuery.of(context).size.height * 0.11,
+                        decoration: new BoxDecoration(
+                          color: Colors.transparent,
+                        ),
+                      ),
                     ),
-                    child: Icon(Icons.military_tech_outlined,
-                        color: Colors.yellow, size: 60),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
-        ));
+            ],
+          ));
+                        } else {
+                          return Text('Loading...');
+                        }}
+        
+    );
   }
 }
