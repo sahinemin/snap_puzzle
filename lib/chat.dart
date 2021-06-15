@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:snap_puzzle/contacts.dart';
 import 'LogIn.dart';
 import 'contacts.dart';
-
+String _docname;
 var _type;
 var _category;
 var _difficulty;
@@ -260,8 +260,8 @@ class _directContactState extends State<directContact> {
                             ),
                             iconEnabledColor: Colors.black,
                             items: <String>[
-                              'Text',
-                              'Photo',
+                              'TextQuiz',
+                              'PhotoQuiz',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -458,6 +458,25 @@ class _directContactState extends State<directContact> {
     //print (a.toString());
 
     //print(alreadychatted);
+
+    if(isenc){
+      CollectionReference reference =FirebaseFirestore.instance.collection('Puzzles').doc(_category).collection(_type).doc(_difficulty).collection('Results');
+      reference.snapshots().listen((event) {_docname=event.docs.elementAt(Random().nextInt(event.docs.length)).id;print(_docname);}).toString();
+      await FirebaseFirestore.instance.collection('Chat').doc(k).
+      collection("Messages")
+          .doc(size.toString()).set({
+        'message': message.text,
+        'sender_id': user.uid.toString(),
+        'isencrypted': isenc,
+        'category':_category,
+        'type':_type,
+        'difficulty':_difficulty,
+        'docname':_docname
+
+      });
+
+    }
+    else{
       await FirebaseFirestore.instance.collection('Chat').doc(k).
       collection("Messages")
           .doc(size.toString()).set({
@@ -465,6 +484,8 @@ class _directContactState extends State<directContact> {
         'sender_id': user.uid.toString(),
         'isencrypted': isenc
       });
+    }
+
 
   }
 
