@@ -4,14 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:snap_puzzle/LogIn.dart';
+
 class SignUp extends StatefulWidget {
   const SignUp({Key key}) : super(key: key);
 
   @override
   _SignUpState createState() => _SignUpState();
 }
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final GlobalKey <FormState> _formKey2 = GlobalKey<FormState>();
+final GlobalKey<FormState> _formKey2 = GlobalKey<FormState>();
 final TextEditingController _emailController = TextEditingController();
 final TextEditingController _nameController = TextEditingController();
 final TextEditingController _schoolController = TextEditingController();
@@ -19,16 +21,19 @@ final TextEditingController _passwordController = TextEditingController();
 final GlobalKey<ScaffoldState> _scaffoldKey2 = GlobalKey<ScaffoldState>();
 
 class _SignUpState extends State<SignUp> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       key: _scaffoldKey2,
-      backgroundColor: Color(0xFF003942),
+      backgroundColor: Colors.greenAccent[700],
       appBar: AppBar(
-        title: Text('SnapPuzzle'),
-        backgroundColor: Colors.black,
+        title: Text(
+          'Sign Up to Snap Puzzle',
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.greenAccent[700],
       ),
       body: Container(
         child: Form(
@@ -36,7 +41,7 @@ class _SignUpState extends State<SignUp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children:<Widget> [
+            children: <Widget>[
               Container(
                   height: 60,
                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -45,23 +50,20 @@ class _SignUpState extends State<SignUp> {
                     color: Color(0x60FFFFFF),
                     borderRadius: new BorderRadius.all(Radius.circular(10)),
                   ),
-                  child:TextFormField(
+                  child: TextFormField(
                     controller: _nameController,
-                    validator: (String val){
-                      if(val.isEmpty){
+                    validator: (String val) {
+                      if (val.isEmpty) {
                         return "Please enter a name";
                       }
                       return null;
                     },
                     obscureText: false,
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                       hintText: "Full Name",
-                      hintStyle: TextStyle(
-                          color: Colors.white
-                      ),
-
+                      hintStyle: TextStyle(color: Colors.white),
                     ),
-                  ) ),
+                  )),
               Container(
                   height: 60,
                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -70,10 +72,10 @@ class _SignUpState extends State<SignUp> {
                     color: Color(0x60FFFFFF),
                     borderRadius: new BorderRadius.all(Radius.circular(10)),
                   ),
-                  child:TextFormField(
+                  child: TextFormField(
                     controller: _emailController,
-                    validator: (String val){
-                      if(val.isEmpty){
+                    validator: (String val) {
+                      if (val.isEmpty) {
                         return "Please enter an e-mail";
                       }
                       return null;
@@ -81,14 +83,9 @@ class _SignUpState extends State<SignUp> {
                     obscureText: false,
                     decoration: const InputDecoration(
                       hintText: "Email",
-                      hintStyle: TextStyle(
-                          color: Colors.white
-                      ),
+                      hintStyle: TextStyle(color: Colors.white),
                     ),
-
-
-                  ) ),
-
+                  )),
               Container(
                   height: 60,
                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -99,8 +96,8 @@ class _SignUpState extends State<SignUp> {
                   ),
                   child: TextFormField(
                     controller: _passwordController,
-                    validator: (String val){
-                      if(val.isEmpty){
+                    validator: (String val) {
+                      if (val.isEmpty) {
                         return "Please enter a password";
                       }
                       return null;
@@ -108,13 +105,8 @@ class _SignUpState extends State<SignUp> {
                     obscureText: true,
                     decoration: const InputDecoration(
                         hintText: " Password ",
-                        hintStyle:TextStyle(
-                            color: Colors.white
-                        )
-
-                    ),
-                  )
-              ),
+                        hintStyle: TextStyle(color: Colors.white)),
+                  )),
               Container(
                   height: 60,
                   padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -123,10 +115,10 @@ class _SignUpState extends State<SignUp> {
                     color: Color(0x60FFFFFF),
                     borderRadius: new BorderRadius.all(Radius.circular(10)),
                   ),
-                  child:TextFormField(
+                  child: TextFormField(
                     controller: _schoolController,
-                    validator: (String val){
-                      if(val.isEmpty){
+                    validator: (String val) {
+                      if (val.isEmpty) {
                         return "Please enter an e-mail";
                       }
                       return null;
@@ -134,70 +126,69 @@ class _SignUpState extends State<SignUp> {
                     obscureText: false,
                     decoration: const InputDecoration(
                       hintText: "School",
-                      hintStyle: TextStyle(
-                          color: Colors.white
-                      ),
+                      hintStyle: TextStyle(color: Colors.white),
                     ),
-
-
-                  ) ),
+                  )),
               Container(
                 height: 50,
                 alignment: Alignment.center,
-                margin: EdgeInsets.fromLTRB(150, 20, 150, 0),
+                margin: EdgeInsets.fromLTRB(140, 20, 140, 0),
                 decoration: new BoxDecoration(
-                  color: Color(0xFFE19600),
+                  color: Colors.redAccent[400],
                   borderRadius: new BorderRadius.all(Radius.circular(10)),
                 ),
                 child: FlatButton(
-                  child: Text('REGISTER',
+                  child: Text(
+                    'REGISTER',
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       color: Colors.white,
                     ),
                   ),
-                  onPressed: () async{
+                  onPressed: () async {
                     _Register();
                   },
                 ),
               )
             ],
-
           ),
-
-
-
         ),
       ),
     );
   }
-  Future <void> _Register() async {
-    try{final User user = (await _auth.createUserWithEmailAndPassword(email: _emailController.text.trim(), password: _passwordController.text.trim())).user;
-    if(user!=null){
-      if(!user.emailVerified){
-        await user.sendEmailVerification();
+
+  Future<void> _Register() async {
+    try {
+      final User user = (await _auth.createUserWithEmailAndPassword(
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim()))
+          .user;
+      if (user != null) {
+        if (!user.emailVerified) {
+          await user.sendEmailVerification();
+        }
+        await user.updateProfile(displayName: _nameController.text);
+        _auth.currentUser;
+        Navigator.of(context).pushNamed('/LogIn').then((value) {
+          setState(() {});
+        });
       }
-      await user.updateProfile(displayName: _nameController.text);
-      _auth.currentUser;
-      Navigator.of(context).pushNamed('/LogIn').then((value) {
-        setState(() {});
-      });
-    }}
-    catch(e){
+    } catch (e) {
       print(e.toString());
     }
-
   }
-
-
 }
 
 class DatabaseService {
-
   //DatabaseService(this.uid);
-  final DocumentReference userCollection = FirebaseFirestore.instance.collection('Users').doc(user.uid);
+  final DocumentReference userCollection =
+      FirebaseFirestore.instance.collection('Users').doc(user.uid);
   Future addUserData() async {
     print(user.metadata.toString());
-    await userCollection.set({'name': _nameController.text,'school': _schoolController.text,'score': 0.toString()});
+    await userCollection.set({
+      'name': _nameController.text,
+      'school': _schoolController.text,
+      'score': 0.toString()
+    });
   }
 }
