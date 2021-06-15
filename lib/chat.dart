@@ -1,28 +1,33 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snap_puzzle/contacts.dart';
 import 'LogIn.dart';
 import 'contacts.dart';
-String _docname;
-var _type;
-var _category;
-var _difficulty;
+import 'package:snap_puzzle/SendPuzzle.dart';
+import 'deneme.dart';
 
-int size;
+int a;
+bool isphoto=false;
+String docname;
+var type;
+var category;
+var difficulty;
 TextEditingController message = new TextEditingController();
 bool isSwitcheden = false;
 String k;
+File _file;
 class chat extends StatelessWidget {
   chat({this.chatName,this.friendid}) : super();
 
   String chatName;
   String friendid;
+
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +48,17 @@ class directContact extends StatefulWidget {
 }
 
 class _directContactState extends State<directContact> {
-  @override
 
+  @override
+  Future getImage(ImageSource source) async {
+    var image = await ImagePicker().getImage(source: source);
+    if (image != null) {
+      setState(() {
+        _file = File(image.path);
+        print(image.path+"mii");
+      });
+    }
+  }
   Widget build(BuildContext context) {
     bool _answer = false;
     return Scaffold(
@@ -90,11 +104,11 @@ class _directContactState extends State<directContact> {
             //print (x+"bende");
             String y=passedid.toString().trim()+"-"+user.uid.trim();
             //print (y+"bende");
-            print(snapshotx.data.docs.length);
+            //print(snapshotx.data.docs.length);
             bool alreadychatted=false;
             for(int i=0; i<snapshotx.data.docs.length; i++){
               String a=snapshotx.data.docs.elementAt(i).id.toString().trim();
-              print (a);
+              //print (a);
               if(a==x) {
                 alreadychatted=true;
                 idfirst=true;
@@ -110,7 +124,7 @@ class _directContactState extends State<directContact> {
                 k=x;
               }
 
-              print (k+"bakam");
+              //print (k+"bakam");
             }
             if(!alreadychatted){
               FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString().trim()+ "-" + passedid.toString().trim()).set({'name':"text"});
@@ -137,7 +151,7 @@ class _directContactState extends State<directContact> {
                       stream: FirebaseFirestore.instance
                           .collection('Chat')
                           .doc(k)
-                          .collection("Messages")
+                          .collection("Messages").orderBy("time",descending: false)
                           .snapshots(),
                       builder: (BuildContext context,
                           AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -147,7 +161,6 @@ class _directContactState extends State<directContact> {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return Text('Loading:');
                         }
-                        size = snapshot.data.size;
                         //print(user.uid + "-" + passedid.toString().trim());
                         //return ListView.separated(
                         //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
@@ -192,9 +205,8 @@ class _directContactState extends State<directContact> {
                                     color: Colors.green[400],
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: Text(
-                                          messagearr[index].message.toString(),
-                                          style: TextStyle(color: Colors.white,fontSize: 17)),
+                                      child: messagearr[index].message.toString()!="********////"?Text(messagearr[index].message.toString(),
+                                          style: TextStyle(color: Colors.white,fontSize: 17)):Container(child:Text('Fotoğraf')),
                                     ),
                                   ),
                                 ),
@@ -209,8 +221,8 @@ class _directContactState extends State<directContact> {
                                     color: Colors.green[400],
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: Text(messagearr[index].message.toString(),
-                                          style: TextStyle(color: Colors.white,fontSize: 17)),
+                                      child: messagearr[index].message.toString()!="********////"?Text(messagearr[index].message.toString(),
+                                          style: TextStyle(color: Colors.white,fontSize: 17)):Container(child:Text('Fotoğraf')),
                                     ),
                                   ),
                                 ),
@@ -249,11 +261,11 @@ class _directContactState extends State<directContact> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 85,
+                          width: 100,
                           child: DropdownButton<String>(
                             isExpanded: true,
                             focusColor: Colors.white,
-                            value: _type,
+                            value: type,
                             //elevation: 5,
                             style: TextStyle(
                               color: Colors.white,
@@ -262,6 +274,7 @@ class _directContactState extends State<directContact> {
                             items: <String>[
                               'TextQuiz',
                               'PhotoQuiz',
+                              'PuzzleQuiz',
                             ].map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -280,17 +293,17 @@ class _directContactState extends State<directContact> {
                             ),
                             onChanged: (String value) {
                               setState(() {
-                                _type = value;
+                                type = value;
                               });
                             },
                           ),
                         ),
-                        Container(
-                          width: 85,
+                        type !='PuzzleQuiz'?Container(
+                          width: 100,
                           child: DropdownButton<String>(
                             isExpanded: true,
                             focusColor: Colors.white,
-                            value: _category,
+                            value: category,
                             //elevation: 5,
                             style: TextStyle(color: Colors.white),
                             iconEnabledColor: Colors.black,
@@ -317,17 +330,17 @@ class _directContactState extends State<directContact> {
                             ),
                             onChanged: (String value) {
                               setState(() {
-                                _category = value;
+                                category = value;
                               });
                             },
                           ),
-                        ),
+                        ):Container(width: 0,height: 0,),
                         Container(
-                          width: 85,
+                          width: 100,
                           child: DropdownButton<String>(
                             isExpanded: true,
                             focusColor: Colors.white,
-                            value: _difficulty,
+                            value: difficulty,
                             //elevation: 5,
                             style: TextStyle(
                               color: Colors.white,
@@ -355,7 +368,7 @@ class _directContactState extends State<directContact> {
                             ),
                             onChanged: (String value) {
                               setState(() {
-                                _difficulty = value;
+                                difficulty = value;
                               });
                             },
                           ),
@@ -386,7 +399,42 @@ class _directContactState extends State<directContact> {
                               color: Colors.transparent,
                               child: Center(
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    showModalBottomSheet(context: context,
+                                        builder: (BuildContext context) {
+                                          return SafeArea(
+                                            child: new Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                new ListTile(
+                                                  leading: new Icon(Icons.camera),
+                                                  title: new Text('Camera'),
+                                                  onTap: ()async {
+                                                    await getImage(ImageSource.camera);
+                                                    print(_file.path.toString()+"baksana");
+                                                    // this is how you dismiss the modal bottom sheet after making a choice
+                                                    Navigator.push(context, MaterialPageRoute(builder: (_) => deneme(file:_file )));
+                                                  },
+                                                ),
+                                                new ListTile(
+                                                  leading: new Icon(Icons.image),
+                                                  title: new Text('Gallery'),
+                                                  onTap: () async{
+                                                    await getImage(ImageSource.gallery);
+                                                    print(_file.path.toString()+"baksana");
+                                                    // dismiss the modal sheet
+                                                    Navigator.push(context, MaterialPageRoute(builder: (_) => deneme(file:_file )));
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                    );
+
+
+
+                                  },
                                   splashRadius: 18,
                                   icon: Padding(
                                     padding: EdgeInsets.only(bottom: 3),
@@ -452,37 +500,79 @@ class _directContactState extends State<directContact> {
     );
   }
   bool idfirst=false;
-  Future sendmessage(bool isenc) async {
+
+   Future sendmessage(bool isenc) async {
     //Stream <QuerySnapshot> snapshot2 =FirebaseFirestore.instance.collection('Chat').snapshots();
     //var a= await snapshot2.toList();
     //print (a.toString());
 
     //print(alreadychatted);
 
+    if(difficulty=='Easy')
+      a=2;
+    else if(difficulty=='Normal')
+      a=3;
+    else
+      a=4;
+
     if(isenc){
-      CollectionReference reference =FirebaseFirestore.instance.collection('Puzzles').doc(_category).collection(_type).doc(_difficulty).collection('Results');
-      reference.snapshots().listen((event) {_docname=event.docs.elementAt(Random().nextInt(event.docs.length)).id;print(_docname);}).toString();
-      await FirebaseFirestore.instance.collection('Chat').doc(k).
-      collection("Messages")
-          .doc(size.toString()).set({
-        'message': message.text,
-        'sender_id': user.uid.toString(),
-        'isencrypted': isenc,
-        'category':_category,
-        'type':_type,
-        'difficulty':_difficulty,
-        'docname':_docname
+      if(type!="PuzzleQuiz") {
+        CollectionReference reference = FirebaseFirestore.instance.collection(
+            'Puzzles').doc(category).collection(type)
+            .doc(difficulty)
+            .collection('Results');
+        reference.snapshots().listen((event) {
+          docname = event.docs
+              .elementAt(Random().nextInt(event.docs.length))
+              .id;
+          //print(_docname+"bakk");
+        }).toString();
+        await FirebaseFirestore.instance.collection('Chat').doc(k).
+        collection("Messages")
+            .doc().set({
+          'message': message.text,
+          'sender_id': user.uid.toString(),
+          'isencrypted': isenc,
+          'category': category,
+          'type': type,
+          'difficulty': difficulty,
+          'docname': docname,
+          'time': FieldValue.serverTimestamp()
+        });
+      }
+      else {
+        CollectionReference reference = FirebaseFirestore.instance.collection(
+            'Puzzles').doc('photo').collection(a.toString());
+        int randomsayi;
 
-      });
+        reference.snapshots().listen((event) {
+          print(event.docs.length.toString()+"şş");
+          randomsayi=Random().nextInt(event.docs.length);
+        docname=event.docs.elementAt(randomsayi).id;
 
+        }).toString();
+
+
+        await FirebaseFirestore.instance.collection('Chat').doc(k).
+        collection("Messages")
+            .doc().set({
+          'message': message.text,
+          'sender_id': user.uid.toString(),
+          'isencrypted': isenc,
+          'docname': docname,
+          'difficulty': difficulty,
+          'time': FieldValue.serverTimestamp()
+        });
+      }
     }
     else{
       await FirebaseFirestore.instance.collection('Chat').doc(k).
       collection("Messages")
-          .doc(size.toString()).set({
+          .doc().set({
         'message': message.text,
         'sender_id': user.uid.toString(),
-        'isencrypted': isenc
+        'isencrypted': isenc,
+        'time':FieldValue.serverTimestamp()
       });
     }
 

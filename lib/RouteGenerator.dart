@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:snap_puzzle/GoogleRegister.dart';
 import 'package:snap_puzzle/Scoreboard.dart';
+import 'package:snap_puzzle/SendPuzzle.dart';
 import 'package:snap_puzzle/SignUp.dart';
 import 'package:snap_puzzle/addfriend.dart';
 import 'package:snap_puzzle/classroom.dart';
@@ -17,6 +18,7 @@ import 'settings.dart';
 import 'friends.dart';
 import 'solvePhotoQuiz.dart';
 import 'solveTextQuiz.dart';
+import 'package:snap_puzzle/deneme.dart';
 
 class RouteGenerator{
   static Route<dynamic> generateRoute(RouteSettings settings){
@@ -42,6 +44,8 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => SettingsPage());
       case '/CreatePuzzle' :
         return MaterialPageRoute(builder: (_) => CreatePuzzle());
+      case '/SendPuzzle' :
+        return MaterialPageRoute(builder: (_) => SendPuzzle());
       case '/CreateTextQuiz' :
         return MaterialPageRoute(builder: (_) => CreateTextQuiz());
       case '/CreatePhotoQuiz' :
@@ -54,6 +58,7 @@ class RouteGenerator{
         return MaterialPageRoute(builder: (_) => SolvePhotoQuiz());
       case '/SolveTextQuiz' :
         return MaterialPageRoute(builder: (_) => SolveTextQuiz());
+
     }
   }
 }

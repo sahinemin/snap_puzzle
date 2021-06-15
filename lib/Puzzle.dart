@@ -82,4 +82,27 @@ class PhotoQuiz {
     }, SetOptions(merge: true));
   }
 }
+class PuzzleQuiz {
+  String difficulty;
+  String url;
 
+  PuzzleQuiz(this.difficulty, this.url);
+
+
+  void submit() {
+    int a;
+    if(difficulty=='Easy')
+      a=2;
+    else if(difficulty=='Normal')
+      a=3;
+    else
+      a=4;
+    FirebaseFirestore.instance
+        .collection('Puzzles')
+        .doc('photo').set({'name':"süs olsun"});
+    FirebaseFirestore.instance
+        .collection('Puzzles')
+        .doc('photo').collection(a.toString()).add({'url': url, 'difficulty': a.toString()});
+  }
+
+}
