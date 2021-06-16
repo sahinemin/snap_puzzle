@@ -7,8 +7,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'contacts.dart';
 import 'dart:math';
 import 'LogIn.dart';
-
-var url;
+var dosyaadi;
+String url;
 class deneme extends StatefulWidget {
   final File file;
   const deneme({Key key, this.file}) : super(key: key);
@@ -25,12 +25,15 @@ class _denemeState extends State<deneme> {
         body: widget.file!=null ?Image.file(widget.file):Text('boş'),
         floatingActionButton: FloatingActionButton(backgroundColor:Colors.redAccent[200],child:Icon(Icons.upload_sharp),
           onPressed: ()async{
-           url = widget.file.path.split('/').elementAt(widget.file.path.split('/').length-1).toString();
+           dosyaadi = widget.file.path.split('/').elementAt(widget.file.path.split('/').length-1).toString();
           try {
-            final ref = FirebaseStorage.instance.ref(url);
+            final ref = FirebaseStorage.instance.ref(dosyaadi);
             await ref.putFile(widget.file);
             isphoto=true;
+            //gelenresimurl.add(await ref.getDownloadURL());
+            url=await ref.getDownloadURL();
             await sendmessage(isSwitcheden);
+
           }
           catch(e){
             print(e.toString());
@@ -49,7 +52,7 @@ Future sendmessage(bool isenc) async {
           'message': "********////",
           'sender_id': user.uid.toString(),
           'url': url,
-          'time': FieldValue.serverTimestamp()
+          'time': FieldValue.serverTimestamp(),
         });
 
       }

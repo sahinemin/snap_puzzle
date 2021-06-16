@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +12,13 @@ import 'LogIn.dart';
 import 'contacts.dart';
 import 'package:snap_puzzle/SendPuzzle.dart';
 import 'deneme.dart';
-
+import 'package:firebase_storage/firebase_storage.dart';
+int sayac=0;
+String check;
 int a;
 bool isphoto=false;
 String docname;
+var gelenresimurl=[];
 var type;
 var category;
 var difficulty;
@@ -140,7 +144,7 @@ class _directContactState extends State<directContact> {
               //
               // print (y+"hangisi");
             }
-
+            gelenresimurl=[];
             return Stack(
               children:[Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -154,7 +158,8 @@ class _directContactState extends State<directContact> {
                           .collection("Messages").orderBy("time",descending: false)
                           .snapshots(),
                       builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                          AsyncSnapshot<QuerySnapshot> snapshot){
+
                         if (snapshot.hasError) {
                           return Text("${snapshot.error}");
                         }
@@ -167,17 +172,28 @@ class _directContactState extends State<directContact> {
                         //);
 
                         List<MessageArray> messagearr = [];
+                        gelenresimurl.clear();
                         snapshot.data.docs.map((doc) {
                           messagearr.add(MessageArray(doc['isencrypted'],
-                              doc['message'], doc['sender_id']));
+                              doc['message'], doc['sender_id']),
+                          );
+                          if(doc['message']=="********////"){
+                            gelenresimurl.add(doc['url']);
+                            //print(doc['url']);
+
+                          }
+
                           //print(doc['isencrypted']);
                         }).toList();
+                        print(gelenresimurl);
                         return ListView.separated(
                           separatorBuilder: (context, index) => Divider(
                             color: Colors.white,
                           ),
                           itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) {
+                            check= messagearr[index].message;
+                            //print(check!="********////");
                             /*if(messagearr[index].sender_id==user.uid){
                         }*/
                             if (messagearr[index].isenc &&
@@ -197,6 +213,8 @@ class _directContactState extends State<directContact> {
                               //return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
                             } else if (messagearr[index].isenc &&
                                 messagearr[index].sender_id == user.uid) {
+                              //print(gelenresimurl);
+
                               return Align(
                                 alignment: Alignment.bottomRight,
                                 child: Padding(
@@ -205,14 +223,13 @@ class _directContactState extends State<directContact> {
                                     color: Colors.green[400],
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: messagearr[index].message.toString()!="********////"?Text(messagearr[index].message.toString(),
-                                          style: TextStyle(color: Colors.white,fontSize: 17)):Container(child:Text('Fotoğraf')),
-                                    ),
+                                      child: Container()//duzenle(index: index)
                                   ),
                                 ),
-                              );
+                              ));
                             } else  if(!messagearr[index].isenc &&
                                 messagearr[index].sender_id == user.uid){
+                              //print(gelenresimurl);
                               return Align(
                                 alignment: Alignment.bottomRight,
                                 child: Padding(
@@ -221,8 +238,7 @@ class _directContactState extends State<directContact> {
                                     color: Colors.green[400],
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
-                                      child: messagearr[index].message.toString()!="********////"?Text(messagearr[index].message.toString(),
-                                          style: TextStyle(color: Colors.white,fontSize: 17)):Container(child:Text('Fotoğraf')),
+                                      child:duzenle(index: index,)
                                     ),
                                   ),
                                 ),
@@ -411,7 +427,7 @@ class _directContactState extends State<directContact> {
                                                   title: new Text('Camera'),
                                                   onTap: ()async {
                                                     await getImage(ImageSource.camera);
-                                                    print(_file.path.toString()+"baksana");
+                                                    //print(_file.path.toString()+"baksana");
                                                     // this is how you dismiss the modal bottom sheet after making a choice
                                                     Navigator.push(context, MaterialPageRoute(builder: (_) => deneme(file:_file )));
                                                   },
@@ -525,7 +541,7 @@ class _directContactState extends State<directContact> {
           docname = event.docs
               .elementAt(Random().nextInt(event.docs.length))
               .id;
-          //print(_docname+"bakk");
+          print(docname+"bakk");
         }).toString();
         await FirebaseFirestore.instance.collection('Chat').doc(k).
         collection("Messages")
@@ -580,6 +596,34 @@ class _directContactState extends State<directContact> {
   }
 
 }
+
+class duzenle extends StatelessWidget {
+  final int index;
+  const duzenle({Key key, this.index}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    //print(index);
+    if(check=="********////"){
+      int simdi=index;
+        simdi = index-sayac;
+      print(simdi);
+      return Container(width:200,height: 200,child:Image.network(gelenresimurl[simdi],
+        errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
+          return Icon(Icons.do_not_disturb);
+        },
+      ));
+    }
+    else{
+      sayac++;
+      return Text(check, style: TextStyle(color: Colors.white,fontSize: 17));
+
+    }
+
+  }
+}
+
+
 
 class MessageArray {
   bool isenc;
