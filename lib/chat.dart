@@ -13,12 +13,13 @@ import 'contacts.dart';
 import 'package:snap_puzzle/SendPuzzle.dart';
 import 'deneme.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-int sayac=0;
+
+int sayac = 0;
 String check;
 int a;
-bool isphoto=false;
+bool isphoto = false;
 String docname;
-var gelenresimurl=[];
+var gelenresimurl = [];
 var type;
 var category;
 var difficulty;
@@ -26,20 +27,19 @@ TextEditingController message = new TextEditingController();
 bool isSwitcheden = false;
 String k;
 File _file;
+
 class chat extends StatelessWidget {
-  chat({this.chatName,this.friendid}) : super();
+  chat({this.chatName, this.friendid}) : super();
 
   String chatName;
   String friendid;
 
-
   @override
   Widget build(BuildContext context) {
     //print(passedid);
-    return Scaffold(
-        body: directContact(chatName,friendid)
-      // home: DirectContact(contactName: "Contact Name"),
-    );
+    return Scaffold(body: directContact(chatName, friendid)
+        // home: DirectContact(contactName: "Contact Name"),
+        );
   }
 }
 
@@ -52,17 +52,17 @@ class directContact extends StatefulWidget {
 }
 
 class _directContactState extends State<directContact> {
-
   @override
   Future getImage(ImageSource source) async {
     var image = await ImagePicker().getImage(source: source);
     if (image != null) {
       setState(() {
         _file = File(image.path);
-        print(image.path+"mii");
+        print(image.path + "mii");
       });
     }
   }
+
   Widget build(BuildContext context) {
     bool _answer = false;
     return Scaffold(
@@ -92,307 +92,335 @@ class _directContactState extends State<directContact> {
         ),
       ),
       body: Container(
-        child:
-        StreamBuilder(stream:FirebaseFirestore.instance.collection('Chat').snapshots() ,builder: (BuildContext context,
-            AsyncSnapshot<QuerySnapshot> snapshotx){
-          if (snapshotx.hasError) {
-            return Text("${snapshotx.error}");
-          }
-          if (snapshotx.connectionState == ConnectionState.waiting) {
-            return Text('Loading:');
-          }
-          //if(!snapshotx.hasData)
-          //return Text('Bekle');
-          //print(passedid+"bakalım");
-          String x=user.uid.trim()+"-"+passedid.toString().trim();
-          //print (x+"bende");
-          String y=passedid.toString().trim()+"-"+user.uid.trim();
-          //print (y+"bende");
-          //print(snapshotx.data.docs.length);
-          bool alreadychatted=false;
-          for(int i=0; i<snapshotx.data.docs.length; i++){
-            String a=snapshotx.data.docs.elementAt(i).id.toString().trim();
-            //print (a);
-            if(a==x) {
-              alreadychatted=true;
-              idfirst=true;
-              k = x;
-              break;
-            }
-            else if(a==y) {
-              alreadychatted=true;
-              k = y;
-              break;
-            }
-            else{
-              k=x;
-            }
+        child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('Chat').snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshotx) {
+              if (snapshotx.hasError) {
+                return Text("${snapshotx.error}");
+              }
+              if (snapshotx.connectionState == ConnectionState.waiting) {
+                return Text('Loading:');
+              }
+              //if(!snapshotx.hasData)
+              //return Text('Bekle');
+              //print(passedid+"bakalım");
+              String x = user.uid.trim() + "-" + passedid.toString().trim();
+              //print (x+"bende");
+              String y = passedid.toString().trim() + "-" + user.uid.trim();
+              //print (y+"bende");
+              //print(snapshotx.data.docs.length);
+              bool alreadychatted = false;
+              for (int i = 0; i < snapshotx.data.docs.length; i++) {
+                String a =
+                    snapshotx.data.docs.elementAt(i).id.toString().trim();
+                //print (a);
+                if (a == x) {
+                  alreadychatted = true;
+                  idfirst = true;
+                  k = x;
+                  break;
+                } else if (a == y) {
+                  alreadychatted = true;
+                  k = y;
+                  break;
+                } else {
+                  k = x;
+                }
 
-            //print (k+"bakam");
-          }
-          if(!alreadychatted){
-            FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString().trim()+ "-" + passedid.toString().trim()).set({'name':"text"});
-          }
-          else {
-
-            if (idfirst) {
-              k = user.uid.toString().trim() + "-" + passedid.toString().trim();
-            }
-            else {
-              k = passedid.toString().trim() + "-" + user.uid.toString().trim();
-            }
-            //
-            // print (y+"hangisi");
-          }
-          gelenresimurl=[];
-          return Stack(
-              children:[Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.only(bottom: 75),
-                  child: StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection('Chat')
-                          .doc(k)
-                          .collection("Messages").orderBy("time",descending: false)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot){
-
-                        if (snapshot.hasError) {
-                          return Text("${snapshot.error}");
-                        }
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return Text('Loading:');
-                        }
-                        //print(user.uid + "-" + passedid.toString().trim());
-                        //return ListView.separated(
-                        //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
-                        //);
-
-                        List<MessageArray> messagearr = [];
-                        gelenresimurl.clear();
-                        snapshot.data.docs.map((doc) {
-                          messagearr.add(MessageArray(doc['isencrypted'],
-                              doc['message'], doc['sender_id']),
-                          );
-                          if(doc['message']=="********////"){
-                            gelenresimurl.add(doc['url']);
-                            //print(doc['url']);
-
+                //print (k+"bakam");
+              }
+              if (!alreadychatted) {
+                FirebaseFirestore.instance
+                    .collection('Chat')
+                    .doc(user.uid.toString().trim() +
+                        "-" +
+                        passedid.toString().trim())
+                    .set({'name': "text"});
+              } else {
+                if (idfirst) {
+                  k = user.uid.toString().trim() +
+                      "-" +
+                      passedid.toString().trim();
+                } else {
+                  k = passedid.toString().trim() +
+                      "-" +
+                      user.uid.toString().trim();
+                }
+                //
+                // print (y+"hangisi");
+              }
+              gelenresimurl = [];
+              return Stack(children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.only(bottom: 75),
+                    child: StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection('Chat')
+                            .doc(k)
+                            .collection("Messages")
+                            .orderBy("time", descending: false)
+                            .snapshots(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text("${snapshot.error}");
                           }
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Text('Loading:');
+                          }
+                          //print(user.uid + "-" + passedid.toString().trim());
+                          //return ListView.separated(
+                          //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
+                          //);
 
-                          //print(doc['isencrypted']);
-                        }).toList();
-                        print(gelenresimurl);
-                        return ListView.separated(
-                          separatorBuilder: (context, index) => Divider(
-                            color: Colors.white,
-                          ),
-                          itemCount: snapshot.data.docs.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            check= messagearr[index].message;
-                            //print(check!="********////");
-                            /*if(messagearr[index].sender_id==user.uid){
+                          List<MessageArray> messagearr = [];
+                          gelenresimurl.clear();
+                          snapshot.data.docs.map((doc) {
+                            messagearr.add(
+                              MessageArray(doc['isencrypted'], doc['message'],
+                                  doc['sender_id']),
+                            );
+                            if (doc['message'] == "********////") {
+                              gelenresimurl.add(doc['url']);
+                              //print(doc['url']);
+
+                            }
+
+                            //print(doc['isencrypted']);
+                          }).toList();
+                          print(gelenresimurl);
+                          return ListView.separated(
+                            separatorBuilder: (context, index) => Divider(
+                              color: Colors.white,
+                            ),
+                            itemCount: snapshot.data.docs.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              check = messagearr[index].message;
+                              //print(check!="********////");
+                              /*if(messagearr[index].sender_id==user.uid){
                         }*/
-                            if (messagearr[index].isenc &&
-                                messagearr[index].sender_id != user.uid) {
-                              return Container(
-                                width: 10,
-                                alignment: Alignment.bottomLeft,
-                                child: Card(
-                                  color: Colors.grey[100],
-                                  child: TextButton(
-                                      child: Text('ENCRYPTED'), onPressed: () {
-                                    Navigator.of(context).pushNamed('/SolvePhotoQuiz');
-                                  }),
-                                ),
-                              );
-                              //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft
-                              //return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
-                            } else if (messagearr[index].isenc &&
-                                messagearr[index].sender_id == user.uid) {
-                              //print(gelenresimurl);
+                              if (messagearr[index].isenc &&
+                                  messagearr[index].sender_id != user.uid) {
+                                return Container(
+                                  width: 10,
+                                  alignment: Alignment.bottomLeft,
+                                  child: Card(
+                                    color: Colors.grey[100],
+                                    child: TextButton(
+                                        child: Text('ENCRYPTED'),
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pushNamed('/SolvePhotoQuiz');
+                                        }),
+                                  ),
+                                );
+                                //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft
+                                //return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
+                              } else if (messagearr[index].isenc &&
+                                  messagearr[index].sender_id == user.uid) {
+                                //print(gelenresimurl);
 
-                              return Align(
+                                return Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 55.0),
+                                      child: Card(
+                                        color: Colors.green[400],
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(10.0),
+                                            child:
+                                                Container() //duzenle(index: index)
+                                            ),
+                                      ),
+                                    ));
+                              } else if (!messagearr[index].isenc &&
+                                  messagearr[index].sender_id == user.uid) {
+                                //print(gelenresimurl);
+                                return Align(
                                   alignment: Alignment.bottomRight,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:55.0),
+                                    padding: const EdgeInsets.only(left: 55.0),
                                     child: Card(
                                       color: Colors.green[400],
                                       child: Padding(
                                           padding: const EdgeInsets.all(10.0),
-                                          child: Container()//duzenle(index: index)
+                                          child: duzenle(
+                                            index: index,
+                                          )),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 50.0),
+                                    child: Card(
+                                      color: Colors.grey[100],
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: Text(
+                                            messagearr[index]
+                                                .message
+                                                .toString(),
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 17)),
                                       ),
                                     ),
-                                  ));
-                            } else  if(!messagearr[index].isenc &&
-                                messagearr[index].sender_id == user.uid){
-                              //print(gelenresimurl);
-                              return Align(
-                                alignment: Alignment.bottomRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:55.0),
-                                  child: Card(
-                                    color: Colors.green[400],
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child:duzenle(index: index,)
-                                    ),
                                   ),
-                                ),
-                              );
-                            } else {
-                              return Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right:50.0),
-                                  child: Card(
-                                    color: Colors.grey[100],
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Text(messagearr[index].message.toString(),
-                                          style: TextStyle(color: Colors.black,fontSize: 17)),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                          },
-                        );
-                      })
-
-                  //insert the messaging part here
-
-                  ,
-                ),
-              ),
-
-                isSwitcheden ?  Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(25,0,25,70),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 100,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: type,
-                            //elevation: 5,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            iconEnabledColor: Colors.black,
-                            items: <String>[
-                              'TextQuiz',
-                              'PhotoQuiz',
-                              'PuzzleQuiz',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "Type",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onChanged: (String value) {
-                              setState(() {
-                                type = value;
-                              });
+                                );
+                              }
                             },
-                          ),
-                        ),
-                        type !='PuzzleQuiz'?Container(
-                          width: 100,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: category,
-                            //elevation: 5,
-                            style: TextStyle(color: Colors.white),
-                            iconEnabledColor: Colors.black,
-                            items: <String>[
-                              'Math',
-                              'History',
-                              'Science',
-                              'Computer',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "Category",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onChanged: (String value) {
-                              setState(() {
-                                category = value;
-                              });
-                            },
-                          ),
-                        ):Container(width: 0,height: 0,),
-                        Container(
-                          width: 100,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: difficulty,
-                            //elevation: 5,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            iconEnabledColor: Colors.black,
-                            items: <String>[
-                              'Easy',
-                              'Normal',
-                              'Hard',
-                            ].map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(
-                                  value,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              );
-                            }).toList(),
-                            hint: Text(
-                              "Difficulty",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onChanged: (String value) {
-                              setState(() {
-                                difficulty = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                          );
+                        })
+
+                    //insert the messaging part here
+
+                    ,
                   ),
-                ) : Container(),
+                ),
+                isSwitcheden
+                    ? Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(25, 0, 25, 70),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 100,
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  focusColor: Colors.white,
+                                  value: type,
+                                  //elevation: 5,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  iconEnabledColor: Colors.black,
+                                  items: <String>[
+                                    'TextQuiz',
+                                    'PhotoQuiz',
+                                    'PuzzleQuiz',
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  hint: Text(
+                                    "Type",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  onChanged: (String value) {
+                                    setState(() {
+                                      type = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              type != 'PuzzleQuiz'
+                                  ? Container(
+                                      width: 100,
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        focusColor: Colors.white,
+                                        value: category,
+                                        //elevation: 5,
+                                        style: TextStyle(color: Colors.white),
+                                        iconEnabledColor: Colors.black,
+                                        items: <String>[
+                                          'Math',
+                                          'History',
+                                          'Science',
+                                          'Computer',
+                                        ].map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        hint: Text(
+                                          "Category",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        onChanged: (String value) {
+                                          setState(() {
+                                            category = value;
+                                          });
+                                        },
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 0,
+                                      height: 0,
+                                    ),
+                              Container(
+                                width: 100,
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  focusColor: Colors.white,
+                                  value: difficulty,
+                                  //elevation: 5,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  iconEnabledColor: Colors.black,
+                                  items: <String>[
+                                    'Easy',
+                                    'Normal',
+                                    'Hard',
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  hint: Text(
+                                    "Difficulty",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  onChanged: (String value) {
+                                    setState(() {
+                                      difficulty = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Container(),
                 Align(
                   // this is the chat part at the below
                   alignment: Alignment.bottomCenter,
@@ -416,40 +444,55 @@ class _directContactState extends State<directContact> {
                               child: Center(
                                 child: IconButton(
                                   onPressed: () {
-                                    showModalBottomSheet(context: context,
+                                    showModalBottomSheet(
+                                        context: context,
                                         builder: (BuildContext context) {
                                           return SafeArea(
                                             child: new Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 new ListTile(
-                                                  leading: new Icon(Icons.camera),
+                                                  leading:
+                                                      new Icon(Icons.camera),
                                                   title: new Text('Camera'),
-                                                  onTap: ()async {
-                                                    await getImage(ImageSource.camera);
+                                                  onTap: () async {
+                                                    await getImage(
+                                                        ImageSource.camera);
                                                     //print(_file.path.toString()+"baksana");
                                                     // this is how you dismiss the modal bottom sheet after making a choice
-                                                    Navigator.push(context, MaterialPageRoute(builder: (_) => deneme(file:_file )));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                deneme(
+                                                                    file:
+                                                                        _file)));
                                                   },
                                                 ),
                                                 new ListTile(
-                                                  leading: new Icon(Icons.image),
+                                                  leading:
+                                                      new Icon(Icons.image),
                                                   title: new Text('Gallery'),
-                                                  onTap: () async{
-                                                    await getImage(ImageSource.gallery);
-                                                    print(_file.path.toString()+"baksana");
+                                                  onTap: () async {
+                                                    await getImage(
+                                                        ImageSource.gallery);
+                                                    print(
+                                                        _file.path.toString() +
+                                                            "baksana");
                                                     // dismiss the modal sheet
-                                                    Navigator.push(context, MaterialPageRoute(builder: (_) => deneme(file:_file )));
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                deneme(
+                                                                    file:
+                                                                        _file)));
                                                   },
                                                 ),
                                               ],
                                             ),
                                           );
-                                        }
-                                    );
-
-
-
+                                        });
                                   },
                                   splashRadius: 18,
                                   icon: Padding(
@@ -473,7 +516,8 @@ class _directContactState extends State<directContact> {
                               decoration: null,
                               controller: message,
                               cursorColor: Colors.lightBlue,
-                              style: TextStyle(fontSize: 18, color: Colors.black),
+                              style:
+                                  TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ),
                           Padding(
@@ -493,7 +537,8 @@ class _directContactState extends State<directContact> {
                                   //sending the message,
                                   //Added extra condition if its empty
 
-                                  if (message.text != '' || message.text.isNotEmpty) {
+                                  if (message.text != '' ||
+                                      message.text.isNotEmpty) {
                                     await sendmessage(isSwitcheden);
                                     message.clear();
                                     setState(() {});
@@ -507,15 +552,13 @@ class _directContactState extends State<directContact> {
                     ),
                   ),
                 ),
-              ]
-          );
-        }),
-
-
+              ]);
+            }),
       ),
     );
   }
-  bool idfirst=false;
+
+  bool idfirst = false;
 
   Future sendmessage(bool isenc) async {
     //Stream <QuerySnapshot> snapshot2 =FirebaseFirestore.instance.collection('Chat').snapshots();
@@ -524,28 +567,32 @@ class _directContactState extends State<directContact> {
 
     //print(alreadychatted);
 
-    if(difficulty=='Easy')
-      a=2;
-    else if(difficulty=='Normal')
-      a=3;
+    if (difficulty == 'Easy')
+      a = 2;
+    else if (difficulty == 'Normal')
+      a = 3;
     else
-      a=4;
+      a = 4;
 
-    if(isenc){
-      if(type!="PuzzleQuiz") {
-        CollectionReference reference = FirebaseFirestore.instance.collection(
-            'Puzzles').doc(category).collection(type)
+    if (isenc) {
+      if (type != "PuzzleQuiz") {
+        CollectionReference reference = FirebaseFirestore.instance
+            .collection('Puzzles')
+            .doc(category)
+            .collection(type)
             .doc(difficulty)
             .collection('Results');
         reference.snapshots().listen((event) {
-          docname = event.docs
-              .elementAt(Random().nextInt(event.docs.length))
-              .id;
-          print(docname+"bakk");
+          docname =
+              event.docs.elementAt(Random().nextInt(event.docs.length)).id;
+          print(docname + "bakk");
         }).toString();
-        await FirebaseFirestore.instance.collection('Chat').doc(k).
-        collection("Messages")
-            .doc().set({
+        await FirebaseFirestore.instance
+            .collection('Chat')
+            .doc(k)
+            .collection("Messages")
+            .doc()
+            .set({
           'message': message.text,
           'sender_id': user.uid.toString(),
           'isencrypted': isenc,
@@ -555,23 +602,25 @@ class _directContactState extends State<directContact> {
           'docname': docname,
           'time': FieldValue.serverTimestamp()
         });
-      }
-      else {
-        CollectionReference reference = FirebaseFirestore.instance.collection(
-            'Puzzles').doc('photo').collection(a.toString());
+      } else {
+        CollectionReference reference = FirebaseFirestore.instance
+            .collection('Puzzles')
+            .doc('photo')
+            .collection(a.toString());
         int randomsayi;
 
         reference.snapshots().listen((event) {
-          print(event.docs.length.toString()+"şş");
-          randomsayi=Random().nextInt(event.docs.length);
-          docname=event.docs.elementAt(randomsayi).id;
-
+          print(event.docs.length.toString() + "şş");
+          randomsayi = Random().nextInt(event.docs.length);
+          docname = event.docs.elementAt(randomsayi).id;
         }).toString();
 
-
-        await FirebaseFirestore.instance.collection('Chat').doc(k).
-        collection("Messages")
-            .doc().set({
+        await FirebaseFirestore.instance
+            .collection('Chat')
+            .doc(k)
+            .collection("Messages")
+            .doc()
+            .set({
           'message': message.text,
           'sender_id': user.uid.toString(),
           'isencrypted': isenc,
@@ -580,21 +629,20 @@ class _directContactState extends State<directContact> {
           'time': FieldValue.serverTimestamp()
         });
       }
-    }
-    else{
-      await FirebaseFirestore.instance.collection('Chat').doc(k).
-      collection("Messages")
-          .doc().set({
+    } else {
+      await FirebaseFirestore.instance
+          .collection('Chat')
+          .doc(k)
+          .collection("Messages")
+          .doc()
+          .set({
         'message': message.text,
         'sender_id': user.uid.toString(),
         'isencrypted': isenc,
-        'time':FieldValue.serverTimestamp()
+        'time': FieldValue.serverTimestamp()
       });
     }
-
-
   }
-
 }
 
 class duzenle extends StatelessWidget {
@@ -604,27 +652,28 @@ class duzenle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //print(index);
-    if(check=="********////"){
-      double simdi=index.toDouble();
-      simdi = (index-sayac-1)/2;
+    if (check == "********////") {
+      double simdi = index.toDouble();
+      simdi = (index - sayac - 1) / 2;
 
       print(simdi);
-      return Container(width:200,height: 200,child:Image.network(gelenresimurl[simdi.toInt()],
-        errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
-          return Icon(Icons.do_not_disturb);
-        },
-      ));
-    }
-    else{
-      sayac=0;
+      return Container(
+          width: 200,
+          height: 200,
+          child: Image.network(
+            gelenresimurl[simdi.toInt()],
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace stackTrace) {
+              return Icon(Icons.do_not_disturb);
+            },
+          ));
+    } else {
+      sayac = 0;
       sayac++;
-      return Text(check, style: TextStyle(color: Colors.white,fontSize: 17));
+      return Text(check, style: TextStyle(color: Colors.white, fontSize: 17));
     }
-
   }
 }
-
-
 
 class MessageArray {
   bool isenc;
