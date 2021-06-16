@@ -13,16 +13,21 @@ import 'contacts.dart';
 import 'package:snap_puzzle/SendPuzzle.dart';
 import 'deneme.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+var phuri;
 int sayac = 0;
 String check;
 int a;
 bool isphoto = false;
 String docname;
+var cat;
 var gelenresimurl = [];
 var type;
+var ty;
 var category;
 var difficulty;
+var dif;
+var docn;
+var phans;
 TextEditingController message = new TextEditingController();
 bool isSwitcheden = false;
 String k;
@@ -185,12 +190,25 @@ class _directContactState extends State<directContact> {
                               MessageArray(doc['isencrypted'], doc['message'],
                                   doc['sender_id']),
                             );
+
                             if (doc['message'] == "********////") {
                               gelenresimurl.add(doc['url']);
                               //print(doc['url']);
+                            }
+                            if(doc['isencrypted']==true){
+                              ty=doc['type'];
+                              docn=doc['docname'];
+                              if(doc['type']!="PuzzleQuiz")
+                                cat = doc['category'];
+                                dif = doc['difficulty'];
+                              if(doc['type']=="PhotoQuiz"){
+                                phuri=doc['url'];
+                                phans=doc['answer'];
+                              }
+
+
 
                             }
-
                             //print(doc['isencrypted']);
                           }).toList();
                           print(gelenresimurl);
@@ -655,13 +673,12 @@ class duzenle extends StatelessWidget {
     if (check == "********////") {
       double simdi = index.toDouble();
       simdi = (index - sayac - 1) / 2;
-
       print(simdi);
       return Container(
           width: 200,
           height: 200,
           child: Image.network(
-            gelenresimurl[simdi.toInt()],
+            gelenresimurl[simdi.floor()],
             errorBuilder: (BuildContext context, Object exception,
                 StackTrace stackTrace) {
               return Icon(Icons.do_not_disturb);

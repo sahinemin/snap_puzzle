@@ -17,6 +17,14 @@ class TextQuiz {
   void submit() {
     FirebaseFirestore.instance
         .collection('Puzzles')
+        .doc(category).
+        set({'name': "süs olsun"});
+    FirebaseFirestore.instance
+        .collection('Puzzles')
+        .doc(category).collection(type).doc(difficulty).
+    set({'name': "süs olsun"});
+    FirebaseFirestore.instance
+        .collection('Puzzles')
         .doc(category)
         .collection(type)
         .doc(difficulty)
@@ -49,6 +57,14 @@ class PhotoQuiz {
   PhotoQuiz(this.type, this.category, this.difficulty, this.url, this.answer);
 
   void submit() {
+    FirebaseFirestore.instance
+        .collection('Puzzles')
+        .doc(category).
+    set({'name': "süs olsun"});
+    FirebaseFirestore.instance
+        .collection('Puzzles')
+        .doc(category).collection(type).doc(difficulty).
+    set({'name': "süs olsun"});
     FirebaseFirestore.instance
         .collection('Puzzles')
         .doc(category)
