@@ -659,13 +659,24 @@ class _BadgeContainerState extends State<BadgeContainer> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(0.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.18,
-                        height: MediaQuery.of(context).size.height * 0.11,
-                        decoration: new BoxDecoration(
-                          color: Colors.transparent,
-                        ),
-                      ),
+                      child: snapshot.data < 0
+                          ? Container(
+                              color: Colors.transparent,
+                              width: MediaQuery.of(context).size.width * 0.18,
+                              height: MediaQuery.of(context).size.height * 0.11,
+                            )
+                          : Container(
+                              width: MediaQuery.of(context).size.width * 0.19,
+                              height: MediaQuery.of(context).size.height * 0.12,
+                              decoration: new BoxDecoration(
+                                color: Colors.transparent,
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/images/badge_obsidian.png'),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
                     ),
                   ],
                 ),
