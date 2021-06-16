@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snap_puzzle/Puzzle.dart';
 
 final TextEditingController _URLController = new TextEditingController();
-final TextEditingController _answerController = new TextEditingController();
 
-var _type = 'Puzzle';
 var _difficulty;
 class SendPuzzle extends StatefulWidget {
   const SendPuzzle({Key key}) : super(key: key);
@@ -21,7 +19,6 @@ class _SendPuzzleState extends State<SendPuzzle> {
       onWillPop: () {
         _difficulty = null;
         _URLController.clear();
-        _answerController.clear();
         return Future.value(true);
       },
       child: Scaffold(
@@ -133,6 +130,9 @@ class _SendPuzzleState extends State<SendPuzzle> {
                                 );
                             puzzleQuiz.submit();
                             print('success');
+                            _difficulty = null;
+                            _URLController.clear();
+                            Navigator.pop(context);
                           }
                         }),
                   ),

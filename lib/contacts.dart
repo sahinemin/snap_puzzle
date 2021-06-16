@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'LogIn.dart';
 import 'Scoreboard.dart';
-import 'classroom.dart';
 import 'createPuzzle.dart';
 import 'profilescreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,6 +18,42 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  var admin = [Page1(),CreatePuzzle(),Scoreboard(),profilescreen()];
+  var nonAdmin = [Page1(), Scoreboard(),profilescreen()];
+
+  var bnb_admin = [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home),
+      label: 'Home Page',
+      backgroundColor: Colors.greenAccent[400]),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.add_circle_outline),
+        label: 'New Puzzle',
+        backgroundColor: Colors.greenAccent[400]),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.emoji_events_outlined),
+        label: 'Scoreboard',
+        backgroundColor: Colors.greenAccent[400]),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.account_circle),
+        label: 'Profile',
+        backgroundColor: Colors.greenAccent[400])];
+
+  var bnb_nonAdmin = [
+    BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: 'Home Page',
+        backgroundColor: Colors.greenAccent[400]),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.emoji_events_outlined),
+        label: 'Scoreboard',
+        backgroundColor: Colors.greenAccent[400]),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.account_circle),
+        label: 'Profile',
+        backgroundColor: Colors.greenAccent[400])];
+
   int _ExactPageNumber = 0;
   PageController pageController = PageController(initialPage: 0);
 
@@ -39,11 +74,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      floatingActionButton: FloatingActionButton(onPressed: (){
-        Navigator.of(context).pushNamed('/Friends');}
-        ,child: Icon(Icons.message_outlined),
-          backgroundColor: Colors.redAccent[400]),
       resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         body: PageView(
@@ -55,42 +85,15 @@ class _MainPageState extends State<MainPage> {
           },
           controller: pageController,
           scrollDirection: Axis.horizontal,
-          children: <Widget>[
-            Page1(),
-            Classroom(),
-            CreatePuzzle(),
-            Scoreboard(),
-            profilescreen(),
-          ],
+          children: user.uid == 'XdFX1Y3HfzNr2lXZIk7zjIwXfaM2' ? admin : nonAdmin,
         ),
         bottomNavigationBar: BottomNavigationBar(
-          //type: BottomNavigationBarType.fixed, //this will make background have color from backgroundColor and make lables always appear. if you want shifting type with color, give items color one by one
-          //backgroundColor: Color(0xFFE19600),
+          type: BottomNavigationBarType.fixed, //this will make background have color from backgroundColor and make lables always appear. if you want shifting type with color, give items color one by one
+          backgroundColor: Colors.greenAccent[400],
           currentIndex: _ExactPageNumber,
           selectedItemColor: Color(0xFF003942),
           unselectedItemColor: Colors.grey[100],
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home Page',
-                backgroundColor: Colors.greenAccent[400]),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.school_outlined),
-                label: 'Classes',
-                backgroundColor: Colors.greenAccent[400]),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.add_circle_outline),
-                label: 'New Puzzle',
-                backgroundColor: Colors.greenAccent[400]),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.emoji_events_outlined),
-                label: 'Scoreboard',
-                backgroundColor: Colors.greenAccent[400]),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                label: 'Profile',
-                backgroundColor: Colors.greenAccent[400]),
-          ],
+          items: user.uid == 'XdFX1Y3HfzNr2lXZIk7zjIwXfaM2' ? bnb_admin : bnb_nonAdmin,
           onTap: (currentPageNumber) {
             setState(() {
               pageController.jumpToPage(currentPageNumber);
@@ -125,7 +128,7 @@ class Page1 extends StatelessWidget {
         height: 120.0,
         child: Stack(
           children: [
-              StreamBuilder(
+            StreamBuilder(
               stream: FirebaseFirestore.instance.collection('Chat').snapshots(),
               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
                 if(snapshot.hasError){
@@ -195,6 +198,16 @@ class Page1 extends StatelessWidget {
                     });
                }
                ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FloatingActionButton(onPressed: (){
+                  Navigator.of(context).pushNamed('/Friends');}
+                    ,child: Icon(Icons.message_outlined),
+                    backgroundColor: Colors.redAccent[400]),
+              ),
+            ),
           ],
         )
 
