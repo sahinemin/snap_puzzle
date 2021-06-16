@@ -193,6 +193,7 @@ class _directContactState extends State<directContact> {
                                   doc['sender_id'],doc.id),
                             );
                             try{
+
                               if (doc['message'] == "********////") {
                                 gelenresimurl.add(doc['url']);
                                 //print(doc['url']);
@@ -204,6 +205,9 @@ class _directContactState extends State<directContact> {
                                 ty=doc['type'];
                                 docn=doc['docname'];
                                 dif = doc['difficulty'];
+                                print(ty);
+                                print(docn);
+                                print(dif);
                                 /*if(doc['type']=="PhotoQuiz"){
                                   phuri=doc['url'];
                                   phans=doc['answer'];
@@ -262,7 +266,7 @@ class _directContactState extends State<directContact> {
                                       const EdgeInsets.only(left: 55.0),
                                       child: Card(
                                         color: Colors.green[400],
-                                        child: Padding(
+                                        child: duzenle(index: index)/*Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: Container(child: Text(
                                                 messagearr[index]
@@ -271,7 +275,7 @@ class _directContactState extends State<directContact> {
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 17)),) //duzenle(index: index)
-                                        ),
+                                        ),*/
                                       ),
                                     ));
                               } else if (!messagearr[index].isenc &&

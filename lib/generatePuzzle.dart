@@ -1,39 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:snap_puzzle/PuzzlePiece.dart';
+import 'package:snap_puzzle/SolvePuzzle.dart';
 import 'dart:convert';
+import 'chat.dart';
+import 'package:image_downloader/image_downloader.dart';
+import 'package:http/http.dart'as http;
+import 'package:image_picker_saver/image_picker_saver.dart';
 
-int rows;
-int cols;
 
+
+int rows=dif;
+int cols=dif;
+File _image;
 class GeneratePuzzle extends StatefulWidget {
-  final int maxPoints;
-  final String difficulty;
+  //final int maxPoints;
   final String url;
 
-  GeneratePuzzle({Key key, this.url, this.difficulty, this.maxPoints})
+  GeneratePuzzle({Key key, this.url})
       : super(key: key);
 
   @override
   _GeneratePuzzleState createState() => _GeneratePuzzleState();
 }
 
+
 class _GeneratePuzzleState extends State<GeneratePuzzle> {
+
   File _image;
   List<Widget> pieces = [];
 
-  Future getImage(ImageSource source) async {
-    var image = await ImagePicker().getImage(source: source);
+  Future getImage() async {
+    var filePath;
+    Uri uri;
+    uri=Uri.parse(phuri);
+    var response = await http.get(uri);
+    filePath = await ImagePickerSaver.saveFile(fileData: response.bodyBytes,title: "deneme",description:"simdi");
+    print(filePath.toString()+"dasads");
 
-    if (image != null) {
-      setState(() {
-        _image = File(image.path);
+
+    setState(() {
+      _image = File(filePath);
         pieces.clear();
       });
-      splitImage(Image.file(File(image.path)));
-    }
+    splitImage(Image.file(File(filePath)));
+
+
+
   }
 
 // we need to find out the image size, to be used in the PuzzlePiece widget
@@ -56,8 +72,7 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
   void splitImage(Image image) async {
     Size imageSize = await getImageSize(image);
 
-    rows = int.parse(widget.difficulty);
-    cols = int.parse(widget.difficulty);
+
 
     for (int x = 0; x < rows; x++) {
       for (int y = 0; y < cols; y++) {
@@ -92,56 +107,20 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
       pieces.insert(0, widget);
     });
   }
-
+@override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Puzzle'),
       ),
-      body: SafeArea(
-        child: control < (rows * cols)
-            ? new Center(
-                child: _image == null
-                    ? new Text('No image selected.')
-                    : Stack(children: pieces))
-            : new Text('Tamamlandı'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          control = 0;
-          showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return SafeArea(
-                  child: new Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      new ListTile(
-                        leading: new Icon(Icons.camera),
-                        title: new Text('Camera'),
-                        onTap: () {
-                          getImage(ImageSource.camera);
-// this is how you dismiss the modal bottom sheet after making a choice
-                          Navigator.pop(context);
-                        },
-                      ),
-                      new ListTile(
-                        leading: new Icon(Icons.image),
-                        title: new Text('Gallery'),
-                        onTap: () {
-                          getImage(ImageSource.gallery);
-// dismiss the modal sheet
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              });
-        },
-        tooltip: 'New Image',
-        child: Icon(Icons.add),
+      body: Container(
+        child:Center(child: IconButton(icon: Icon(Icons.event),
+          onPressed: ()async
+          {
+            await getImage();
+          },
+        ),)
       ),
     );
   }

@@ -220,7 +220,7 @@ packages:
     source: hosted
     version: "0.10.0"
   http:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -233,6 +233,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  image_downloader:
+    dependency: "direct dev"
+    description:
+      name: image_downloader
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.30.0"
   image_picker:
     dependency: "direct dev"
     description:
@@ -254,6 +261,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  image_picker_saver:
+    dependency: "direct dev"
+    description:
+      name: image_picker_saver
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   intl:
     dependency: transitive
     description:

@@ -6,7 +6,7 @@ import 'package:snap_puzzle/SendPuzzle.dart';
 import 'package:snap_puzzle/SignUp.dart';
 import 'package:snap_puzzle/SolvePuzzle.dart';
 import 'package:snap_puzzle/addfriend.dart';
-import 'package:snap_puzzle/generatepuzzle.dart';
+import 'package:snap_puzzle/generatePuzzle.dart';
 import 'LogIn.dart';
 import 'contacts.dart';
 import 'chat.dart';
@@ -17,6 +17,7 @@ import 'settings.dart';
 import 'friends.dart';
 import 'solveTextQuiz.dart';
 import 'accountDetails.dart';
+
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -54,6 +55,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => addfriend());
       case '/SolvePuzzle':
         return MaterialPageRoute(builder: (_) => SolvePuzzle(qqq));
+      case '/generatepuzzle':
+        return MaterialPageRoute(builder: (_) => GeneratePuzzle(url:phuri));
     //   case '/SolvePhotoQuiz':
     //     return MaterialPageRoute(            builder: (_) => SolvePhotoQuiz(
     //             answer: passedAnswer,

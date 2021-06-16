@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snap_puzzle/generatePuzzle.dart';
 import 'LogIn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,7 +30,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
   Widget build(BuildContext context) {
     Stream<QuerySnapshot<Map<String, dynamic>>> yayin;
 
-    if(cat!="PuzzleQuiz"){
+    if(ty!="PuzzleQuiz"){
       //print(cat);
       //print(ty);
       //print(dif);
@@ -43,7 +44,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
         textquiz=true;
       }
     }
-    else if(cat=="PuzzleQuiz"){
+    else if(ty=="PuzzleQuiz"){
       if(dif=="Easy"){
         dif=2;
       }
@@ -113,16 +114,22 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                   sacma=snapshot.data.docs.elementAt(i).id;
                   //print(sacma);
                   if (sacma == docn) {
-                    phans = snapshot.data.docs.elementAt(i).get('answer');
-                    if(ty=="PhotoQuiz")
-                    phuri = snapshot.data.docs.elementAt(i).get('url');
-                    else{
+
+                    if(ty=="PhotoQuiz"){
+                      phans = snapshot.data.docs.elementAt(i).get('answer');
+                      phuri = snapshot.data.docs.elementAt(i).get('url');
+                    }
+                    else if(ty=="TexQuiz"){
+                      phans = snapshot.data.docs.elementAt(i).get('answer');
                       desc=snapshot.data.docs.elementAt(i).get('desc');
                       //answer=snapshot.data.docs.elementAt(i).get('answer');
                       sel1=snapshot.data.docs.elementAt(i).get('sel1');
                       sel2=snapshot.data.docs.elementAt(i).get('sel2');
                       sel3=snapshot.data.docs.elementAt(i).get('sel3');
                       sel4=snapshot.data.docs.elementAt(i).get('sel4');
+                    }
+                    else if(ty=="PuzzleQuiz"){
+                      phuri = snapshot.data.docs.elementAt(i).get('url');
                     }
                     //print(phans+"dsasd");
                     //print(phuri+"sadads");
@@ -141,7 +148,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                     ),
                     itemCount: 1,
                     itemBuilder: (BuildContext context, int index) {
-                      if(textquiz==true){
+                      if(ty=="TextQuiz"){
                         return Padding(
                           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
                           child: SingleChildScrollView(
@@ -341,7 +348,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                           ),
                         );
                       }
-                      else{
+                      else if(ty=="PhotoQuiz"){
                         return Padding(
                           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
                           child: SingleChildScrollView(
@@ -436,6 +443,20 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                             ),
                           ),
                         );
+                      }
+                      else{
+                        return Center(
+                          child:Container(
+                            width: 50,
+                            height: 50,
+                            child: IconButton(
+                              icon: Icon(Icons.event),
+                              onPressed: (){
+                                Navigator.of(context).pushNamed('/generatepuzzle');
+                              },
+                            ),
+                          )
+                        );//GeneratePuzzle(url: phuri);
                       }
 
                       //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft//return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
