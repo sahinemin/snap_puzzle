@@ -3,6 +3,7 @@ import 'LogIn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
+import 'profilescreen.dart';
 
 final TextEditingController _answerController = new TextEditingController();
 var phuri;
@@ -56,15 +57,18 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 //return ListView.separated(
                 //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
                 //);
-                //print(cat);
-                //print(ty);
-                //print(dif);
+                print(cat);
+                print(ty);
+                print(dif);
 
                 int temp=snapshot.data.docs.length;
+                print(temp);
                 for(int i=0; i<temp;i++) {
                   if (snapshot.data.docs.elementAt(i).id == docn) {
                     phans = snapshot.data.docs.elementAt(i).get('answer');
                     phuri = snapshot.data.docs.elementAt(i).get('url');
+                    print(phans+"dsasd");
+                    print(phuri+"sadads");
                   }
                 }
 
@@ -154,6 +158,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         if (!_answerController.text.isEmpty) {
                                           //print("x");
                                           if(phans==_answerController.text.toString().trim()){
+                                            profilescreen.userscore+=5;
                                             print(k);
                                             print(widget.index.toString());
                                             FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
