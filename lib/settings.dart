@@ -10,9 +10,9 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool isSwitchedNoti = false;
   bool isSwitchedNotiClass = false;
-
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -49,12 +49,9 @@ class _SettingsPageState extends State<SettingsPage> {
                 height: 15,
                 thickness: 2,
               ),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pushNamed('/AccountDetails');
-                },
-                title: Text('Change Account Details'),
-              ),
+              buildSettingsGestureDetector('Change Password'),
+              buildSettingsGestureDetector('Social'),
+              buildSettingsGestureDetector('Privacy and Security'),
               SizedBox(
                 height: 17,
               ),
@@ -80,7 +77,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 thickness: 2,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal:8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -93,11 +90,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     Switch(
                       value: isSwitchedNoti,
-                      onChanged: (value) {
+                      onChanged: (value){
                         setState(() {
                           isSwitchedNoti = value;
-                        });
-                      },
+                        });},
                       activeTrackColor: Colors.redAccent[400],
                       activeColor: Colors.white,
                     ),
@@ -105,7 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal:8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -118,11 +114,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     Switch(
                       value: isSwitchedNotiClass,
-                      onChanged: (value) {
+                      onChanged: (value){
                         setState(() {
                           isSwitchedNotiClass = value;
-                        });
-                      },
+                        });},
                       activeTrackColor: Colors.redAccent[400],
                       activeColor: Colors.white,
                     ),
@@ -141,7 +136,10 @@ class _SettingsPageState extends State<SettingsPage> {
     return GestureDetector(
       child: InkWell(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+          padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 8.0
+          ),
           child: Row(
             children: [
               Text(
@@ -154,8 +152,11 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ),
         ),
-        onTap: () {},
+        onTap: () {
+
+        },
       ),
+
     );
   }
 }

@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
-import 'LogIn.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 final TextEditingController _answerController = new TextEditingController();
 
 class SolvePhotoQuiz extends StatefulWidget {
-  String url;
-  String answer;
-  int maxPoints;
   @override
-  SolvePhotoQuiz({this.url, this.answer, this.maxPoints}) : super();
+  //SolvePhotoQuiz({}) : super();
   _SolvePhotoQuizState createState() => _SolvePhotoQuizState();
 }
 
 class _SolvePhotoQuizState extends State<SolvePhotoQuiz> {
 
+  @override
+  void initState() {
+    var resultsCol = FirebaseFirestore.instance
+        .collection('Puzzles')
+        /*.doc(category)
+        .collection('PhotoQuiz)
+        .doc(difficulty)*/
+        .doc('Math')
+        .collection('PhotoQuiz')
+        .doc('Normal')
+        .collection('Results');
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -54,7 +64,7 @@ class _SolvePhotoQuizState extends State<SolvePhotoQuiz> {
                       color: Colors.green.shade400,
                       borderRadius: new BorderRadius.all(Radius.circular(10)),
                       image: DecorationImage(
-                        image: NetworkImage(widget.url == null ? 'https://as1.ftcdn.net/jpg/00/83/39/90/500_F_83399029_La8C5CPvYZgFRwRUK9JFpQZDAepdoN6z.jpg' : widget.url),
+                        image: NetworkImage('https://picsum.photos/250?image=9'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -101,19 +111,6 @@ class _SolvePhotoQuizState extends State<SolvePhotoQuiz> {
                         minWidth: 120,
                         onPressed: () {
                           if (!_answerController.text.isEmpty) {
-
-                                  //get the current score
-
-                                  //GIVE POINTS TO USER
-
-                                  //CHANGE THE MESSAGE TO NON-ENCRYPTED
-
-                                  Navigator.pop(context);
-                                } else {
-                                  widget.maxPoints -= 5;
-                                  _answerController.clear();
-
-
 
                           }
                         }),

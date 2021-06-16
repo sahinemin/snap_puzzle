@@ -205,11 +205,6 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
                                 _answerController.text);
                             photoQuiz.submit();
                             print('success');
-                            _category = null;
-                            _difficulty = null;
-                            _URLController.clear();
-                            _answerController.clear();
-                            Navigator.pop(context);
                           }
                         }),
                   ),

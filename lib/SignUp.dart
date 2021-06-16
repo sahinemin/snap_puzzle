@@ -188,8 +188,7 @@ class DatabaseService {
     await userCollection.set({
       'name': _nameController.text,
       'school': _schoolController.text,
-      'score': 0.toString(),
-      'isAdmin' : false,
+      'score': 0.toString()
     });
   }
 }
