@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
-import 'Puzzle.dart';
+import 'package:snap_puzzle/LogIn.dart';
 
 var _answer;
 
+
+
 class SolveTextQuiz extends StatefulWidget {
+  String correctAnswer;
+  int maxPoints;
+  String desc;
+  String sel1;
+  String sel2;
+  String sel3;
+  String sel4;
   @override
+  SolveTextQuiz({ this.correctAnswer,
+  this.maxPoints,
+  this.desc,
+  this.sel1,
+  this.sel2,
+  this.sel3,
+  this.sel4,}) : super();
   _SolveTextQuizState createState() => _SolveTextQuizState();
 }
 
@@ -50,7 +64,7 @@ class _SolveTextQuizState extends State<SolveTextQuiz> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
-                      child: Text('a'),
+                      child: Text(widget.desc),
                     ),
                   ),
                 ),
@@ -80,7 +94,7 @@ class _SolveTextQuizState extends State<SolveTextQuiz> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
-                            child: Text('b'),
+                            child: Text(widget.sel1),
                           ),
                         ),
                       ),
@@ -113,7 +127,7 @@ class _SolveTextQuizState extends State<SolveTextQuiz> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
-                            child: Text('c'),
+                            child: Text(widget.sel2),
                           ),
                         ),
                       ),
@@ -146,7 +160,7 @@ class _SolveTextQuizState extends State<SolveTextQuiz> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
-                            child: Text('d'),
+                            child: Text(widget.sel3),
                           ),
                         ),
                       ),
@@ -179,7 +193,7 @@ class _SolveTextQuizState extends State<SolveTextQuiz> {
                           ),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
-                            child: Text('e'),
+                            child: Text(widget.sel4),
                           ),
                         ),
                       ),
@@ -200,14 +214,11 @@ class _SolveTextQuizState extends State<SolveTextQuiz> {
                         minWidth: 120,
                         onPressed: () {
                           if (_answer != null) {
-                            print('success');
-                            print(FirebaseFirestore.instance
-                                .collection('Puzzles')
-                                .doc('Science')
-                                .collection('PhotoQuiz')
-                                .doc('Normal')
-                                .collection('Results')
-                                );
+                              if(_answer == widget.correctAnswer) {
+                                //Update user's score
+                                //Update encryption
+                                Navigator.pop(context);
+                              }
                           }
                         }),
                   ),

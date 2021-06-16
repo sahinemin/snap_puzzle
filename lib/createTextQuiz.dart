@@ -385,6 +385,15 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                                 _answer.toString());
                             textQuiz.submit();
                             print('success');
+                            _answer = null;
+                            _category = null;
+                            _difficulty = null;
+                            _descriptionController.clear();
+                            _selection1Controller.clear();
+                            _selection2Controller.clear();
+                            _selection3Controller.clear();
+                            _selection4Controller.clear();
+                            Navigator.pop(context);
                           }
                         }),
                   ),

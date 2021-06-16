@@ -15,32 +15,27 @@ class TextQuiz {
       this.sel2, this.sel3, this.sel4, this.answer);
 
   void submit() {
-
-    String docName = DateTime.now().millisecondsSinceEpoch.toString();
-
-    var resultsCol = FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('Puzzles')
         .doc(category)
         .collection(type)
         .doc(difficulty)
-        .collection('Results');
-
-    resultsCol.doc(docName).set({
-      '_createdOn' : FieldValue.serverTimestamp(),
+        .collection('Results')
+        .add({
+      'type': type,
+      'category': category,
+      'difficulty': difficulty,
       'desc': desc,
       'sel1': sel1,
       'sel2': sel2,
       'sel3': sel3,
       'sel4': sel4,
       'answer': answer
-    }, SetOptions(merge: false)).then((value) {
+    }).then((value) {
       print('submit success');
     }).catchError((onError) {
-      print('submit error');
+      print('error');
     });
-    resultsCol.doc('.resultsDoc').set({
-      docName : true,
-    }, SetOptions(merge: true));
   }
 }
 
@@ -53,19 +48,14 @@ class PhotoQuiz {
 
   PhotoQuiz(this.type, this.category, this.difficulty, this.url, this.answer);
 
-
   void submit() {
-    String docName = DateTime.now().millisecondsSinceEpoch.toString();
-
-    var resultsCol = FirebaseFirestore.instance
+    FirebaseFirestore.instance
         .collection('Puzzles')
         .doc(category)
         .collection(type)
         .doc(difficulty)
-        .collection('Results');
-
-    resultsCol.doc(docName).set({
-      '_createdOn' : FieldValue.serverTimestamp(),
+        .collection('Results')
+        .add({
       'type': type,
       'category': category,
       'difficulty': difficulty,
@@ -76,33 +66,31 @@ class PhotoQuiz {
     }).catchError((onError) {
       print('error');
     });
-
-    resultsCol.doc('.resultsDoc').set({
-      docName : true,
-    }, SetOptions(merge: true));
   }
 }
+
 class PuzzleQuiz {
   String difficulty;
   String url;
 
   PuzzleQuiz(this.difficulty, this.url);
 
-
   void submit() {
     int a;
-    if(difficulty=='Easy')
-      a=2;
-    else if(difficulty=='Normal')
-      a=3;
+    if (difficulty == 'Easy')
+      a = 2;
+    else if (difficulty == 'Normal')
+      a = 3;
     else
-      a=4;
+      a = 4;
     FirebaseFirestore.instance
         .collection('Puzzles')
-        .doc('photo').set({'name':"süs olsun"});
+        .doc('photo')
+        .set({'name': "süs olsun"});
     FirebaseFirestore.instance
         .collection('Puzzles')
-        .doc('photo').collection(a.toString()).add({'url': url, 'difficulty': a.toString()});
+        .doc('photo')
+        .collection(a.toString())
+        .add({'url': url, 'difficulty': a.toString()});
   }
-
 }

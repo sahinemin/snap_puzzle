@@ -5,11 +5,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:snap_puzzle/LogIn.dart';
 
-class SignUp extends StatefulWidget {
-  const SignUp({Key key}) : super(key: key);
+class AccountDetails extends StatefulWidget {
+  const AccountDetails({Key key}) : super(key: key);
 
   @override
-  _SignUpState createState() => _SignUpState();
+  _AccountDetailsState createState() => _AccountDetailsState();
 }
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -20,7 +20,7 @@ final TextEditingController _schoolController = TextEditingController();
 final TextEditingController _passwordController = TextEditingController();
 final GlobalKey<ScaffoldState> _scaffoldKey2 = GlobalKey<ScaffoldState>();
 
-class _SignUpState extends State<SignUp> {
+class _AccountDetailsState extends State<AccountDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,16 +180,16 @@ class _SignUpState extends State<SignUp> {
 }
 
 class DatabaseService {
-  //DatabaseService(this.uid);
+//DatabaseService(this.uid);
   final DocumentReference userCollection =
       FirebaseFirestore.instance.collection('Users').doc(user.uid);
+
   Future addUserData() async {
     print(user.metadata.toString());
     await userCollection.set({
       'name': _nameController.text,
       'school': _schoolController.text,
-      'score': 0.toString(),
-      'isAdmin' : false,
+      'score': 0.toString()
     });
   }
 }

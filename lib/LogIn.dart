@@ -9,6 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer';
 
 User user;
+bool isAdmin = false;
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn _googleSignIn = new GoogleSignIn();
 class LogIn extends StatefulWidget {
@@ -44,6 +46,7 @@ class _LogInState extends State<LogIn> {
     FirebaseFirestore.instance.collection('Users').doc(user.uid).snapshots().listen((event) {
       profilescreen.fullname= event['name'];
       profilescreen.school=event['school'];
+      isAdmin = event['isAdmin'];
     });
     /*
     FirebaseFirestore.instance.collection('Users').snapshots().listen((data)=> data.docs.forEach((doc){

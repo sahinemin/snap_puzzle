@@ -38,8 +38,8 @@ class chat extends StatelessWidget {
     //print(passedid);
     return Scaffold(
         body: directContact(chatName,friendid)
-        // home: DirectContact(contactName: "Contact Name"),
-        );
+      // home: DirectContact(contactName: "Contact Name"),
+    );
   }
 }
 
@@ -93,59 +93,59 @@ class _directContactState extends State<directContact> {
       ),
       body: Container(
         child:
-          StreamBuilder(stream:FirebaseFirestore.instance.collection('Chat').snapshots() ,builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshotx){
-            if (snapshotx.hasError) {
-              return Text("${snapshotx.error}");
+        StreamBuilder(stream:FirebaseFirestore.instance.collection('Chat').snapshots() ,builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshotx){
+          if (snapshotx.hasError) {
+            return Text("${snapshotx.error}");
+          }
+          if (snapshotx.connectionState == ConnectionState.waiting) {
+            return Text('Loading:');
+          }
+          //if(!snapshotx.hasData)
+          //return Text('Bekle');
+          //print(passedid+"bakalım");
+          String x=user.uid.trim()+"-"+passedid.toString().trim();
+          //print (x+"bende");
+          String y=passedid.toString().trim()+"-"+user.uid.trim();
+          //print (y+"bende");
+          //print(snapshotx.data.docs.length);
+          bool alreadychatted=false;
+          for(int i=0; i<snapshotx.data.docs.length; i++){
+            String a=snapshotx.data.docs.elementAt(i).id.toString().trim();
+            //print (a);
+            if(a==x) {
+              alreadychatted=true;
+              idfirst=true;
+              k = x;
+              break;
             }
-            if (snapshotx.connectionState == ConnectionState.waiting) {
-              return Text('Loading:');
+            else if(a==y) {
+              alreadychatted=true;
+              k = y;
+              break;
             }
-            //if(!snapshotx.hasData)
-              //return Text('Bekle');
-            //print(passedid+"bakalım");
-            String x=user.uid.trim()+"-"+passedid.toString().trim();
-            //print (x+"bende");
-            String y=passedid.toString().trim()+"-"+user.uid.trim();
-            //print (y+"bende");
-            //print(snapshotx.data.docs.length);
-            bool alreadychatted=false;
-            for(int i=0; i<snapshotx.data.docs.length; i++){
-              String a=snapshotx.data.docs.elementAt(i).id.toString().trim();
-              //print (a);
-              if(a==x) {
-                alreadychatted=true;
-                idfirst=true;
-                k = x;
-                break;
-              }
-              else if(a==y) {
-                alreadychatted=true;
-                k = y;
-                break;
-              }
-              else{
-                k=x;
-              }
+            else{
+              k=x;
+            }
 
-              //print (k+"bakam");
-            }
-            if(!alreadychatted){
-              FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString().trim()+ "-" + passedid.toString().trim()).set({'name':"text"});
+            //print (k+"bakam");
+          }
+          if(!alreadychatted){
+            FirebaseFirestore.instance.collection('Chat').doc(user.uid.toString().trim()+ "-" + passedid.toString().trim()).set({'name':"text"});
+          }
+          else {
+
+            if (idfirst) {
+              k = user.uid.toString().trim() + "-" + passedid.toString().trim();
             }
             else {
-
-              if (idfirst) {
-                k = user.uid.toString().trim() + "-" + passedid.toString().trim();
-              }
-              else {
-                k = passedid.toString().trim() + "-" + user.uid.toString().trim();
-              }
-              //
-              // print (y+"hangisi");
+              k = passedid.toString().trim() + "-" + user.uid.toString().trim();
             }
-            gelenresimurl=[];
-            return Stack(
+            //
+            // print (y+"hangisi");
+          }
+          gelenresimurl=[];
+          return Stack(
               children:[Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
@@ -216,17 +216,17 @@ class _directContactState extends State<directContact> {
                               //print(gelenresimurl);
 
                               return Align(
-                                alignment: Alignment.bottomRight,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left:55.0),
-                                  child: Card(
-                                    color: Colors.green[400],
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Container()//duzenle(index: index)
-                                  ),
-                                ),
-                              ));
+                                  alignment: Alignment.bottomRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left:55.0),
+                                    child: Card(
+                                      color: Colors.green[400],
+                                      child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Container()//duzenle(index: index)
+                                      ),
+                                    ),
+                                  ));
                             } else  if(!messagearr[index].isenc &&
                                 messagearr[index].sender_id == user.uid){
                               //print(gelenresimurl);
@@ -237,8 +237,8 @@ class _directContactState extends State<directContact> {
                                   child: Card(
                                     color: Colors.green[400],
                                     child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child:duzenle(index: index,)
+                                        padding: const EdgeInsets.all(10.0),
+                                        child:duzenle(index: index,)
                                     ),
                                   ),
                                 ),
@@ -507,9 +507,9 @@ class _directContactState extends State<directContact> {
                     ),
                   ),
                 ),
-            ]
-            );
-          }),
+              ]
+          );
+        }),
 
 
       ),
@@ -517,7 +517,7 @@ class _directContactState extends State<directContact> {
   }
   bool idfirst=false;
 
-   Future sendmessage(bool isenc) async {
+  Future sendmessage(bool isenc) async {
     //Stream <QuerySnapshot> snapshot2 =FirebaseFirestore.instance.collection('Chat').snapshots();
     //var a= await snapshot2.toList();
     //print (a.toString());
@@ -564,7 +564,7 @@ class _directContactState extends State<directContact> {
         reference.snapshots().listen((event) {
           print(event.docs.length.toString()+"şş");
           randomsayi=Random().nextInt(event.docs.length);
-        docname=event.docs.elementAt(randomsayi).id;
+          docname=event.docs.elementAt(randomsayi).id;
 
         }).toString();
 
@@ -605,19 +605,20 @@ class duzenle extends StatelessWidget {
   Widget build(BuildContext context) {
     //print(index);
     if(check=="********////"){
-      int simdi=index;
-        simdi = index-sayac;
+      double simdi=index.toDouble();
+      simdi = (index-sayac-1)/2;
+
       print(simdi);
-      return Container(width:200,height: 200,child:Image.network(gelenresimurl[simdi],
+      return Container(width:200,height: 200,child:Image.network(gelenresimurl[simdi.toInt()],
         errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
           return Icon(Icons.do_not_disturb);
         },
       ));
     }
     else{
+      sayac=0;
       sayac++;
       return Text(check, style: TextStyle(color: Colors.white,fontSize: 17));
-
     }
 
   }
