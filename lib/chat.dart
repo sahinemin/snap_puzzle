@@ -190,7 +190,7 @@ class _directContactState extends State<directContact> {
                           snapshot.data.docs.map((doc) {
                             messagearr.add(
                               MessageArray(doc['isencrypted'], doc['message'],
-                                  doc['sender_id']),
+                                  doc['sender_id'],doc.id),
                             );
                             try{
                               if (doc['message'] == "********////") {
@@ -207,7 +207,7 @@ class _directContactState extends State<directContact> {
                                   phuri=doc['url'];
                                   phans=doc['answer'];
                                 }*/
-                                ids.add(doc.id);
+                                //ids.add(doc.id);
                   }
 
                             }
@@ -243,7 +243,7 @@ class _directContactState extends State<directContact> {
                                     child: TextButton(
                                         child: Text('ENCRYPTED'),
                                         onPressed: () {
-                                          qqq=index;
+                                          qqq=messagearr[index].id;
                                           Navigator.of(context).pushNamed('/SolvePuzzle');
                                         }),
                                   ),
@@ -709,9 +709,10 @@ class duzenle extends StatelessWidget {
 }
 
 class MessageArray {
+  String id;
   bool isenc;
   String message;
   String sender_id;
 
-  MessageArray(this.isenc, this.message, this.sender_id);
+  MessageArray(this.isenc, this.message, this.sender_id,this.id);
 }

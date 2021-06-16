@@ -9,15 +9,19 @@ var phuri;
 var phans;
 class SolvePuzzle extends StatefulWidget {
   @override
-  final int index;
+  final String index;
   SolvePuzzle(this.index) : super();
   _SolvePuzzleState createState() => _SolvePuzzleState();
 }
 
 class _SolvePuzzleState extends State<SolvePuzzle> {
   @override
+  @override
   Widget build(BuildContext context) {
-    print(widget.index);
+    //print(cat+"xxx");
+    //print(ty+"xxx");
+    //print(dif+"xxx");
+    //print(widget.index);
     return WillPopScope(
       onWillPop: () {
         _answerController.clear();
@@ -52,13 +56,21 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 //return ListView.separated(
                 //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
                 //);
-                for(int i=0; i<snapshot.data.docs.length;i++){
-                  if(snapshot.data.docs.elementAt(i).id==docn){
-                    phans=snapshot.data.docs.elementAt(i).get('answer');
-                    phuri=snapshot.data.docs.elementAt(i).get('url');
-                  }
+                //print(cat);
+                //print(ty);
+                //print(dif);
 
+                int temp=snapshot.data.docs.length;
+                for(int i=0; i<temp;i++) {
+                  if (snapshot.data.docs.elementAt(i).id == docn) {
+                    phans = snapshot.data.docs.elementAt(i).get('answer');
+                    phuri = snapshot.data.docs.elementAt(i).get('url');
+                  }
                 }
+
+                //phans = snapshot.data.docs.elementAt(0).get('answer');
+                //phuri = snapshot.data.docs.elementAt(0).get('url');
+
                     //print(snapshot.data.docs.elementAt(0).get('answer'));
                     //print(snapshot.data.docs.elementAt(0).get('url'));
                 return ListView.separated(
@@ -91,11 +103,12 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                   decoration: new BoxDecoration(
                                     color: Colors.green.shade400,
                                     borderRadius: new BorderRadius.all(Radius.circular(10)),
-                                    image: DecorationImage(
-                                      image: NetworkImage(phuri),
-                                      fit: BoxFit.cover,
-                                    )
+                                      image: DecorationImage(
+                                        image: NetworkImage(phuri),
+                                        fit: BoxFit.cover,
+                                      )
                                   ),
+
                                 ),
                               ),
                               Padding(
@@ -137,10 +150,14 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                       child: Text('submit',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
                                       height: 40,
                                       minWidth: 120,
-                                      onPressed: () {
+                                      onPressed: () async{
                                         if (!_answerController.text.isEmpty) {
-                                          print("x");
+                                          //print("x");
                                           if(phans==_answerController.text.toString().trim()){
+                                            print(k);
+                                            print(widget.index.toString());
+                                            FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
+                                                {'isencrypted':false},SetOptions(merge: true) );
 
                                             return Navigator.pop(context);
 
@@ -161,4 +178,10 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
       ),
     );
   }
+}
+Future updateUserData() async {
+  final DocumentReference userCollection =
+  FirebaseFirestore.instance.collection('Users').doc(user.uid);
+  await userCollection.set({'score':profilescreen.userscore},SetOptions(merge: true));
+
 }
