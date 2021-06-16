@@ -7,9 +7,6 @@ import 'package:snap_puzzle/PuzzlePiece.dart';
 import 'package:snap_puzzle/SolvePuzzle.dart';
 import 'dart:convert';
 import 'chat.dart';
-import 'package:image_downloader/image_downloader.dart';
-import 'package:http/http.dart'as http;
-import 'package:image_picker_saver/image_picker_saver.dart';
 
 
 
@@ -33,7 +30,7 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
   File _image;
   List<Widget> pieces = [];
 
-  Future getImage() async {
+  /*Future getImage() async {
     var filePath;
     Uri uri;
     uri=Uri.parse(phuri);
@@ -50,7 +47,7 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
 
 
 
-  }
+  }*/
 
 // we need to find out the image size, to be used in the PuzzlePiece widget
   Future<Size> getImageSize(Image image) async {
@@ -118,7 +115,7 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
         child:Center(child: IconButton(icon: Icon(Icons.event),
           onPressed: ()async
           {
-            await getImage();
+            //await getImage();
           },
         ),)
       ),
