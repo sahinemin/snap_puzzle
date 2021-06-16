@@ -4,6 +4,7 @@ import 'package:snap_puzzle/GoogleRegister.dart';
 import 'package:snap_puzzle/Scoreboard.dart';
 import 'package:snap_puzzle/SendPuzzle.dart';
 import 'package:snap_puzzle/SignUp.dart';
+import 'package:snap_puzzle/SolvePuzzle.dart';
 import 'package:snap_puzzle/addfriend.dart';
 import 'package:snap_puzzle/generatepuzzle.dart';
 import 'LogIn.dart';
@@ -51,6 +52,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => Friends());
       case '/addfriend':
         return MaterialPageRoute(builder: (_) => addfriend());
+      case '/SolvePuzzle':
+        return MaterialPageRoute(builder: (_) => SolvePuzzle());
     //   case '/SolvePhotoQuiz':
     //     return MaterialPageRoute(            builder: (_) => SolvePhotoQuiz(
     //             answer: passedAnswer,
