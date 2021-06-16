@@ -184,12 +184,14 @@ class DatabaseService {
   final DocumentReference userCollection =
       FirebaseFirestore.instance.collection('Users').doc(user.uid);
   Future addUserData() async {
-    print(user.metadata.toString());
-    await userCollection.set({
-      'name': _nameController.text,
-      'school': _schoolController.text,
-      'score': 0.toString(),
-      'isAdmin' : false,
-    });
+    if(_nameController.text!=null&&_schoolController.text.isNotEmpty){
+      print(user.metadata.toString());
+      await userCollection.set({
+        'name': _nameController.text,
+        'school': _schoolController.text,
+        'score': 0.toString(),
+        'isAdmin' : false,
+      });
+    }
   }
 }

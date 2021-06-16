@@ -18,7 +18,7 @@ class profilescreen extends StatefulWidget {
   static String fullname;
   static String photo;
   static String school;
-
+  static int userscore;
   const profilescreen({Key key}) : super(key: key);
 
   @override
@@ -36,9 +36,9 @@ class _profilescreenState extends State<profilescreen> {
     based.docs.forEach((doc) {
       temp.add(doc['score']);
     });
-    
-    int userScore = int.parse(temp[0]);
-    return userScore;
+
+    profilescreen.userscore = int.parse(temp[0]);
+    return profilescreen.userscore;
   }
 
   @override

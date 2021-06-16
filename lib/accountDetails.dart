@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:snap_puzzle/LogIn.dart';
+import 'package:snap_puzzle/profilescreen.dart';
 
 class AccountDetails extends StatefulWidget {
   const AccountDetails({Key key}) : super(key: key);
@@ -139,14 +139,14 @@ class _AccountDetailsState extends State<AccountDetails> {
                 ),
                 child: FlatButton(
                   child: Text(
-                    'REGISTER',
+                    'Update',
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       color: Colors.white,
                     ),
                   ),
                   onPressed: () async {
-                    _Register();
+                    updateUserData();
                   },
                 ),
               )
@@ -157,39 +157,19 @@ class _AccountDetailsState extends State<AccountDetails> {
     );
   }
 
-  Future<void> _Register() async {
-    try {
-      final User user = (await _auth.createUserWithEmailAndPassword(
-              email: _emailController.text.trim(),
-              password: _passwordController.text.trim()))
-          .user;
-      if (user != null) {
-        if (!user.emailVerified) {
-          await user.sendEmailVerification();
-        }
-        await user.updateProfile(displayName: _nameController.text);
-        _auth.currentUser;
-        Navigator.of(context).pushNamed('/LogIn').then((value) {
-          setState(() {});
-        });
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-}
-
-class DatabaseService {
-//DatabaseService(this.uid);
-  final DocumentReference userCollection =
-      FirebaseFirestore.instance.collection('Users').doc(user.uid);
-
-  Future addUserData() async {
-    print(user.metadata.toString());
-    await userCollection.set({
+  Future updateUserData() async {
+    final DocumentReference userCollection =
+    FirebaseFirestore.instance.collection('Users').doc(user.uid);
+    if(_emailController.text.isNotEmpty) _auth.currentUser.updateEmail(_emailController.text);
+    if(_passwordController.text.isNotEmpty) _auth.currentUser.updatePassword(_passwordController.text);
+    if(_nameController.text!=null||_schoolController.text!=null)await userCollection.set({
       'name': _nameController.text,
       'school': _schoolController.text,
-      'score': 0.toString()
+      'isAdmin':false,
+      'score':profilescreen.userscore,
     });
+    if(_nameController.text.isNotEmpty)profilescreen.fullname=_nameController.text;
+    if(_schoolController.text.isNotEmpty)profilescreen.school=_schoolController.text;
+
   }
 }
