@@ -53,7 +53,7 @@ class RouteGenerator {
       case '/addfriend':
         return MaterialPageRoute(builder: (_) => addfriend());
       case '/SolvePuzzle':
-        return MaterialPageRoute(builder: (_) => SolvePuzzle());
+        return MaterialPageRoute(builder: (_) => SolvePuzzle(qqq));
     //   case '/SolvePhotoQuiz':
     //     return MaterialPageRoute(            builder: (_) => SolvePhotoQuiz(
     //             answer: passedAnswer,

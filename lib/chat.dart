@@ -7,13 +7,14 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:snap_puzzle/SolvePuzzle.dart';
 import 'package:snap_puzzle/contacts.dart';
 import 'LogIn.dart';
 import 'contacts.dart';
 import 'package:snap_puzzle/SendPuzzle.dart';
 import 'deneme.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+var ids=[];
 int sayac = 0;
 String check;
 int a;
@@ -27,6 +28,7 @@ var category;
 var difficulty;
 var dif;
 var docn;
+var qqq;
 
 TextEditingController message = new TextEditingController();
 bool isSwitcheden = false;
@@ -205,6 +207,7 @@ class _directContactState extends State<directContact> {
                                   phuri=doc['url'];
                                   phans=doc['answer'];
                                 }*/
+                                ids.add(doc.id);
                   }
 
                             }
@@ -231,7 +234,8 @@ class _directContactState extends State<directContact> {
                         }*/
                               if (messagearr[index].isenc &&
                                   messagearr[index].sender_id != user.uid) {
-                                return Container(
+                                return
+                                Container(
                                   width: 10,
                                   alignment: Alignment.bottomLeft,
                                   child: Card(
@@ -239,6 +243,7 @@ class _directContactState extends State<directContact> {
                                     child: TextButton(
                                         child: Text('ENCRYPTED'),
                                         onPressed: () {
+                                          qqq=index;
                                           Navigator.of(context).pushNamed('/SolvePuzzle');
                                         }),
                                   ),
@@ -258,8 +263,7 @@ class _directContactState extends State<directContact> {
                                         color: Colors.green[400],
                                         child: Padding(
                                             padding: const EdgeInsets.all(10.0),
-                                            child:
-                                            Container() //duzenle(index: index)
+                                            child: Container(child: Text(messagearr[index].message),) //duzenle(index: index)
                                         ),
                                       ),
                                     ));

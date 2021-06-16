@@ -9,14 +9,15 @@ var phuri;
 var phans;
 class SolvePuzzle extends StatefulWidget {
   @override
-  SolvePuzzle() : super();
+  final int index;
+  SolvePuzzle(this.index) : super();
   _SolvePuzzleState createState() => _SolvePuzzleState();
 }
 
 class _SolvePuzzleState extends State<SolvePuzzle> {
-
   @override
   Widget build(BuildContext context) {
+    print(widget.index);
     return WillPopScope(
       onWillPop: () {
         _answerController.clear();
@@ -138,9 +139,10 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                       minWidth: 120,
                                       onPressed: () {
                                         if (!_answerController.text.isEmpty) {
-                                          if(phans==_answerController.text){
+                                          print("x");
+                                          if(phans==_answerController.text.toString().trim()){
 
-                                            return Scaffold(body: Container(child:Text('Tamamladınız')),);
+                                            return Navigator.pop(context);
 
 
                                           }
