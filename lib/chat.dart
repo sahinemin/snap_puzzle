@@ -605,19 +605,20 @@ class duzenle extends StatelessWidget {
   Widget build(BuildContext context) {
     //print(index);
     if(check=="********////"){
-      int simdi=index;
-        simdi = index-sayac;
+      double simdi=index.toDouble();
+        simdi = (index-sayac-1)/2;
+
       print(simdi);
-      return Container(width:200,height: 200,child:Image.network(gelenresimurl[simdi],
+      return Container(width:200,height: 200,child:Image.network(gelenresimurl[simdi.toInt()],
         errorBuilder: (BuildContext context, Object exception, StackTrace stackTrace) {
           return Icon(Icons.do_not_disturb);
         },
       ));
     }
     else{
+      sayac=0;
       sayac++;
       return Text(check, style: TextStyle(color: Colors.white,fontSize: 17));
-
     }
 
   }
