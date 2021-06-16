@@ -266,7 +266,7 @@ class _directContactState extends State<directContact> {
                                       const EdgeInsets.only(left: 55.0),
                                       child: Card(
                                         color: Colors.green[400],
-                                        child: duzenle(index: index)/*Padding(
+                                        child: Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: Container(child: Text(
                                                 messagearr[index]
@@ -275,7 +275,7 @@ class _directContactState extends State<directContact> {
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 17)),) //duzenle(index: index)
-                                        ),*/
+                                        ),
                                       ),
                                     ));
                               } else if (!messagearr[index].isenc &&
