@@ -65,7 +65,7 @@ class _directContactState extends State<directContact> {
     if (image != null) {
       setState(() {
         _file = File(image.path);
-        print(image.path + "mii");
+        //print(image.path + "mii");
       });
     }
   }
@@ -214,7 +214,7 @@ class _directContactState extends State<directContact> {
                             }
                             catch(e){
                               print(ty);
-                              print(docn);
+                              //print(docn);
                               print(cat);
                               print(dif);
 
@@ -608,7 +608,9 @@ class _directContactState extends State<directContact> {
       a = 3;
     else
       a = 4;
-
+print(category+"bakk");
+print(type+"bakk");
+print(difficulty+"bakk");
     if (isenc) {
       if (type != "PuzzleQuiz") {
         CollectionReference reference = FirebaseFirestore.instance
@@ -618,9 +620,8 @@ class _directContactState extends State<directContact> {
             .doc(difficulty)
             .collection('Results');
         reference.snapshots().listen((event) {
-          docname =
-              event.docs.elementAt(Random().nextInt(event.docs.length)).id;
-          print(docname + "bakk");
+          docname = event.docs.elementAt(Random().nextInt(event.docs.length)).id;
+          print(docname.toString()+ "bakk");
         }).toString();
         await FirebaseFirestore.instance
             .collection('Chat')
@@ -659,7 +660,7 @@ class _directContactState extends State<directContact> {
           'message': message.text,
           'sender_id': user.uid.toString(),
           'isencrypted': isenc,
-          'docname': docname,
+          'docname': docname.toString(),
           'difficulty': difficulty,
           'time': FieldValue.serverTimestamp()
         });

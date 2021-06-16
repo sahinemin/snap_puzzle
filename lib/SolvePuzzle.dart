@@ -97,7 +97,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
 
                 int temp=snapshot.data.docs.length;
                 print(temp);
-                print(snapshot.data.docs.elementAt(1).get('answer'));
+                //print(snapshot.data.docs.elementAt(1).get('answer'));
                 String sacma;
                 for(int i=0; i<temp;i++) {
                   sacma=snapshot.data.docs.elementAt(i).id;
