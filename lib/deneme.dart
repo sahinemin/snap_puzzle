@@ -33,6 +33,7 @@ class _denemeState extends State<deneme> {
             //gelenresimurl.add(await ref.getDownloadURL());
             url=await ref.getDownloadURL();
             await sendmessage(isSwitcheden);
+            Navigator.pop(context);
 
           }
           catch(e){

@@ -30,9 +30,9 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
     Stream<QuerySnapshot<Map<String, dynamic>>> yayin;
 
     if(cat!="PuzzleQuiz"){
-      print(cat);
-      print(ty);
-      print(dif);
+      //print(cat);
+      //print(ty);
+      //print(dif);
       yayin=FirebaseFirestore.instance
           .collection('Puzzles')
           .doc(cat)
@@ -44,10 +44,20 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
       }
     }
     else if(cat=="PuzzleQuiz"){
+      if(dif=="Easy"){
+        dif=2;
+      }
+      else if(dif=="Normal"){
+        dif=3;
+      }
+      else if(dif=="Hard"){
+        dif=4;
+      }
+      print(dif.toString()+"aaaaa");
       yayin=FirebaseFirestore.instance
           .collection('Puzzles')
           .doc('photo')
-          .collection(dif).snapshots();
+          .collection(dif.toString()).snapshots();
     }
 
 
@@ -96,12 +106,12 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 //print(dif);
 
                 int temp=snapshot.data.docs.length;
-                print(temp);
+                //print(temp);
                 //print(snapshot.data.docs.elementAt(1).get('answer'));
                 String sacma;
                 for(int i=0; i<temp;i++) {
                   sacma=snapshot.data.docs.elementAt(i).id;
-                  print(sacma);
+                  //print(sacma);
                   if (sacma == docn) {
                     phans = snapshot.data.docs.elementAt(i).get('answer');
                     if(ty=="PhotoQuiz")
@@ -308,13 +318,13 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         minWidth: 120,
                                         onPressed: ()async {
                                           if (_answer != null) {
-                                            print(phans);
+                                            //print(phans);
                                             if(_answer.toString()==phans){
                                               profilescreen.userscore+=5;
                                               await updateUserData();
-                                              print(profilescreen.userscore);
-                                              print(k);
-                                              print(widget.index.toString());
+                                              //print(profilescreen.userscore);
+                                              //print(k);
+                                              //print(widget.index.toString());
                                               FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
                                                   {'isencrypted':false},SetOptions(merge: true) );
 
@@ -404,15 +414,15 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         height: 40,
                                         minWidth: 120,
                                         onPressed: () async{
-                                          print(_answer.toString());
+                                          //print(_answer.toString());
                                           if (_answer!=null) {
                                             //print("x");
                                             if(phans==_answer){
                                               profilescreen.userscore+=5;
                                               await updateUserData();
-                                              print(profilescreen.userscore);
-                                              print(k);
-                                              print(widget.index.toString());
+                                              //print(profilescreen.userscore);
+                                              //print(k);
+                                              //print(widget.index.toString());
                                               FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
                                                   {'isencrypted':false},SetOptions(merge: true) );
 

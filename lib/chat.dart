@@ -198,11 +198,11 @@ class _directContactState extends State<directContact> {
                                 //print(doc['url']);
                               }
                               if(doc['isencrypted']==true){
+                                if(doc['type']!="PuzzleQuiz"){
+                                  cat = doc['category'];
+                                }
                                 ty=doc['type'];
                                 docn=doc['docname'];
-                                if(doc['type']!="PuzzleQuiz")
-                                  cat = doc['category'];
-
                                 dif = doc['difficulty'];
                                 /*if(doc['type']=="PhotoQuiz"){
                                   phuri=doc['url'];
@@ -213,16 +213,16 @@ class _directContactState extends State<directContact> {
 
                             }
                             catch(e){
-                              print(ty);
+                              //print(ty);
                               //print(docn);
-                              print(cat);
-                              print(dif);
+                              //print(cat);
+                              //print(dif);
 
-                              print(e.toString());
+                              //print(e.toString());
                             }
                             //print(doc['isencrypted']);
                           }).toList();
-                          print(gelenresimurl);
+                          //print(gelenresimurl);
                           return ListView.separated(
                             separatorBuilder: (context, index) => Divider(
                               color: Colors.white,
@@ -509,8 +509,7 @@ class _directContactState extends State<directContact> {
                                                   new Icon(Icons.image),
                                                   title: new Text('Gallery'),
                                                   onTap: () async {
-                                                    await getImage(
-                                                        ImageSource.gallery);
+                                                    await getImage(ImageSource.gallery);
                                                     print(
                                                         _file.path.toString() +
                                                             "baksana");
@@ -608,9 +607,9 @@ class _directContactState extends State<directContact> {
       a = 3;
     else
       a = 4;
-print(category+"bakk");
-print(type+"bakk");
-print(difficulty+"bakk");
+//print(category+"bakk");
+//print(type+"bakk");
+//print(difficulty+"bakk");
     if (isenc) {
       if (type != "PuzzleQuiz") {
         CollectionReference reference = FirebaseFirestore.instance
@@ -662,7 +661,8 @@ print(difficulty+"bakk");
           'isencrypted': isenc,
           'docname': docname.toString(),
           'difficulty': difficulty,
-          'time': FieldValue.serverTimestamp()
+          'time': FieldValue.serverTimestamp(),
+          'type':"PuzzleQuiz"
         });
       }
     } else {
@@ -691,12 +691,12 @@ class duzenle extends StatelessWidget {
     if (check == "********////") {
       double simdi = index.toDouble();
       simdi = (index - sayac - 1) / 2;
-      print(simdi);
+      print(simdi.round());
       return Container(
           width: 200,
           height: 200,
           child: Image.network(
-            gelenresimurl[simdi.floor()],
+            gelenresimurl[simdi.round()],
             errorBuilder: (BuildContext context, Object exception,
                 StackTrace stackTrace) {
               return Icon(Icons.do_not_disturb);
