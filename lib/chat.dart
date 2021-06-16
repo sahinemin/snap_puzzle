@@ -263,7 +263,13 @@ class _directContactState extends State<directContact> {
                                         color: Colors.green[400],
                                         child: Padding(
                                             padding: const EdgeInsets.all(10.0),
-                                            child: Container(child: Text(messagearr[index].message),) //duzenle(index: index)
+                                            child: Container(child: Text(
+                                                messagearr[index]
+                                                    .message
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 17)),) //duzenle(index: index)
                                         ),
                                       ),
                                     ));
