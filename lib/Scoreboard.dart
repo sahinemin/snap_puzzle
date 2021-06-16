@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'dart:math';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -37,7 +36,8 @@ class _ScoreboardState extends State<Scoreboard> {
 
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
       .collection('Users')
-      .orderBy('score', descending: true).limit(20)
+      .orderBy('score')
+      .limit(20)
       .snapshots();
 
   @override
@@ -46,7 +46,7 @@ class _ScoreboardState extends State<Scoreboard> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
-              body: Container(
+        body: Container(
             color: Colors.white,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -66,12 +66,14 @@ class _ScoreboardState extends State<Scoreboard> {
                                 decoration: TextDecoration.none,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
-                            fontSize: MediaQuery.of(context).textScaleFactor * 30,
+                            fontSize:
+                                MediaQuery.of(context).textScaleFactor * 30,
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         child: Container(
                           width: 280,
                           height: MediaQuery.of(context).size.height * 0.30,
@@ -82,8 +84,8 @@ class _ScoreboardState extends State<Scoreboard> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
                                     child: Icon(
                                       Icons.emoji_events,
                                       color: Colors.brown[600],
@@ -95,7 +97,8 @@ class _ScoreboardState extends State<Scoreboard> {
                                     width: 280 / 3,
                                     height: 240 * (1 / 4),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         FutureBuilder(
                                           future: getTopThree(2),
@@ -105,13 +108,15 @@ class _ScoreboardState extends State<Scoreboard> {
                                                 snapshot.data,
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.roboto(
-                                                  decoration: TextDecoration.none,
+                                                  decoration:
+                                                      TextDecoration.none,
                                                   textStyle: TextStyle(
                                                     color: Colors.white,
                                                   ),
-                                                  fontSize: MediaQuery.of(context)
-                                                          .textScaleFactor *
-                                                      12,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                              .textScaleFactor *
+                                                          12,
                                                 ),
                                               );
                                             } else {
@@ -141,8 +146,8 @@ class _ScoreboardState extends State<Scoreboard> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
                                     child: Icon(
                                       Icons.emoji_events,
                                       color: Colors.yellow[600],
@@ -154,7 +159,8 @@ class _ScoreboardState extends State<Scoreboard> {
                                     width: 280 / 3,
                                     height: 150 * (3 / 4),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -172,10 +178,10 @@ class _ScoreboardState extends State<Scoreboard> {
                                                     textStyle: TextStyle(
                                                       color: Colors.white,
                                                     ),
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .textScaleFactor *
-                                                            12,
+                                                    fontSize: MediaQuery.of(
+                                                                context)
+                                                            .textScaleFactor *
+                                                        12,
                                                   ),
                                                 );
                                               } else {
@@ -206,8 +212,8 @@ class _ScoreboardState extends State<Scoreboard> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 8.0),
                                     child: Icon(
                                       Icons.emoji_events,
                                       color: Colors.grey[400],
@@ -219,7 +225,8 @@ class _ScoreboardState extends State<Scoreboard> {
                                     width: 280 / 3,
                                     height: 190 * (2 / 4),
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -237,10 +244,10 @@ class _ScoreboardState extends State<Scoreboard> {
                                                     textStyle: TextStyle(
                                                       color: Colors.white,
                                                     ),
-                                                    fontSize:
-                                                        MediaQuery.of(context)
-                                                                .textScaleFactor *
-                                                            12,
+                                                    fontSize: MediaQuery.of(
+                                                                context)
+                                                            .textScaleFactor *
+                                                        12,
                                                   ),
                                                 );
                                               } else {
@@ -319,39 +326,48 @@ class _ScoreboardState extends State<Scoreboard> {
                           reverse: true,
                           itemCount: snapshot.data.docs.length,
                           itemBuilder: (context, index) {
-                            List rev = snapshot.data.docs.reversed.toList();
+                            List rev = snapshot.data.docs.toList();
+
                             return Column(
                               children: [
                                 new ListTile(
-                                  tileColor:
-                                      index == snapshot.data.docs.length
-                                          ? Colors.yellow
-                                          : Colors.black,
+                                  tileColor: index == snapshot.data.docs.length
+                                      ? Colors.yellow
+                                      : Colors.black,
                                   title: Padding(
                                     padding: const EdgeInsets.all(3.0),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
-                                        Text(
-                                          '#${snapshot.data.docs.length - (index)}',
-                                          style: TextStyle(fontSize: 18),
+                                        Align(
+                                          alignment: Alignment.bottomLeft,
+                                          child: Text(
+                                            '#${snapshot.data.docs.length - (index)}',
+                                            style: TextStyle(fontSize: 18),
+                                            textAlign: TextAlign.left,
+                                          ),
                                         ),
-                                        new Text(
-                                          '${rev[index]['name']}',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontSize: 17,
-                                              fontWeight: FontWeight.w600,
-                                              color: index ==
-                                                      snapshot
-                                                          .data.docs.length
-                                                  ? Colors.yellow
-                                                  : Colors.black),
+                                        Flexible(
+                                          child: new Text(
+                                            '${rev[index]['name']}',
+                                            overflow: TextOverflow.clip,
+                                            textAlign: TextAlign.center,
+                                            maxLines: 1,
+                                            softWrap: false,
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                fontWeight: FontWeight.w600,
+                                                color: index ==
+                                                        snapshot
+                                                            .data.docs.length
+                                                    ? Colors.yellow
+                                                    : Colors.black),
+                                          ),
                                         ),
                                         Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 18.0),
+                                          padding:
+                                              const EdgeInsets.only(left: 18.0),
                                           child: Text(
                                             ' ${rev[index]['score'].toString()} pts',
                                             style: TextStyle(fontSize: 20),
