@@ -31,7 +31,6 @@ class _profilescreenState extends State<profilescreen> {
   
   Future<int> getUserScore() async {
     var based = await getUserData.where('name', isEqualTo: profilescreen.fullname).get();
-    print('reached here');
     List<dynamic> temp = [];
     based.docs.forEach((doc) {
       temp.add(doc['score']);
@@ -659,7 +658,7 @@ class _BadgeContainerState extends State<BadgeContainer> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(0.0),
-                      child: snapshot.data < 0
+                      child: snapshot.data < 1800
                           ? Container(
                               color: Colors.transparent,
                               width: MediaQuery.of(context).size.width * 0.18,
