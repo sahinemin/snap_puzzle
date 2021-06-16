@@ -14,7 +14,6 @@ import 'createPuzzle.dart';
 import 'createTextQuiz.dart';
 import 'settings.dart';
 import 'friends.dart';
-import 'solvePhotoQuiz.dart';
 import 'solveTextQuiz.dart';
 import 'accountDetails.dart';
 
