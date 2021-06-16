@@ -202,6 +202,7 @@ class _directContactState extends State<directContact> {
                                 docn=doc['docname'];
                                 if(doc['type']!="PuzzleQuiz")
                                   cat = doc['category'];
+
                                 dif = doc['difficulty'];
                                 /*if(doc['type']=="PhotoQuiz"){
                                   phuri=doc['url'];

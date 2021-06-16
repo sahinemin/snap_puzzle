@@ -46,6 +46,7 @@ class _LogInState extends State<LogIn> {
     FirebaseFirestore.instance.collection('Users').doc(user.uid).snapshots().listen((event) {
       profilescreen.fullname= event['name'];
       profilescreen.school=event['school'];
+      profilescreen.userscore=event['score'];
       isAdmin = event['isAdmin'];
     });
     /*
@@ -77,6 +78,8 @@ try{
       collectionReference.doc(user.uid).snapshots().listen((event) {
     profilescreen.fullname= event['name'];
     profilescreen.school=event['school'];
+    profilescreen.userscore=event['score'];
+    isAdmin = event['isAdmin'];
   }),
       Navigator.of(context).pushNamed('/MainPage'),
 

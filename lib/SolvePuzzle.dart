@@ -8,6 +8,14 @@ import 'profilescreen.dart';
 final TextEditingController _answerController = new TextEditingController();
 var phuri;
 var phans;
+bool textquiz;
+var _answer;
+//var answer;
+var desc;
+var sel1;
+var sel2;
+var sel3;
+var sel4;
 class SolvePuzzle extends StatefulWidget {
   @override
   final String index;
@@ -19,6 +27,32 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
   @override
   @override
   Widget build(BuildContext context) {
+    Stream<QuerySnapshot<Map<String, dynamic>>> yayin;
+
+    if(cat!="PuzzleQuiz"){
+      print(cat);
+      print(ty);
+      print(dif);
+      yayin=FirebaseFirestore.instance
+          .collection('Puzzles')
+          .doc(cat)
+          .collection(ty).doc(dif).
+      collection('Results')
+          .snapshots();
+      if(ty=="TextQuiz"){
+        textquiz=true;
+      }
+    }
+    else if(cat=="PuzzleQuiz"){
+      yayin=FirebaseFirestore.instance
+          .collection('Puzzles')
+          .doc('photo')
+          .collection(dif).snapshots();
+    }
+
+
+
+
     //print(cat+"xxx");
     //print(ty+"xxx");
     //print(dif+"xxx");
@@ -35,7 +69,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
             title: Text('Quiz'),
           ),
           body: StreamBuilder(
-              stream: cat!="PuzzleQuiz"?FirebaseFirestore.instance
+              stream: yayin/*cat!="PuzzleQuiz"?FirebaseFirestore.instance
                   .collection('Puzzles')
                   .doc(cat)
                   .collection(ty).doc(dif).
@@ -43,8 +77,8 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                   .snapshots():
               FirebaseFirestore.instance
                   .collection('Puzzles')
-                  .doc(dif).collection(dif).snapshots(),
-              builder: (BuildContext context,
+                  .doc(dif).collection(dif).snapshots(),*/
+              ,builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
                   return Text("${snapshot.error}");
@@ -57,18 +91,31 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 //return ListView.separated(
                 //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
                 //);
-                print(cat);
-                print(ty);
-                print(dif);
+                //print(cat);
+                //print(ty);
+                //print(dif);
 
                 int temp=snapshot.data.docs.length;
                 print(temp);
+                print(snapshot.data.docs.elementAt(1).get('answer'));
+                String sacma;
                 for(int i=0; i<temp;i++) {
-                  if (snapshot.data.docs.elementAt(i).id == docn) {
+                  sacma=snapshot.data.docs.elementAt(i).id;
+                  print(sacma);
+                  if (sacma == docn) {
                     phans = snapshot.data.docs.elementAt(i).get('answer');
+                    if(ty=="PhotoQuiz")
                     phuri = snapshot.data.docs.elementAt(i).get('url');
-                    print(phans+"dsasd");
-                    print(phuri+"sadads");
+                    else{
+                      desc=snapshot.data.docs.elementAt(i).get('desc');
+                      //answer=snapshot.data.docs.elementAt(i).get('answer');
+                      sel1=snapshot.data.docs.elementAt(i).get('sel1');
+                      sel2=snapshot.data.docs.elementAt(i).get('sel2');
+                      sel3=snapshot.data.docs.elementAt(i).get('sel3');
+                      sel4=snapshot.data.docs.elementAt(i).get('sel4');
+                    }
+                    //print(phans+"dsasd");
+                    //print(phuri+"sadads");
                   }
                 }
 
@@ -77,105 +124,310 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
 
                     //print(snapshot.data.docs.elementAt(0).get('answer'));
                     //print(snapshot.data.docs.elementAt(0).get('url'));
+
                 return ListView.separated(
                     separatorBuilder: (context, index) => Divider(
                       color: Colors.white,
                     ),
                     itemCount: 1,
                     itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Container(
-                                child: Text(
-                                  'Solve This Quiz to See \n        the Message!',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 25,
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 300,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                                  margin: EdgeInsets.only(top: 20),
-                                  decoration: new BoxDecoration(
-                                    color: Colors.green.shade400,
-                                    borderRadius: new BorderRadius.all(Radius.circular(10)),
-                                      image: DecorationImage(
-                                        image: NetworkImage(phuri),
-                                        fit: BoxFit.cover,
-                                      )
-                                  ),
-
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Container(
-                                  height: 60,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                                  margin: EdgeInsets.only(top: 20),
-                                  decoration: new BoxDecoration(
-                                    color: Colors.green.shade400,
-                                    borderRadius: new BorderRadius.all(Radius.circular(10)),
-                                  ),
-                                  child: TextFormField(
-                                    maxLength: 50,
-                                    maxLines: 1,
-                                    controller: _answerController,
-                                    validator: (String val) {
-                                      if (val.isEmpty) {
-                                        return "Answer is empty";
-                                      }
-                                      return null;
-                                    },
-                                    decoration: InputDecoration(
-                                      hintStyle:
-                                      TextStyle(color: Colors.white60, fontSize: 15),
-                                      hintText: 'Answer',
-                                      border: InputBorder.none,
-                                      counterText: "",
+                      if(textquiz==true){
+                        return Padding(
+                          padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Solve This Quiz to See the \n                Message',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 25,
                                     ),
                                   ),
                                 ),
-                              ),
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: MaterialButton(
-                                      color: Colors.redAccent[400],
-                                      child: Text('submit',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                                      height: 40,
-                                      minWidth: 120,
-                                      onPressed: () async{
-                                        if (!_answerController.text.isEmpty) {
-                                          //print("x");
-                                          if(phans==_answerController.text.toString().trim()){
-                                            profilescreen.userscore+=5;
-                                            print(k);
-                                            print(widget.index.toString());
-                                            FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
-                                                {'isencrypted':false},SetOptions(merge: true) );
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                    margin: EdgeInsets.only(top: 20),
+                                    decoration: new BoxDecoration(
+                                      color: Colors.green.shade400,
+                                      borderRadius: new BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                      child: Text(desc),
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Radio(
+                                      fillColor: MaterialStateColor.resolveWith(
+                                              (states) => Colors.redAccent[400]),
+                                      value: 1,
+                                      groupValue: _answer,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _answer = value;
+                                        });
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                          decoration: new BoxDecoration(
+                                            color: Colors.green.shade400,
+                                            borderRadius:
+                                            new BorderRadius.all(Radius.circular(10)),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                            child: Text(sel1),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Radio(
+                                      fillColor: MaterialStateColor.resolveWith(
+                                              (states) => Colors.redAccent[400]),
+                                      value: 2,
+                                      groupValue: _answer,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _answer = value;
+                                        });
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                          decoration: new BoxDecoration(
+                                            color: Colors.green.shade400,
+                                            borderRadius:
+                                            new BorderRadius.all(Radius.circular(10)),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                            child: Text(sel2),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Radio(
+                                      fillColor: MaterialStateColor.resolveWith(
+                                              (states) => Colors.redAccent[400]),
+                                      value: 3,
+                                      groupValue: _answer,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _answer = value;
+                                        });
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                          decoration: new BoxDecoration(
+                                            color: Colors.green.shade400,
+                                            borderRadius:
+                                            new BorderRadius.all(Radius.circular(10)),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                            child: Text(sel3),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Radio(
+                                      fillColor: MaterialStateColor.resolveWith(
+                                              (states) => Colors.redAccent[400]),
+                                      value: 4,
+                                      groupValue: _answer,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _answer = value;
+                                        });
+                                      },
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          alignment: Alignment.centerLeft,
+                                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                          decoration: new BoxDecoration(
+                                            color: Colors.green.shade400,
+                                            borderRadius:
+                                            new BorderRadius.all(Radius.circular(10)),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                            child: Text(sel4),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: MaterialButton(
+                                        color: Colors.redAccent[400],
+                                        child: Text(
+                                          'submit',
+                                          style: TextStyle(
+                                              color: Colors.white, fontWeight: FontWeight.bold),
+                                        ),
+                                        height: 40,
+                                        minWidth: 120,
+                                        onPressed: ()async {
+                                          if (_answer != null) {
+                                            print(phans);
+                                            if(_answer.toString()==phans){
+                                              profilescreen.userscore+=5;
+                                              await updateUserData();
+                                              print(profilescreen.userscore);
+                                              print(k);
+                                              print(widget.index.toString());
+                                              FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
+                                                  {'isencrypted':false},SetOptions(merge: true) );
 
-                                            return Navigator.pop(context);
+                                              return Navigator.pop(context);
 
+                                            }
 
                                           }
-                                        }
-                                      }),
+                                        }),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      }
+                      else{
+                        return Padding(
+                          padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  child: Text(
+                                    'Solve This Quiz to See \n        the Message!',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 300,
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                    margin: EdgeInsets.only(top: 20),
+                                    decoration: new BoxDecoration(
+                                        color: Colors.green.shade400,
+                                        borderRadius: new BorderRadius.all(Radius.circular(10)),
+                                        image: DecorationImage(
+                                          image: NetworkImage(phuri),
+                                          fit: BoxFit.cover,
+                                        )
+                                    ),
+
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 60,
+                                    alignment: Alignment.centerLeft,
+                                    padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                    margin: EdgeInsets.only(top: 20),
+                                    decoration: new BoxDecoration(
+                                      color: Colors.green.shade400,
+                                      borderRadius: new BorderRadius.all(Radius.circular(10)),
+                                    ),
+                                    child: TextFormField(
+                                      maxLength: 50,
+                                      maxLines: 1,
+                                      controller: _answerController,
+                                      validator: (String val) {
+                                        if (val.isEmpty) {
+                                          return "Answer is empty";
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        hintStyle:
+                                        TextStyle(color: Colors.white60, fontSize: 15),
+                                        hintText: 'Answer',
+                                        border: InputBorder.none,
+                                        counterText: "",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: MaterialButton(
+                                        color: Colors.redAccent[400],
+                                        child: Text('submit',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                        height: 40,
+                                        minWidth: 120,
+                                        onPressed: () async{
+                                          print(_answer.toString());
+                                          if (_answer!=null) {
+                                            //print("x");
+                                            if(phans==_answer){
+                                              profilescreen.userscore+=5;
+                                              await updateUserData();
+                                              print(profilescreen.userscore);
+                                              print(k);
+                                              print(widget.index.toString());
+                                              FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
+                                                  {'isencrypted':false},SetOptions(merge: true) );
+
+                                              return Navigator.pop(context);
+                                            }
+                                          }
+                                        }),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+
                       //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft//return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
                     }
                 );
