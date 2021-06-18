@@ -22,7 +22,7 @@ int a;
 bool isphoto = false;
 String docname;
 var cat;
-var gelenresimurl = [];
+var gelenresimurl;
 var type;
 var ty;
 var category;
@@ -179,7 +179,7 @@ class _directContactState extends State<directContact> {
                           }
 
                           List<MessageArray> messagearr = [];
-                          gelenresimurl.clear();
+                          //gelenresimurl.clear();
                           snapshot.data.docs.map((doc) {
                             messagearr.add(
                               MessageArray(doc['isencrypted'], doc['message'],
@@ -187,7 +187,7 @@ class _directContactState extends State<directContact> {
                             );
                             try {
                               if (doc['message'] == "********////") {
-                                gelenresimurl.add(doc['url']);
+                                gelenresimurl=doc['url'];
                                 //print(doc['url']);
                               }
                               if (doc['isencrypted'] == true) {
@@ -216,6 +216,7 @@ class _directContactState extends State<directContact> {
                               //print(check!="********////");
                               /*if(messagearr[index].sender_id==user.uid){
                         }*/
+                              //print(snapshot.data.docs.elementAt(index).get('field').toString());
                               if (messagearr[index].isenc &&
                                   messagearr[index].sender_id != user.uid) {
                                 return Container(
@@ -245,18 +246,24 @@ class _directContactState extends State<directContact> {
                                           const EdgeInsets.only(left: 55.0),
                                       child: Card(
                                           color: Colors.green[400],
-                                          child: duzenle(
-                                              index:
-                                                  index) /*Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Container(child: Text(
-                                                messagearr[index]
-                                                    .message
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 17)),) //duzenle(index: index)
-                                        ),*/
+                                          child:  Padding(//duzenle(index: index)
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: check != "********////"?Container(child: Text(
+                                                  snapshot.data.docs.elementAt(index).get('message'),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 17)),):Container(
+                                                  width: 200,
+                                                  height: 200,
+                                                  child: Image.network(
+                                                    snapshot.data.docs.elementAt(index).get('url'),
+                                                    errorBuilder: (BuildContext context, Object exception,
+                                                        StackTrace stackTrace) {
+                                                      return Icon(Icons.do_not_disturb);
+                                                    },
+                                                  )
+                                              ) //duzenle(index: index)
+                                          ),
                                           ),
                                     ));
                               } else if (!messagearr[index].isenc &&
@@ -270,9 +277,24 @@ class _directContactState extends State<directContact> {
                                       color: Colors.green[400],
                                       child: Padding(
                                           padding: const EdgeInsets.all(10.0),
-                                          child: duzenle(
-                                            index: index,
-                                          )),
+                                          child: Padding(//duzenle(index: index)
+                                              padding: const EdgeInsets.all(10.0),
+                                              child: check != "********////"?Container(child: Text(
+                                                  snapshot.data.docs.elementAt(index).get('message'),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 17)),):Container(
+                                                  width: 200,
+                                                  height: 200,
+                                                  child: Image.network(
+                                                    snapshot.data.docs.elementAt(index).get('url'),
+                                                    errorBuilder: (BuildContext context, Object exception,
+                                                        StackTrace stackTrace) {
+                                                      return Icon(Icons.do_not_disturb);
+                                                    },
+                                                  )
+                                              ) //duzenle(index: index)
+                                          ),),
                                     ),
                                   ),
                                 );
