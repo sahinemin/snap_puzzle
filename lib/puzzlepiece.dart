@@ -39,9 +39,6 @@ class PuzzlePieceState extends State<PuzzlePiece> {
 
   @override
   Widget build(BuildContext context) {
-    int k = widget.col * widget.row;
-    var a = [];
-    for (int i = 0; i < k; i++) {}
 
     final imageWidth = MediaQuery.of(context).size.width;
     final imageHeight = MediaQuery.of(context).size.height *

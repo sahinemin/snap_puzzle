@@ -251,15 +251,16 @@ class _directContactState extends State<directContact> {
                                                   snapshot.data.docs.elementAt(index).get('message'),
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 17)),):Container(
-                                                  width: 200,
-                                                  height: 200,
-                                                  child: Image.network(
-                                                    snapshot.data.docs.elementAt(index).get('url'),
-                                                    errorBuilder: (BuildContext context, Object exception,
-                                                        StackTrace stackTrace) {
-                                                      return Icon(Icons.do_not_disturb);
-                                                    },
+                                                      fontSize: 17)),):FittedBox(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Image.network(
+                                                      snapshot.data.docs.elementAt(index).get('url'),
+                                                      errorBuilder: (BuildContext context, Object exception,
+                                                          StackTrace stackTrace) {
+                                                        return Icon(Icons.do_not_disturb);
+                                                      },
+                                                    ),
                                                   )
                                               ) //duzenle(index: index)
                                           ),
@@ -282,15 +283,16 @@ class _directContactState extends State<directContact> {
                                                   snapshot.data.docs.elementAt(index).get('message'),
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 17)),):Container(
-                                                  width: 200,
-                                                  height: 200,
-                                                  child: Image.network(
-                                                    snapshot.data.docs.elementAt(index).get('url'),
-                                                    errorBuilder: (BuildContext context, Object exception,
-                                                        StackTrace stackTrace) {
-                                                      return Icon(Icons.do_not_disturb);
-                                                    },
+                                                      fontSize: 17)),):FittedBox(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(10),
+                                                    child: Image.network(
+                                                      snapshot.data.docs.elementAt(index).get('url'),
+                                                      errorBuilder: (BuildContext context, Object exception,
+                                                          StackTrace stackTrace) {
+                                                        return Icon(Icons.do_not_disturb);
+                                                      },
+                                                    ),
                                                   )
                                               ) //duzenle(index: index)
                                           ),),
@@ -663,14 +665,17 @@ class _directContactState extends State<directContact> {
             .doc('photo')
             .collection(a.toString());
         int randomsayi;
+        QuerySnapshot lll = await reference.snapshots().elementAt(0);
+        int len = lll.docs.length;
+        docname=lll.docs.elementAt(Random().nextInt(len)).id.toString();
 
-        reference.snapshots().listen((event) {
+       /* reference.snapshots().listen((event) {
           //print(event.docs.length.toString() + "şş");
           randomsayi = Random().nextInt(event.docs.length);
           docname = event.docs.elementAt(randomsayi).id;
         }).toString();
         //print(docname.toString() + "bakk");
-
+*/
         await FirebaseFirestore.instance
             .collection('Chat')
             .doc(k)

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
 import 'profilescreen.dart';
+var dex;
 
 final TextEditingController _answerController = new TextEditingController();
 var phuri;
@@ -42,6 +43,12 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
           .snapshots();
     }
     else if(ty=="PuzzleQuiz"){
+      if (dif == 'Easy')
+        dif = 2;
+      else if (dif == 'Normal')
+        dif = 3;
+      else
+        dif = 4;
       print(dif.toString()+"aaaaa");
       yayin=FirebaseFirestore.instance
           .collection('Puzzles')
@@ -96,7 +103,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 for(int i=0; i<temp;i++) {
                   sacma=snapshot.data.docs.elementAt(i).id;
                   print(sacma);
-                  print(docn);
+                  //print(docn);
                   if (sacma == docn) {
                     if(ty=="PhotoQuiz"){
                       phans = snapshot.data.docs.elementAt(i).get('answer');
@@ -318,11 +325,8 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                               //print(widget.index.toString());
                                               FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
                                                   {'isencrypted':false},SetOptions(merge: true) );
-
-                                              return Navigator.pop(context);
-
+                                              Navigator.pop(context);
                                             }
-
                                           }
                                         }),
                                   ),
@@ -406,7 +410,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         minWidth: 120,
                                         onPressed: () async{
                                           //print(_answer.toString());
-                                          print(phans);
+                                          //print(phans);
                                           if (_answerController.text!=null) {
                                             //print("x");
                                             if(phans==_answerController.text){
@@ -431,14 +435,11 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                         );
                       }
                       else{
-                        return Center(
-                          child: IconButton(
-                            icon: Icon(Icons.clear),
-                            onPressed: () {
-                              Navigator.of(context).pushNamed(('/generatePuzzle'));
-                            },
-                          ),
-                        );
+                        return(IconButton(icon:Icon(Icons.clear),onPressed: (){
+                          dex=widget.index;
+                          Navigator.of(context).pushNamed(('/generatePuzzle'));
+                        },));
+
                       }
                       //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft//return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
                     }

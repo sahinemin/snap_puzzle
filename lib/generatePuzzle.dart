@@ -4,6 +4,10 @@ import 'dart:io';
 import 'dart:async';
 import 'package:snap_puzzle/PuzzlePiece.dart';
 import 'package:path_provider/path_provider.dart';
+import 'profilescreen.dart';
+import 'SolvePuzzle.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'chat.dart';
 
 class GeneratePuzzle extends StatefulWidget {
   final String imageUrl;
@@ -14,8 +18,9 @@ class GeneratePuzzle extends StatefulWidget {
 }
 
 class _GeneratePuzzleState extends State<GeneratePuzzle> {
-  final int rows = 3;
-  final int cols = 3;
+  final int rows = dif;
+  final int cols = dif;
+
   File _image;
   List<Widget> pieces = [];
   bool downloading = true;
@@ -52,7 +57,8 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
         splitImage(Image.file(File(path)));
       });
     } catch (e) {
-      print(e.toString());
+
+      //print(e.toString());
     }
   }
 
@@ -112,6 +118,9 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
 
   @override
   Widget build(BuildContext context) {
+    //print(rows.toString()+"sdadsa");
+    //print(cols.toString()+"asdads");
+    //print((rows*cols).toString()+"asdsda");
     return Scaffold(
       appBar: AppBar(
         title: Text('title'),
@@ -122,16 +131,7 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
             child: _image == null
                 ? new CircularProgressIndicator()
                 :
-            Stack(children: pieces + [
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                    child: Image(
-                      image: FileImage(File(path)),
-                      fit: BoxFit.contain,
-                    )),
-              ),
-            ]))
+            Stack(children: pieces))
             : Column(
           children: [
             FittedBox(
@@ -155,8 +155,16 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
                   color: Colors.green[400],
                   visualDensity:
                   VisualDensity(horizontal: 4, vertical: 4),
-                  onPressed: () {
-                    Navigator.pop(context);
+                  onPressed: () async {
+                    profilescreen.userscore+=5;
+                    await updateUserData();
+                    print(dex.toString());
+                    FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(dex.toString()).set(
+                        {'isencrypted':false},SetOptions(merge: true) );
+                    int count = 0;
+                    control=0;
+                    Navigator.of(context).popUntil((_) => count++ >= 2);
+
                   }),
             )
           ],

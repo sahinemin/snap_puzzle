@@ -56,7 +56,7 @@ class RouteGenerator {
       case '/SolvePuzzle':
         return MaterialPageRoute(builder: (_) => SolvePuzzle(qqq));
       case '/generatePuzzle':
-        return MaterialPageRoute(builder: (_) => GeneratePuzzle(imageUrl : phuri));
+        return MaterialPageRoute(builder: (_) => new GeneratePuzzle(imageUrl : phuri));
     //   case '/SolvePhotoQuiz':
     //     return MaterialPageRoute(            builder: (_) => SolvePhotoQuiz(
     //             answer: passedAnswer,

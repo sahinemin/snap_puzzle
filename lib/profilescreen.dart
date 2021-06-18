@@ -231,7 +231,7 @@ class UserInfoContainer extends StatelessWidget {
                       size: iconSize,
                     ),
                     title: Text(
-                      '${profilescreen.fullname}"',
+                      '${profilescreen.fullname}',
                       style: GoogleFonts.roboto(
                         textStyle: TextStyle(),
                         fontSize: MediaQuery.of(context).textScaleFactor * 17,
@@ -256,48 +256,6 @@ class UserInfoContainer extends StatelessWidget {
                       style: GoogleFonts.roboto(
                         textStyle: TextStyle(),
                         fontSize: MediaQuery.of(context).textScaleFactor * 15,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                height: cardSize,
-                child: Card(
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.place_outlined,
-                      color: Colors.red,
-                      size: iconSize,
-                    ),
-                    title: Text(
-                      '***************',
-                      style: GoogleFonts.roboto(
-                        textStyle: TextStyle(),
-                        fontSize: MediaQuery.of(context).textScaleFactor * 14,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Center(
-              child: Container(
-                height: cardSize,
-                child: Card(
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.email_outlined,
-                      color: Colors.blue,
-                      size: iconSize,
-                    ),
-                    title: Text(
-                      'Rank',
-                      style: GoogleFonts.roboto(
-                        textStyle: TextStyle(),
-                        fontSize: MediaQuery.of(context).textScaleFactor * 12,
                       ),
                     ),
                   ),
