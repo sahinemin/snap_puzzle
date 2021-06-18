@@ -83,7 +83,7 @@ class _profilescreenState extends State<profilescreen> {
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  '${profilescreen.fullname}"',
+                  '${profilescreen.fullname}',
                   style: TextStyle(
                       fontSize: 15.0,
                       fontWeight: FontWeight.w200,
@@ -143,17 +143,13 @@ class _profilescreenState extends State<profilescreen> {
                     height: MediaQuery.of(context).size.height * 0.34,
                     enableInfiniteScroll: false,
                   ),
-                  items: ['Badges', 'Statistics', 'Info'].map((i) {
+                  items: ['Badges', 'Info'].map((i) {
                     return Builder(
                       builder: (BuildContext context) {
                         switch (i) {
                           case 'Badges':
                             {
                               return BadgeContainer();
-                            }
-                          case 'Statistics':
-                            {
-                              return StatisticsContainer();
                             }
                           default:
                             {

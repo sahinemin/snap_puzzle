@@ -110,7 +110,6 @@ class _directContactState extends State<directContact> {
               if (snapshotx.connectionState == ConnectionState.waiting) {
                 return Text('Loading:');
               }
-
               String x = user.uid.trim() + "-" + passedid.toString().trim();
               String y = passedid.toString().trim() + "-" + user.uid.trim();
 
@@ -197,12 +196,12 @@ class _directContactState extends State<directContact> {
                                 ty = doc['type'];
                                 docn = doc['docname'];
                                 dif = doc['difficulty'];
-                                print(ty);
-                                print(docn);
-                                print(dif);
+                                //print(ty);
+                                //print(docn);
+                                //print(dif);
                               }
                             } catch (e) {
-                              print(e.toString());
+                              //print(e.toString());
                             }
                           }).toList();
 
@@ -631,10 +630,17 @@ class _directContactState extends State<directContact> {
             .collection(type)
             .doc(difficulty)
             .collection('Results');
-        reference.snapshots().listen((event) {
+        print("qqq");
+
+
+        QuerySnapshot lll = await reference.snapshots().elementAt(0);
+        int len = lll.docs.length;
+        docname=lll.docs.elementAt(Random().nextInt(len)).id.toString();
+        /*reference.snapshots().listen((event) {
           docname = event.docs.elementAt(Random().nextInt(event.docs.length)).id;
-          print(docname.toString() + "bakk");
-        }).toString();
+          print(docname.toString() +"bakk");
+        }).toString();*/
+        print(docname.toString()+"xxx");
         await FirebaseFirestore.instance
             .collection('Chat')
             .doc(k)
@@ -650,7 +656,8 @@ class _directContactState extends State<directContact> {
           'docname': docname.toString(),
           'time': FieldValue.serverTimestamp()
         });
-      } else {
+      } 
+      else {
         CollectionReference reference = FirebaseFirestore.instance
             .collection('Puzzles')
             .doc('photo')
@@ -658,10 +665,11 @@ class _directContactState extends State<directContact> {
         int randomsayi;
 
         reference.snapshots().listen((event) {
-          print(event.docs.length.toString() + "şş");
+          //print(event.docs.length.toString() + "şş");
           randomsayi = Random().nextInt(event.docs.length);
           docname = event.docs.elementAt(randomsayi).id;
         }).toString();
+        //print(docname.toString() + "bakk");
 
         await FirebaseFirestore.instance
             .collection('Chat')
@@ -694,35 +702,6 @@ class _directContactState extends State<directContact> {
   }
 }
 
-class duzenle extends StatelessWidget {
-  final int index;
-
-  const duzenle({Key key, this.index}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    //print(index);
-    if (check == "********////") {
-      double simdi = index.toDouble();
-      simdi = (index - sayac - 1) / 2;
-      print(simdi.round());
-      return Container(
-          width: 200,
-          height: 200,
-          child: Image.network(
-            gelenresimurl[simdi.round()],
-            errorBuilder: (BuildContext context, Object exception,
-                StackTrace stackTrace) {
-              return Icon(Icons.do_not_disturb);
-            },
-          ));
-    } else {
-      sayac = 0;
-      sayac++;
-      return Text(check, style: TextStyle(color: Colors.white, fontSize: 17));
-    }
-  }
-}
 
 class MessageArray {
   String id;

@@ -32,7 +32,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
 
     if(ty!="PuzzleQuiz"){
       //print(cat);
-      //print(ty);
+     // print(ty);
       //print(dif);
       yayin=FirebaseFirestore.instance
           .collection('Puzzles')
@@ -95,6 +95,8 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 String sacma;
                 for(int i=0; i<temp;i++) {
                   sacma=snapshot.data.docs.elementAt(i).id;
+                  print(sacma);
+                  print(docn);
                   if (sacma == docn) {
                     if(ty=="PhotoQuiz"){
                       phans = snapshot.data.docs.elementAt(i).get('answer');
@@ -404,9 +406,10 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         minWidth: 120,
                                         onPressed: () async{
                                           //print(_answer.toString());
-                                          if (_answer!=null) {
+                                          print(phans);
+                                          if (_answerController.text!=null) {
                                             //print("x");
-                                            if(phans==_answer){
+                                            if(phans==_answerController.text){
                                               _answerController.clear();
                                               _answer = null;
                                               profilescreen.userscore+=5;
@@ -416,7 +419,6 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                               //print(widget.index.toString());
                                               FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
                                                   {'isencrypted':false},SetOptions(merge: true) );
-
                                               return Navigator.pop(context);
                                             }
                                           }

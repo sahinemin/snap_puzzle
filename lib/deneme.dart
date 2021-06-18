@@ -68,9 +68,7 @@ Future sendmessage(bool isenc) async {
               .doc(difficulty)
               .collection('Results');
           reference.snapshots().listen((event) {
-            docname = event.docs
-                .elementAt(Random().nextInt(event.docs.length))
-                .id;
+            docname = event.docs.elementAt(Random().nextInt(event.docs.length)).id;
             //print(_docname+"bakk");
           }).toString();
           await FirebaseFirestore.instance.collection('Chat').doc(k).
