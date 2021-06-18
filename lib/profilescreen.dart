@@ -36,7 +36,7 @@ class _profilescreenState extends State<profilescreen> {
       temp.add(doc['score']);
     });
 
-    profilescreen.userscore = int.parse(temp[0]);
+    profilescreen.userscore = temp[0];
     return profilescreen.userscore;
   }
 
@@ -507,7 +507,7 @@ class _BadgeContainerState extends State<BadgeContainer> {
     based.docs.forEach((doc) {
       temp.add(doc['score']);
     });
-    int userScore = int.parse(temp[0]);
+    int userScore = temp[0];
     return userScore;
   }
 

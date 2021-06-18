@@ -85,7 +85,7 @@ class _MainPageState extends State<MainPage> {
           },
           controller: pageController,
           scrollDirection: Axis.horizontal,
-          children: user.uid == 'XdFX1Y3HfzNr2lXZIk7zjIwXfaM2' ? admin : nonAdmin,
+          children: isAdmin ? admin : nonAdmin,
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed, //this will make background have color from backgroundColor and make lables always appear. if you want shifting type with color, give items color one by one
@@ -93,7 +93,7 @@ class _MainPageState extends State<MainPage> {
           currentIndex: _ExactPageNumber,
           selectedItemColor: Color(0xFF003942),
           unselectedItemColor: Colors.grey[100],
-          items: user.uid == 'XdFX1Y3HfzNr2lXZIk7zjIwXfaM2' ? bnb_admin : bnb_nonAdmin,
+          items: isAdmin ? bnb_admin : bnb_nonAdmin,
           onTap: (currentPageNumber) {
             setState(() {
               pageController.jumpToPage(currentPageNumber);

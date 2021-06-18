@@ -40,30 +40,14 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
           .collection(ty).doc(dif).
       collection('Results')
           .snapshots();
-      if(ty=="TextQuiz"){
-        textquiz=true;
-      }
     }
     else if(ty=="PuzzleQuiz"){
-      if(dif=="Easy"){
-        dif=2;
-      }
-      else if(dif=="Normal"){
-        dif=3;
-      }
-      else if(dif=="Hard"){
-        dif=4;
-      }
       print(dif.toString()+"aaaaa");
       yayin=FirebaseFirestore.instance
           .collection('Puzzles')
           .doc('photo')
           .collection(dif.toString()).snapshots();
     }
-
-
-
-
     //print(cat+"xxx");
     //print(ty+"xxx");
     //print(dif+"xxx");
@@ -71,6 +55,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
     return WillPopScope(
       onWillPop: () {
         _answerController.clear();
+        _answer = null;
         return Future.value(true);
       },
       child: Scaffold(
@@ -107,22 +92,17 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 //print(dif);
 
                 int temp=snapshot.data.docs.length;
-                //print(temp);
-                //print(snapshot.data.docs.elementAt(1).get('answer'));
                 String sacma;
                 for(int i=0; i<temp;i++) {
                   sacma=snapshot.data.docs.elementAt(i).id;
-                  //print(sacma);
                   if (sacma == docn) {
-
                     if(ty=="PhotoQuiz"){
                       phans = snapshot.data.docs.elementAt(i).get('answer');
                       phuri = snapshot.data.docs.elementAt(i).get('url');
                     }
-                    else if(ty=="TexQuiz"){
+                    else if(ty=="TextQuiz"){
                       phans = snapshot.data.docs.elementAt(i).get('answer');
                       desc=snapshot.data.docs.elementAt(i).get('desc');
-                      //answer=snapshot.data.docs.elementAt(i).get('answer');
                       sel1=snapshot.data.docs.elementAt(i).get('sel1');
                       sel2=snapshot.data.docs.elementAt(i).get('sel2');
                       sel3=snapshot.data.docs.elementAt(i).get('sel3');
@@ -327,6 +307,8 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                           if (_answer != null) {
                                             //print(phans);
                                             if(_answer.toString()==phans){
+                                              _answerController.clear();
+                                              _answer = null;
                                               profilescreen.userscore+=5;
                                               await updateUserData();
                                               //print(profilescreen.userscore);
@@ -425,6 +407,8 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                           if (_answer!=null) {
                                             //print("x");
                                             if(phans==_answer){
+                                              _answerController.clear();
+                                              _answer = null;
                                               profilescreen.userscore+=5;
                                               await updateUserData();
                                               //print(profilescreen.userscore);
@@ -446,19 +430,14 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                       }
                       else{
                         return Center(
-                          child:Container(
-                            width: 50,
-                            height: 50,
-                            child: IconButton(
-                              icon: Icon(Icons.event),
-                              onPressed: (){
-                                Navigator.of(context).pushNamed('/generatepuzzle');
-                              },
-                            ),
-                          )
-                        );//GeneratePuzzle(url: phuri);
+                          child: IconButton(
+                            icon: Icon(Icons.clear),
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(('/generatePuzzle'));
+                            },
+                          ),
+                        );
                       }
-
                       //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft//return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
                     }
                 );

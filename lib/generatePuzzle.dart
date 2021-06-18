@@ -1,55 +1,62 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:snap_puzzle/PuzzlePiece.dart';
-import 'package:snap_puzzle/SolvePuzzle.dart';
-import 'dart:convert';
-import 'chat.dart';
+import 'package:path_provider/path_provider.dart';
 
-
-
-int rows=dif;
-int cols=dif;
-File _image;
 class GeneratePuzzle extends StatefulWidget {
-  //final int maxPoints;
-  final String url;
-
-  GeneratePuzzle({Key key, this.url})
-      : super(key: key);
+  final String imageUrl;
+  GeneratePuzzle({Key key, this.imageUrl});
 
   @override
   _GeneratePuzzleState createState() => _GeneratePuzzleState();
 }
 
-
 class _GeneratePuzzleState extends State<GeneratePuzzle> {
-
+  final int rows = 3;
+  final int cols = 3;
   File _image;
   List<Widget> pieces = [];
+  bool downloading = true;
+  var dir;
+  var path;
 
-  /*Future getImage() async {
-    var filePath;
-    Uri uri;
-    uri=Uri.parse(phuri);
-    var response = await http.get(uri);
-    filePath = await ImagePickerSaver.saveFile(fileData: response.bodyBytes,title: "deneme",description:"simdi");
-    print(filePath.toString()+"dasads");
+  void initState() {
+    super.initState();
 
+    downloadImage();
+  }
 
-    setState(() {
-      _image = File(filePath);
+  Future<void> downloadImage() async {
+    Dio dio = new Dio();
+
+    try {
+      dir = await getApplicationDocumentsDirectory();
+      path = '${dir.path}/myimage.jpg';
+      print(dir);
+      await dio.download(
+        widget.imageUrl,
+        path,
+        onReceiveProgress: (count, total) {
+          print(count / total);
+          setState(() {
+            downloading = true;
+          });
+        },
+      );
+      setState(() async {
+        downloading = false;
+        _image = File(path);
         pieces.clear();
+        splitImage(Image.file(File(path)));
       });
-    splitImage(Image.file(File(filePath)));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
-
-
-  }*/
-
-// we need to find out the image size, to be used in the PuzzlePiece widget
+  // we need to find out the image size, to be used in the PuzzlePiece widget
   Future<Size> getImageSize(Image image) async {
     final Completer<Size> completer = Completer<Size>();
     image.image
@@ -65,11 +72,9 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
     return imageSize;
   }
 
-// here we will split the image into small pieces using the rows and columns defined above; each piece will be added to a stack
+  // here we will split the image into small pieces using the rows and columns defined above; each piece will be added to a stack
   void splitImage(Image image) async {
     Size imageSize = await getImageSize(image);
-
-
 
     for (int x = 0; x < rows; x++) {
       for (int y = 0; y < cols; y++) {
@@ -89,7 +94,7 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
     }
   }
 
-// when the pan of a piece starts, we need to bring it to the front of the stack
+  // when the pan of a piece starts, we need to bring it to the front of the stack
   void bringToTop(Widget widget) {
     setState(() {
       pieces.remove(widget);
@@ -97,27 +102,65 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
     });
   }
 
-// when a piece reaches its final position, it will be sent to the back of the stack to not get in the way of other, still movable, pieces
+  // when a piece reaches its final position, it will be sent to the back of the stack to not get in the way of other, still movable, pieces
   void sendToBack(Widget widget) {
     setState(() {
       pieces.remove(widget);
       pieces.insert(0, widget);
     });
   }
-@override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Puzzle'),
+        title: Text('title'),
       ),
-      body: Container(
-        child:Center(child: IconButton(icon: Icon(Icons.event),
-          onPressed: ()async
-          {
-            //await getImage();
-          },
-        ),)
+      body: SafeArea(
+        child: (control < (rows * cols))
+            ? new Center(
+            child: _image == null
+                ? new CircularProgressIndicator()
+                :
+            Stack(children: pieces + [
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                    child: Image(
+                      image: FileImage(File(path)),
+                      fit: BoxFit.contain,
+                    )),
+              ),
+            ]))
+            : Column(
+          children: [
+            FittedBox(
+                child: Image(
+                  image: FileImage(File(path)),
+                )),
+            Expanded(
+              child: Container(),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(60.0),
+              child: MaterialButton(
+                  height: 37.5,
+                  shape: CircleBorder(),
+                  child: Icon(
+                    Icons.arrow_back,
+                    size: 37.5,
+                    color: Colors.white,
+                    //  color: Colors.white,
+                  ),
+                  color: Colors.green[400],
+                  visualDensity:
+                  VisualDensity(horizontal: 4, vertical: 4),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
+            )
+          ],
+        ),
       ),
     );
   }

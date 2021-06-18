@@ -333,7 +333,7 @@ class _ScoreboardState extends State<Scoreboard> {
                                 new ListTile(
                                   tileColor: index == snapshot.data.docs.length
                                       ? Colors.yellow
-                                      : Colors.black,
+                                      : Colors.white,
                                   title: Padding(
                                     padding: const EdgeInsets.all(3.0),
                                     child: Row(

@@ -14,7 +14,8 @@ import 'contacts.dart';
 import 'package:snap_puzzle/SendPuzzle.dart';
 import 'deneme.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-var ids=[];
+
+var ids = [];
 int sayac = 0;
 String check;
 int a;
@@ -45,8 +46,8 @@ class chat extends StatelessWidget {
   Widget build(BuildContext context) {
     //print(passedid);
     return Scaffold(body: directContact(chatName, friendid)
-      // home: DirectContact(contactName: "Contact Name"),
-    );
+        // home: DirectContact(contactName: "Contact Name"),
+        );
   }
 }
 
@@ -109,18 +110,14 @@ class _directContactState extends State<directContact> {
               if (snapshotx.connectionState == ConnectionState.waiting) {
                 return Text('Loading:');
               }
-              //if(!snapshotx.hasData)
-              //return Text('Bekle');
-              //print(passedid+"bakalım");
+
               String x = user.uid.trim() + "-" + passedid.toString().trim();
-              //print (x+"bende");
               String y = passedid.toString().trim() + "-" + user.uid.trim();
-              //print (y+"bende");
-              //print(snapshotx.data.docs.length);
+
               bool alreadychatted = false;
               for (int i = 0; i < snapshotx.data.docs.length; i++) {
                 String a =
-                snapshotx.data.docs.elementAt(i).id.toString().trim();
+                    snapshotx.data.docs.elementAt(i).id.toString().trim();
                 //print (a);
                 if (a == x) {
                   alreadychatted = true;
@@ -141,8 +138,8 @@ class _directContactState extends State<directContact> {
                 FirebaseFirestore.instance
                     .collection('Chat')
                     .doc(user.uid.toString().trim() +
-                    "-" +
-                    passedid.toString().trim())
+                        "-" +
+                        passedid.toString().trim())
                     .set({'name': "text"});
               } else {
                 if (idfirst) {
@@ -180,53 +177,35 @@ class _directContactState extends State<directContact> {
                               ConnectionState.waiting) {
                             return Text('Loading:');
                           }
-                          //print(user.uid + "-" + passedid.toString().trim());
-                          //return ListView.separated(
-                          //children: snapshot.data.docs.map((doc) => ListTile(title: Text(doc['receiverid']),subtitle: Text('Emin'),)).toList(),
-                          //);
 
                           List<MessageArray> messagearr = [];
                           gelenresimurl.clear();
                           snapshot.data.docs.map((doc) {
                             messagearr.add(
                               MessageArray(doc['isencrypted'], doc['message'],
-                                  doc['sender_id'],doc.id),
+                                  doc['sender_id'], doc.id),
                             );
-                            try{
-
+                            try {
                               if (doc['message'] == "********////") {
                                 gelenresimurl.add(doc['url']);
                                 //print(doc['url']);
                               }
-                              if(doc['isencrypted']==true){
-                                if(doc['type']!="PuzzleQuiz"){
+                              if (doc['isencrypted'] == true) {
+                                if (doc['type'] != "PuzzleQuiz") {
                                   cat = doc['category'];
                                 }
-                                ty=doc['type'];
-                                docn=doc['docname'];
+                                ty = doc['type'];
+                                docn = doc['docname'];
                                 dif = doc['difficulty'];
                                 print(ty);
                                 print(docn);
                                 print(dif);
-                                /*if(doc['type']=="PhotoQuiz"){
-                                  phuri=doc['url'];
-                                  phans=doc['answer'];
-                                }*/
-                                //ids.add(doc.id);
-                  }
-
+                              }
+                            } catch (e) {
+                              print(e.toString());
                             }
-                            catch(e){
-                              //print(ty);
-                              //print(docn);
-                              //print(cat);
-                              //print(dif);
-
-                              //print(e.toString());
-                            }
-                            //print(doc['isencrypted']);
                           }).toList();
-                          //print(gelenresimurl);
+
                           return ListView.separated(
                             separatorBuilder: (context, index) => Divider(
                               color: Colors.white,
@@ -239,8 +218,7 @@ class _directContactState extends State<directContact> {
                         }*/
                               if (messagearr[index].isenc &&
                                   messagearr[index].sender_id != user.uid) {
-                                return
-                                Container(
+                                return Container(
                                   width: 10,
                                   alignment: Alignment.bottomLeft,
                                   child: Card(
@@ -248,8 +226,9 @@ class _directContactState extends State<directContact> {
                                     child: TextButton(
                                         child: Text('ENCRYPTED'),
                                         onPressed: () {
-                                          qqq=messagearr[index].id;
-                                          Navigator.of(context).pushNamed('/SolvePuzzle');
+                                          qqq = messagearr[index].id;
+                                          Navigator.of(context)
+                                              .pushNamed('/SolvePuzzle');
                                         }),
                                   ),
                                 );
@@ -263,10 +242,12 @@ class _directContactState extends State<directContact> {
                                     alignment: Alignment.bottomRight,
                                     child: Padding(
                                       padding:
-                                      const EdgeInsets.only(left: 55.0),
+                                          const EdgeInsets.only(left: 55.0),
                                       child: Card(
-                                        color: Colors.green[400],
-                                        child: Padding(
+                                          color: Colors.green[400],
+                                          child: duzenle(
+                                              index:
+                                                  index) /*Padding(
                                             padding: const EdgeInsets.all(10.0),
                                             child: Container(child: Text(
                                                 messagearr[index]
@@ -275,8 +256,8 @@ class _directContactState extends State<directContact> {
                                                 style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 17)),) //duzenle(index: index)
-                                        ),
-                                      ),
+                                        ),*/
+                                          ),
                                     ));
                               } else if (!messagearr[index].isenc &&
                                   messagearr[index].sender_id == user.uid) {
@@ -327,138 +308,138 @@ class _directContactState extends State<directContact> {
                 ),
                 isSwitcheden
                     ? Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(25, 0, 25, 70),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 100,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: type,
-                            //elevation: 5,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            iconEnabledColor: Colors.black,
-                            items: <String>[
-                              'TextQuiz',
-                              'PhotoQuiz',
-                              'PuzzleQuiz',
-                            ].map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: TextStyle(color: Colors.black),
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(25, 0, 25, 70),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                width: 100,
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  focusColor: Colors.white,
+                                  value: type,
+                                  //elevation: 5,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  iconEnabledColor: Colors.black,
+                                  items: <String>[
+                                    'TextQuiz',
+                                    'PhotoQuiz',
+                                    'PuzzleQuiz',
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  hint: Text(
+                                    "Type",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  onChanged: (String value) {
+                                    setState(() {
+                                      type = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                              type != 'PuzzleQuiz'
+                                  ? Container(
+                                      width: 100,
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        focusColor: Colors.white,
+                                        value: category,
+                                        //elevation: 5,
+                                        style: TextStyle(color: Colors.white),
+                                        iconEnabledColor: Colors.black,
+                                        items: <String>[
+                                          'Math',
+                                          'History',
+                                          'Science',
+                                          'Computer',
+                                        ].map<DropdownMenuItem<String>>(
+                                            (String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: Text(
+                                              value,
+                                              style: TextStyle(
+                                                  color: Colors.black),
+                                            ),
+                                          );
+                                        }).toList(),
+                                        hint: Text(
+                                          "Category",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        onChanged: (String value) {
+                                          setState(() {
+                                            category = value;
+                                          });
+                                        },
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 0,
+                                      height: 0,
                                     ),
-                                  );
-                                }).toList(),
-                            hint: Text(
-                              "Type",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onChanged: (String value) {
-                              setState(() {
-                                type = value;
-                              });
-                            },
+                              Container(
+                                width: 100,
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  focusColor: Colors.white,
+                                  value: difficulty,
+                                  //elevation: 5,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  iconEnabledColor: Colors.black,
+                                  items: <String>[
+                                    'Easy',
+                                    'Normal',
+                                    'Hard',
+                                  ].map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    );
+                                  }).toList(),
+                                  hint: Text(
+                                    "Difficulty",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  onChanged: (String value) {
+                                    setState(() {
+                                      difficulty = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                        type != 'PuzzleQuiz'
-                            ? Container(
-                          width: 100,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: category,
-                            //elevation: 5,
-                            style: TextStyle(color: Colors.white),
-                            iconEnabledColor: Colors.black,
-                            items: <String>[
-                              'Math',
-                              'History',
-                              'Science',
-                              'Computer',
-                            ].map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: TextStyle(
-                                          color: Colors.black),
-                                    ),
-                                  );
-                                }).toList(),
-                            hint: Text(
-                              "Category",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onChanged: (String value) {
-                              setState(() {
-                                category = value;
-                              });
-                            },
-                          ),
-                        )
-                            : Container(
-                          width: 0,
-                          height: 0,
-                        ),
-                        Container(
-                          width: 100,
-                          child: DropdownButton<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            value: difficulty,
-                            //elevation: 5,
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                            iconEnabledColor: Colors.black,
-                            items: <String>[
-                              'Easy',
-                              'Normal',
-                              'Hard',
-                            ].map<DropdownMenuItem<String>>(
-                                    (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(
-                                      value,
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  );
-                                }).toList(),
-                            hint: Text(
-                              "Difficulty",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            onChanged: (String value) {
-                              setState(() {
-                                difficulty = value;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
+                      )
                     : Container(),
                 Align(
                   // this is the chat part at the below
@@ -492,7 +473,7 @@ class _directContactState extends State<directContact> {
                                               children: [
                                                 new ListTile(
                                                   leading:
-                                                  new Icon(Icons.camera),
+                                                      new Icon(Icons.camera),
                                                   title: new Text('Camera'),
                                                   onTap: () async {
                                                     await getImage(
@@ -505,15 +486,16 @@ class _directContactState extends State<directContact> {
                                                             builder: (_) =>
                                                                 deneme(
                                                                     file:
-                                                                    _file)));
+                                                                        _file)));
                                                   },
                                                 ),
                                                 new ListTile(
                                                   leading:
-                                                  new Icon(Icons.image),
+                                                      new Icon(Icons.image),
                                                   title: new Text('Gallery'),
                                                   onTap: () async {
-                                                    await getImage(ImageSource.gallery);
+                                                    await getImage(
+                                                        ImageSource.gallery);
                                                     print(
                                                         _file.path.toString() +
                                                             "baksana");
@@ -524,7 +506,7 @@ class _directContactState extends State<directContact> {
                                                             builder: (_) =>
                                                                 deneme(
                                                                     file:
-                                                                    _file)));
+                                                                        _file)));
                                                   },
                                                 ),
                                               ],
@@ -555,7 +537,7 @@ class _directContactState extends State<directContact> {
                               controller: message,
                               cursorColor: Colors.lightBlue,
                               style:
-                              TextStyle(fontSize: 18, color: Colors.black),
+                                  TextStyle(fontSize: 18, color: Colors.black),
                             ),
                           ),
                           Padding(
@@ -624,7 +606,7 @@ class _directContactState extends State<directContact> {
             .collection('Results');
         reference.snapshots().listen((event) {
           docname = event.docs.elementAt(Random().nextInt(event.docs.length)).id;
-          print(docname.toString()+ "bakk");
+          print(docname.toString() + "bakk");
         }).toString();
         await FirebaseFirestore.instance
             .collection('Chat')
@@ -638,7 +620,7 @@ class _directContactState extends State<directContact> {
           'category': category,
           'type': type,
           'difficulty': difficulty,
-          'docname': docname,
+          'docname': docname.toString(),
           'time': FieldValue.serverTimestamp()
         });
       } else {
@@ -666,7 +648,7 @@ class _directContactState extends State<directContact> {
           'docname': docname.toString(),
           'difficulty': difficulty,
           'time': FieldValue.serverTimestamp(),
-          'type':"PuzzleQuiz"
+          'type': "PuzzleQuiz"
         });
       }
     } else {
@@ -687,6 +669,7 @@ class _directContactState extends State<directContact> {
 
 class duzenle extends StatelessWidget {
   final int index;
+
   const duzenle({Key key, this.index}) : super(key: key);
 
   @override
@@ -720,5 +703,5 @@ class MessageArray {
   String message;
   String sender_id;
 
-  MessageArray(this.isenc, this.message, this.sender_id,this.id);
+  MessageArray(this.isenc, this.message, this.sender_id, this.id);
 }
