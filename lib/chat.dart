@@ -301,22 +301,27 @@ class _directContactState extends State<directContact> {
                               } else {
                                 return Align(
                                   alignment: Alignment.bottomLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(right: 50.0),
-                                    child: Card(
-                                      color: Colors.grey[100],
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
+                                  child: Padding(//duzenle(index: index)
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: check != "********////" ? Container (
+
+                                        color: Colors.grey[100],
                                         child: Text(
-                                            messagearr[index]
-                                                .message
-                                                .toString(),
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 17)),
-                                      ),
-                                    ),
-                                  ),
+                                          snapshot.data.docs.elementAt(index).get('message'),
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 17)),):Container(
+                                          width: 200,
+                                          height: 200,
+                                          child: Image.network(
+                                            snapshot.data.docs.elementAt(index).get('url'),
+                                            errorBuilder: (BuildContext context, Object exception,
+                                                StackTrace stackTrace) {
+                                              return Icon(Icons.do_not_disturb);
+                                            },
+                                          )
+                                      ) //duzenle(index: index)
+                                  )
                                 );
                               }
                             },
