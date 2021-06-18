@@ -30,6 +30,7 @@ var difficulty;
 var dif;
 var docn;
 var qqq;
+int MaxPoints;
 
 TextEditingController message = new TextEditingController();
 bool isSwitcheden = false;
@@ -108,7 +109,7 @@ class _directContactState extends State<directContact> {
                 return Text("${snapshotx.error}");
               }
               if (snapshotx.connectionState == ConnectionState.waiting) {
-                return Text('Loading:');
+                return Text('');
               }
               String x = user.uid.trim() + "-" + passedid.toString().trim();
               String y = passedid.toString().trim() + "-" + user.uid.trim();
@@ -174,7 +175,7 @@ class _directContactState extends State<directContact> {
                           }
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Text('Loading:');
+                            return Text('');
                           }
 
                           List<MessageArray> messagearr = [];
@@ -196,6 +197,20 @@ class _directContactState extends State<directContact> {
                                 ty = doc['type'];
                                 docn = doc['docname'];
                                 dif = doc['difficulty'];
+                                switch(dif)  {
+                                  case 'Easy' : {
+                                    MaxPoints = 10;
+                                    break;
+                                  }
+                                  case 'Normal' : {
+                                    MaxPoints = 25;
+                                    break;
+                                  }
+                                  case 'Hard' : {
+                                    MaxPoints = 50;
+                                    break;
+                                  }
+                            }
                                 //print(ty);
                                 //print(docn);
                                 //print(dif);
@@ -251,16 +266,13 @@ class _directContactState extends State<directContact> {
                                                   snapshot.data.docs.elementAt(index).get('message'),
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 17)),):FittedBox(
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Image.network(
-                                                      snapshot.data.docs.elementAt(index).get('url'),
-                                                      errorBuilder: (BuildContext context, Object exception,
-                                                          StackTrace stackTrace) {
-                                                        return Icon(Icons.do_not_disturb);
-                                                      },
-                                                    ),
+                                                      fontSize: 17)),)  : FittedBox(
+                                                  child: Image.network(
+                                                    snapshot.data.docs.elementAt(index).get('url'),
+                                                    errorBuilder: (BuildContext context, Object exception,
+                                                        StackTrace stackTrace) {
+                                                      return Icon(Icons.do_not_disturb);
+                                                    },
                                                   )
                                               ) //duzenle(index: index)
                                           ),
@@ -276,23 +288,22 @@ class _directContactState extends State<directContact> {
                                     child: Card(
                                       color: Colors.green[400],
                                       child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
+                                          padding: const EdgeInsets.all(3.75),
                                           child: Padding(//duzenle(index: index)
-                                              padding: const EdgeInsets.all(10.0),
-                                              child: check != "********////"?Container(child: Text(
+                                              padding: const EdgeInsets.all(3.75),
+                                              child: check != "********////" ? Container(child: Text(
                                                   snapshot.data.docs.elementAt(index).get('message'),
                                                   style: TextStyle(
                                                       color: Colors.white,
-                                                      fontSize: 17)),):FittedBox(
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(10),
-                                                    child: Image.network(
-                                                      snapshot.data.docs.elementAt(index).get('url'),
-                                                      errorBuilder: (BuildContext context, Object exception,
-                                                          StackTrace stackTrace) {
-                                                        return Icon(Icons.do_not_disturb);
-                                                      },
-                                                    ),
+                                                      fontSize: 17)),) : Container(
+                                                height: 275,
+                                                  child: Image.network(
+                                                    snapshot.data.docs.elementAt(index).get('url'),
+                                                    fit: BoxFit.fill,
+                                                    errorBuilder: (BuildContext context, Object exception,
+                                                        StackTrace stackTrace) {
+                                                      return Icon(Icons.do_not_disturb);
+                                                    },
                                                   )
                                               ) //duzenle(index: index)
                                           ),),

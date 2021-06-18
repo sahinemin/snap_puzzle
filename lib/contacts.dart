@@ -135,7 +135,7 @@ class Page1 extends StatelessWidget {
                   return Text("${snapshot.error}");
                 }
                 if(snapshot.connectionState==ConnectionState.waiting){
-                  return Text('Loading:');
+                  return Text('');
                 }
                 words.clear();
                 chats.clear();
@@ -156,7 +156,7 @@ class Page1 extends StatelessWidget {
                         return Text("${snapshot.error}");
                       }
                       if(snapshot.connectionState==ConnectionState.waiting){
-                        return Text('Loading:');
+                        return Text('');
                       }
 
                       return ListView.separated(

@@ -88,7 +88,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 }
                 if (snapshot.connectionState ==
                     ConnectionState.waiting) {
-                  return Text('Loading:');
+                  return Text('');
                 }
                 //print(user.uid + "-" + passedid.toString().trim());
                 //return ListView.separated(
@@ -312,13 +312,13 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         ),
                                         height: 40,
                                         minWidth: 120,
-                                        onPressed: ()async {
+                                        onPressed: () async {
                                           if (_answer != null) {
                                             //print(phans);
                                             if(_answer.toString()==phans){
                                               _answerController.clear();
                                               _answer = null;
-                                              profilescreen.userscore+=5;
+                                              profilescreen.userscore+=MaxPoints;
                                               await updateUserData();
                                               //print(profilescreen.userscore);
                                               //print(k);
@@ -326,6 +326,13 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                               FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
                                                   {'isencrypted':false},SetOptions(merge: true) );
                                               Navigator.pop(context);
+                                            } else {
+                                              _answerController.clear();
+                                              _answer = null;
+                                              MaxPoints -= 5;
+                                              if(MaxPoints<0) {
+                                                MaxPoints = 0;
+                                              }
                                             }
                                           }
                                         }),
@@ -416,7 +423,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                             if(phans==_answerController.text){
                                               _answerController.clear();
                                               _answer = null;
-                                              profilescreen.userscore+=5;
+                                              profilescreen.userscore+=MaxPoints;
                                               await updateUserData();
                                               //print(profilescreen.userscore);
                                               //print(k);
@@ -424,6 +431,13 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                               FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
                                                   {'isencrypted':false},SetOptions(merge: true) );
                                               return Navigator.pop(context);
+                                            } else {
+                                              _answerController.clear();
+                                              _answer = null;
+                                              MaxPoints -= 5;
+                                              if(MaxPoints<0) {
+                                                MaxPoints = 0;
+                                              }
                                             }
                                           }
                                         }),
@@ -435,11 +449,40 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                         );
                       }
                       else{
-                        return(IconButton(icon:Icon(Icons.clear),onPressed: (){
-                          dex=widget.index;
-                          Navigator.of(context).pushNamed(('/generatePuzzle'));
-                        },));
-
+                        return Container(
+                          height: MediaQuery.of(context).size.height-100,
+                          width:  MediaQuery.of(context).size.width,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: Image.network(phuri, fit: BoxFit.contain,),
+                              ),
+                              Expanded(
+                                child: Container(),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(60.0),
+                                child: MaterialButton(
+                                    height: 37.5,
+                                    shape: CircleBorder(),
+                                    child: Icon(
+                                      Icons.arrow_forward,
+                                      size: 37.5,
+                                      color: Colors.white,
+                                      //  color: Colors.white,
+                                    ),
+                                    color: Colors.green[400],
+                                    visualDensity:
+                                    VisualDensity(horizontal: 4, vertical: 4),
+                                    onPressed: ()  {
+                                      dex=widget.index;
+                                      Navigator.of(context).pushNamed('/generatePuzzle');
+                                    }),
+                              ),
+                            ],
+                          ),
+                        );
                       }
                       //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft//return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
                     }
