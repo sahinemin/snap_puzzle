@@ -2,9 +2,6 @@
 
 A Flutter project which can be used for sending private messages to your friends with a problem. After solving the problem user got points and getting the order in the scoreboard.
 
-
-
-![Screenshot_1675519057](https://user-images.githubusercontent.com/74674317/216771760-414c6686-a455-44b7-81b6-e444b8924053.png)
 ![Screenshot_1675519060](https://user-images.githubusercontent.com/74674317/216771761-23659380-f8c0-4895-b024-2cccdc80dee4.png)
 ![Screenshot_1675519065](https://user-images.githubusercontent.com/74674317/216771762-ca05c28f-b3ba-48a4-a256-5b91102e1e9f.png)
 
