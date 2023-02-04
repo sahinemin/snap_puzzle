@@ -135,7 +135,7 @@ class _SignUpState extends State<SignUp> {
                   color: Colors.redAccent[400],
                   borderRadius: new BorderRadius.all(Radius.circular(10)),
                 ),
-                child: ElevatedButton(
+                child: TextButton(
                   child: Text(
                     'REGISTER',
                     style: TextStyle(

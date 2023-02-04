@@ -136,7 +136,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                   color: Colors.redAccent[400],
                   borderRadius: new BorderRadius.all(Radius.circular(10)),
                 ),
-                child: ElevatedButton(
+                child: TextButton(
                   child: Text(
                     'Update',
                     style: TextStyle(

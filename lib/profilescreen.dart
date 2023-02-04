@@ -165,7 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Container(
                     color: Colors.green,
-                    child: ElevatedButton(
+                    child: TextButton(
                       child: Text(
                         'LOG OUT',
                         style: TextStyle(
@@ -178,6 +178,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Navigator.of(context).pushNamed('/LogIn');
                       },
                     ),
+                  ),
+                  SizedBox(
+                    height: 15,
                   ),
                 ]),
               ),

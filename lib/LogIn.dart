@@ -214,7 +214,7 @@ class _LogInState extends State<LogIn> {
                           // ignore: deprecated_member_use
                           child: Container(
                             height: 50,
-                            child: ElevatedButton(
+                            child: TextButton(
                               child: Text(
                                 'LOG IN',
                                 style: TextStyle(
@@ -238,7 +238,7 @@ class _LogInState extends State<LogIn> {
                                 new BorderRadius.all(Radius.circular(10)),
                           ),
                           // ignore: deprecated_member_use
-                          child: ElevatedButton(
+                          child: TextButton(
                             child: Image(
                               image: AssetImage('assets/sign_in_google.png'),
                             ),
