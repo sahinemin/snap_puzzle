@@ -4,7 +4,6 @@ A Flutter project which can be used for sending private messages to your friends
 
 
 
-![Screenshot_1675518965](https://user-images.githubuse![Screenshot_1675519067](https://user-images.githubusercontent.com/74674317/216771747-571710e6-90fb-4532-a653-0c3d5ba2b9c7.png)![Screenshot_1675519047](https://user-images.githubusercontent.com/74674317/216771759-f9bf5b2c-14d2-4889-ace0-8047e9904067.png)
 ![Screenshot_1675519057](https://user-images.githubusercontent.com/74674317/216771760-414c6686-a455-44b7-81b6-e444b8924053.png)
 ![Screenshot_1675519060](https://user-images.githubusercontent.com/74674317/216771761-23659380-f8c0-4895-b024-2cccdc80dee4.png)
 ![Screenshot_1675519065](https://user-images.githubusercontent.com/74674317/216771762-ca05c28f-b3ba-48a4-a256-5b91102e1e9f.png)
