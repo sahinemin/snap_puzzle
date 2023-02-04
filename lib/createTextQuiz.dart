@@ -365,11 +365,11 @@ class _CreateTextQuizState extends State<CreateTextQuiz> {
                         height: 40,
                         minWidth: 120,
                         onPressed: () {
-                          if (!_descriptionController.text.isEmpty &&
-                              !_selection1Controller.text.isEmpty &&
-                              !_selection2Controller.text.isEmpty &&
-                              !_selection3Controller.text.isEmpty &&
-                              !_selection4Controller.text.isEmpty &&
+                          if (_descriptionController.text.isNotEmpty &&
+                              _selection1Controller.text.isNotEmpty &&
+                              _selection2Controller.text.isNotEmpty &&
+                              _selection3Controller.text.isNotEmpty &&
+                              _selection4Controller.text.isNotEmpty &&
                               _answer != null &&
                               _category != null &&
                               _difficulty != null) {

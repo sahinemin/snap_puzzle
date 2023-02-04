@@ -57,7 +57,6 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
         splitImage(Image.file(File(path)));
       });
     } catch (e) {
-
       //print(e.toString());
     }
   }
@@ -128,47 +127,50 @@ class _GeneratePuzzleState extends State<GeneratePuzzle> {
       body: SafeArea(
         child: (control < (rows * cols))
             ? new Center(
-            child: _image == null
-                ? new CircularProgressIndicator()
-                :
-            Stack(children: pieces))
+                child: _image == null
+                    ? new CircularProgressIndicator()
+                    : Stack(children: pieces))
             : Column(
-          children: [
-            FittedBox(
-                child: Image(
-                  image: FileImage(File(path)),
-                )),
-            Expanded(
-              child: Container(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(60.0),
-              child: MaterialButton(
-                  height: 37.5,
-                  shape: CircleBorder(),
-                  child: Icon(
-                    Icons.arrow_back,
-                    size: 37.5,
-                    color: Colors.white,
-                    //  color: Colors.white,
+                children: [
+                  FittedBox(
+                      child: Image(
+                    image: FileImage(File(path)),
+                  )),
+                  Expanded(
+                    child: Container(),
                   ),
-                  color: Colors.green[400],
-                  visualDensity:
-                  VisualDensity(horizontal: 4, vertical: 4),
-                  onPressed: () async {
-                    profilescreen.userscore+=5;
-                    await updateUserData();
-                    print(dex.toString());
-                    FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(dex.toString()).set(
-                        {'isencrypted':false},SetOptions(merge: true) );
-                    int count = 0;
-                    control=0;
-                    Navigator.of(context).popUntil((_) => count++ >= 2);
-
-                  }),
-            )
-          ],
-        ),
+                  Padding(
+                    padding: const EdgeInsets.all(60.0),
+                    child: MaterialButton(
+                        height: 37.5,
+                        shape: CircleBorder(),
+                        child: Icon(
+                          Icons.arrow_back,
+                          size: 37.5,
+                          color: Colors.white,
+                          //  color: Colors.white,
+                        ),
+                        color: Colors.green[400],
+                        visualDensity:
+                            VisualDensity(horizontal: 4, vertical: 4),
+                        onPressed: () async {
+                          ProfileScreen.userscore += 5;
+                          await updateUserData();
+                          print(dex.toString());
+                          FirebaseFirestore.instance
+                              .collection('Chat')
+                              .doc(k)
+                              .collection("Messages")
+                              .doc(dex.toString())
+                              .set({'isencrypted': false},
+                                  SetOptions(merge: true));
+                          int count = 0;
+                          control = 0;
+                          Navigator.of(context).popUntil((_) => count++ >= 2);
+                        }),
+                  )
+                ],
+              ),
       ),
     );
   }

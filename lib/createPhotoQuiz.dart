@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Puzzle.dart';
 
-final TextEditingController _URLController = new TextEditingController();
+final TextEditingController _urlController = new TextEditingController();
 final TextEditingController _answerController = new TextEditingController();
 
 var _type = 'PhotoQuiz';
@@ -20,7 +20,7 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
       onWillPop: () {
         _category = null;
         _difficulty = null;
-        _URLController.clear();
+        _urlController.clear();
         _answerController.clear();
         return Future.value(true);
       },
@@ -58,7 +58,7 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
                     child: TextFormField(
                       maxLength: 250,
                       maxLines: 1,
-                      controller: _URLController,
+                      controller: _urlController,
                       validator: (String val) {
                         if (val.isEmpty) {
                           return "URL is empty";
@@ -189,25 +189,29 @@ class _CreatePhotoQuizState extends State<CreatePhotoQuiz> {
                     padding: const EdgeInsets.all(15.0),
                     child: MaterialButton(
                         color: Colors.redAccent[400],
-                        child: Text('submit',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                        child: Text(
+                          'submit',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         height: 40,
                         minWidth: 120,
                         onPressed: () {
                           if (_category != null &&
                               _difficulty != null &&
-                              !_URLController.text.isEmpty &&
-                              !_answerController.text.isEmpty) {
+                              _urlController.text.isNotEmpty &&
+                              _answerController.text.isNotEmpty) {
                             PhotoQuiz photoQuiz = new PhotoQuiz(
                                 _type,
                                 _category,
                                 _difficulty,
-                                _URLController.text,
+                                _urlController.text,
                                 _answerController.text);
                             photoQuiz.submit();
                             print('success');
                             _category = null;
                             _difficulty = null;
-                            _URLController.clear();
+                            _urlController.clear();
                             _answerController.clear();
                             Navigator.pop(context);
                           }

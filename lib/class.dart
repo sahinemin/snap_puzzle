@@ -1,38 +1,32 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:math';
 
 TextEditingController message = new TextEditingController();
 
-class classroom extends StatelessWidget {
-
-  classroom({this.chatName}) : super();
+// ignore: must_be_immutable
+class Classroom extends StatelessWidget {
+  Classroom({this.chatName}) : super();
 
   String chatName;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: directContact(chatName)
-      // home: DirectContact(contactName: "Contact Name"),
-    );
+        debugShowCheckedModeBanner: false, home: DirectContact(chatName)
+        // home: DirectContact(contactName: "Contact Name"),
+        );
   }
 }
 
-class directContact extends StatefulWidget {
-
-  directContact(this.contactName) : super();
+class DirectContact extends StatefulWidget {
+  DirectContact(this.contactName) : super();
   final String contactName;
 
   @override
-
-  _directContactState createState() => _directContactState();
-
+  _DirectContactState createState() => _DirectContactState();
 }
 
-class _directContactState extends State<directContact> {
+class _DirectContactState extends State<DirectContact> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,10 +41,10 @@ class _directContactState extends State<directContact> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-
           //insert the messaging part here
 
-          Align(// this is the chat part at the below
+          Align(
+            // this is the chat part at the below
             alignment: Alignment.bottomCenter,
             child: Padding(
               padding: EdgeInsets.fromLTRB(20, 5, 20, 20),
@@ -110,7 +104,8 @@ class _directContactState extends State<directContact> {
                             size: 25,
                             semanticLabel: 'Send button',
                           ),
-                          onPressed: () { //sending the message
+                          onPressed: () {
+                            //sending the message
                             if (message.text != '') {
                               message.clear();
                               setState(() {});

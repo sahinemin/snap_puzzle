@@ -1,19 +1,12 @@
-import 'dart:ffi';
 import 'dart:io';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:snap_puzzle/SolvePuzzle.dart';
 import 'package:snap_puzzle/contacts.dart';
 import 'LogIn.dart';
-import 'contacts.dart';
-import 'package:snap_puzzle/SendPuzzle.dart';
 import 'deneme.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 var ids = [];
 int sayac = 0;
@@ -30,15 +23,16 @@ var difficulty;
 var dif;
 var docn;
 var qqq;
-int MaxPoints;
+int maxPoints;
 
 TextEditingController message = new TextEditingController();
 bool isSwitcheden = false;
 String k;
 File _file;
 
-class chat extends StatelessWidget {
-  chat({this.chatName, this.friendid}) : super();
+// ignore: must_be_immutable
+class Chat extends StatelessWidget {
+  Chat({this.chatName, this.friendid}) : super();
 
   String chatName;
   String friendid;
@@ -46,23 +40,23 @@ class chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //print(passedid);
-    return Scaffold(body: directContact(chatName, friendid)
+    return Scaffold(body: DirectContact(chatName, friendid)
         // home: DirectContact(contactName: "Contact Name"),
         );
   }
 }
 
-class directContact extends StatefulWidget {
-  directContact(this.contactName, String friendid) : super();
+class DirectContact extends StatefulWidget {
+  DirectContact(this.contactName, String friendid) : super();
   final String contactName;
 
   @override
-  _directContactState createState() => _directContactState();
+  _DirectContactState createState() => _DirectContactState();
 }
 
-class _directContactState extends State<directContact> {
-  @override
+class _DirectContactState extends State<DirectContact> {
   Future getImage(ImageSource source) async {
+    // ignore: deprecated_member_use
     var image = await ImagePicker().getImage(source: source);
     if (image != null) {
       setState(() {
@@ -73,7 +67,6 @@ class _directContactState extends State<directContact> {
   }
 
   Widget build(BuildContext context) {
-    bool _answer = false;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -187,7 +180,7 @@ class _directContactState extends State<directContact> {
                             );
                             try {
                               if (doc['message'] == "********////") {
-                                gelenresimurl=doc['url'];
+                                gelenresimurl = doc['url'];
                                 //print(doc['url']);
                               }
                               if (doc['isencrypted'] == true) {
@@ -197,20 +190,23 @@ class _directContactState extends State<directContact> {
                                 ty = doc['type'];
                                 docn = doc['docname'];
                                 dif = doc['difficulty'];
-                                switch(dif)  {
-                                  case 'Easy' : {
-                                    MaxPoints = 10;
-                                    break;
-                                  }
-                                  case 'Normal' : {
-                                    MaxPoints = 25;
-                                    break;
-                                  }
-                                  case 'Hard' : {
-                                    MaxPoints = 50;
-                                    break;
-                                  }
-                            }
+                                switch (dif) {
+                                  case 'Easy':
+                                    {
+                                      maxPoints = 10;
+                                      break;
+                                    }
+                                  case 'Normal':
+                                    {
+                                      maxPoints = 25;
+                                      break;
+                                    }
+                                  case 'Hard':
+                                    {
+                                      maxPoints = 50;
+                                      break;
+                                    }
+                                }
                                 //print(ty);
                                 //print(docn);
                                 //print(dif);
@@ -259,24 +255,35 @@ class _directContactState extends State<directContact> {
                                       padding:
                                           const EdgeInsets.only(left: 55.0),
                                       child: Card(
-                                          color: Colors.green[400],
-                                          child:  Padding(//duzenle(index: index)
-                                              padding: const EdgeInsets.all(10.0),
-                                              child: check != "********////"?Container(child: Text(
-                                                  snapshot.data.docs.elementAt(index).get('message'),
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 17)),)  : FittedBox(
-                                                  child: Image.network(
-                                                    snapshot.data.docs.elementAt(index).get('url'),
-                                                    errorBuilder: (BuildContext context, Object exception,
-                                                        StackTrace stackTrace) {
-                                                      return Icon(Icons.do_not_disturb);
-                                                    },
+                                        color: Colors.green[400],
+                                        child: Padding(
+                                            //duzenle(index: index)
+                                            padding: const EdgeInsets.all(10.0),
+                                            child: check != "********////"
+                                                ? Container(
+                                                    child: Text(
+                                                        snapshot.data.docs
+                                                            .elementAt(index)
+                                                            .get('message'),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 17)),
                                                   )
-                                              ) //duzenle(index: index)
-                                          ),
-                                          ),
+                                                : FittedBox(
+                                                    child: Image.network(
+                                                    snapshot.data.docs
+                                                        .elementAt(index)
+                                                        .get('url'),
+                                                    errorBuilder: (BuildContext
+                                                            context,
+                                                        Object exception,
+                                                        StackTrace stackTrace) {
+                                                      return Icon(
+                                                          Icons.do_not_disturb);
+                                                    },
+                                                  )) //duzenle(index: index)
+                                            ),
+                                      ),
                                     ));
                               } else if (!messagearr[index].isenc &&
                                   messagearr[index].sender_id == user.uid) {
@@ -288,53 +295,74 @@ class _directContactState extends State<directContact> {
                                     child: Card(
                                       color: Colors.green[400],
                                       child: Padding(
-                                          padding: const EdgeInsets.all(3.75),
-                                          child: Padding(//duzenle(index: index)
-                                              padding: const EdgeInsets.all(3.75),
-                                              child: check != "********////" ? Container(child: Text(
-                                                  snapshot.data.docs.elementAt(index).get('message'),
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 17)),) : Container(
-                                                height: 275,
-                                                  child: Image.network(
-                                                    snapshot.data.docs.elementAt(index).get('url'),
-                                                    fit: BoxFit.fill,
-                                                    errorBuilder: (BuildContext context, Object exception,
-                                                        StackTrace stackTrace) {
-                                                      return Icon(Icons.do_not_disturb);
-                                                    },
+                                        padding: const EdgeInsets.all(3.75),
+                                        child: Padding(
+                                            //duzenle(index: index)
+                                            padding: const EdgeInsets.all(3.75),
+                                            child: check != "********////"
+                                                ? Container(
+                                                    child: Text(
+                                                        snapshot.data.docs
+                                                            .elementAt(index)
+                                                            .get('message'),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 17)),
                                                   )
-                                              ) //duzenle(index: index)
-                                          ),),
+                                                : Container(
+                                                    height: 275,
+                                                    child: Image.network(
+                                                      snapshot.data.docs
+                                                          .elementAt(index)
+                                                          .get('url'),
+                                                      fit: BoxFit.fill,
+                                                      errorBuilder:
+                                                          (BuildContext context,
+                                                              Object exception,
+                                                              StackTrace
+                                                                  stackTrace) {
+                                                        return Icon(Icons
+                                                            .do_not_disturb);
+                                                      },
+                                                    )) //duzenle(index: index)
+                                            ),
+                                      ),
                                     ),
                                   ),
                                 );
                               } else {
                                 return Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Padding(//duzenle(index: index)
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: check != "********////" ? Container (
-
-                                        color: Colors.grey[100],
-                                        child: Text(
-                                          snapshot.data.docs.elementAt(index).get('message'),
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 17)),):Container(
-                                          width: 200,
-                                          height: 200,
-                                          child: Image.network(
-                                            snapshot.data.docs.elementAt(index).get('url'),
-                                            errorBuilder: (BuildContext context, Object exception,
-                                                StackTrace stackTrace) {
-                                              return Icon(Icons.do_not_disturb);
-                                            },
-                                          )
-                                      ) //duzenle(index: index)
-                                  )
-                                );
+                                    alignment: Alignment.bottomLeft,
+                                    child: Padding(
+                                        //duzenle(index: index)
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: check != "********////"
+                                            ? Container(
+                                                color: Colors.grey[100],
+                                                child: Text(
+                                                    snapshot.data.docs
+                                                        .elementAt(index)
+                                                        .get('message'),
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 17)),
+                                              )
+                                            : Container(
+                                                width: 200,
+                                                height: 200,
+                                                child: Image.network(
+                                                  snapshot.data.docs
+                                                      .elementAt(index)
+                                                      .get('url'),
+                                                  errorBuilder: (BuildContext
+                                                          context,
+                                                      Object exception,
+                                                      StackTrace stackTrace) {
+                                                    return Icon(
+                                                        Icons.do_not_disturb);
+                                                  },
+                                                )) //duzenle(index: index)
+                                        ));
                               }
                             },
                           );
@@ -523,7 +551,7 @@ class _directContactState extends State<directContact> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (_) =>
-                                                                deneme(
+                                                                Deneme(
                                                                     file:
                                                                         _file)));
                                                   },
@@ -543,7 +571,7 @@ class _directContactState extends State<directContact> {
                                                         context,
                                                         MaterialPageRoute(
                                                             builder: (_) =>
-                                                                deneme(
+                                                                Deneme(
                                                                     file:
                                                                         _file)));
                                                   },
@@ -645,15 +673,14 @@ class _directContactState extends State<directContact> {
             .collection('Results');
         print("qqq");
 
-
         QuerySnapshot lll = await reference.snapshots().elementAt(0);
         int len = lll.docs.length;
-        docname=lll.docs.elementAt(Random().nextInt(len)).id.toString();
+        docname = lll.docs.elementAt(Random().nextInt(len)).id.toString();
         /*reference.snapshots().listen((event) {
           docname = event.docs.elementAt(Random().nextInt(event.docs.length)).id;
           print(docname.toString() +"bakk");
         }).toString();*/
-        print(docname.toString()+"xxx");
+        print(docname.toString() + "xxx");
         await FirebaseFirestore.instance
             .collection('Chat')
             .doc(k)
@@ -669,18 +696,16 @@ class _directContactState extends State<directContact> {
           'docname': docname.toString(),
           'time': FieldValue.serverTimestamp()
         });
-      } 
-      else {
+      } else {
         CollectionReference reference = FirebaseFirestore.instance
             .collection('Puzzles')
             .doc('photo')
             .collection(a.toString());
-        int randomsayi;
         QuerySnapshot lll = await reference.snapshots().elementAt(0);
         int len = lll.docs.length;
-        docname=lll.docs.elementAt(Random().nextInt(len)).id.toString();
+        docname = lll.docs.elementAt(Random().nextInt(len)).id.toString();
 
-       /* reference.snapshots().listen((event) {
+        /* reference.snapshots().listen((event) {
           //print(event.docs.length.toString() + "şş");
           randomsayi = Random().nextInt(event.docs.length);
           docname = event.docs.elementAt(randomsayi).id;
@@ -718,11 +743,11 @@ class _directContactState extends State<directContact> {
   }
 }
 
-
 class MessageArray {
   String id;
   bool isenc;
   String message;
+  // ignore: non_constant_identifier_names
   String sender_id;
 
   MessageArray(this.isenc, this.message, this.sender_id, this.id);

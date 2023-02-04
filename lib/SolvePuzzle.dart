@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:snap_puzzle/generatePuzzle.dart';
 import 'LogIn.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'chat.dart';
 import 'profilescreen.dart';
+
 var dex;
 
 final TextEditingController _answerController = new TextEditingController();
@@ -18,8 +17,8 @@ var sel1;
 var sel2;
 var sel3;
 var sel4;
+
 class SolvePuzzle extends StatefulWidget {
-  @override
   final String index;
   SolvePuzzle(this.index) : super();
   _SolvePuzzleState createState() => _SolvePuzzleState();
@@ -31,29 +30,30 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
   Widget build(BuildContext context) {
     Stream<QuerySnapshot<Map<String, dynamic>>> yayin;
 
-    if(ty!="PuzzleQuiz"){
+    if (ty != "PuzzleQuiz") {
       //print(cat);
-     // print(ty);
+      // print(ty);
       //print(dif);
-      yayin=FirebaseFirestore.instance
+      yayin = FirebaseFirestore.instance
           .collection('Puzzles')
           .doc(cat)
-          .collection(ty).doc(dif).
-      collection('Results')
+          .collection(ty)
+          .doc(dif)
+          .collection('Results')
           .snapshots();
-    }
-    else if(ty=="PuzzleQuiz"){
+    } else if (ty == "PuzzleQuiz") {
       if (dif == 'Easy')
         dif = 2;
       else if (dif == 'Normal')
         dif = 3;
       else
         dif = 4;
-      print(dif.toString()+"aaaaa");
-      yayin=FirebaseFirestore.instance
+      print(dif.toString() + "aaaaa");
+      yayin = FirebaseFirestore.instance
           .collection('Puzzles')
           .doc('photo')
-          .collection(dif.toString()).snapshots();
+          .collection(dif.toString())
+          .snapshots();
     }
     //print(cat+"xxx");
     //print(ty+"xxx");
@@ -72,7 +72,8 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
             title: Text('Quiz'),
           ),
           body: StreamBuilder(
-              stream: yayin/*cat!="PuzzleQuiz"?FirebaseFirestore.instance
+              stream:
+                  yayin /*cat!="PuzzleQuiz"?FirebaseFirestore.instance
                   .collection('Puzzles')
                   .doc(cat)
                   .collection(ty).doc(dif).
@@ -81,13 +82,13 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
               FirebaseFirestore.instance
                   .collection('Puzzles')
                   .doc(dif).collection(dif).snapshots(),*/
-              ,builder: (BuildContext context,
+              ,
+              builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
                   return Text("${snapshot.error}");
                 }
-                if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
                   return Text('');
                 }
                 //print(user.uid + "-" + passedid.toString().trim());
@@ -98,26 +99,24 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 //print(ty);
                 //print(dif);
 
-                int temp=snapshot.data.docs.length;
+                int temp = snapshot.data.docs.length;
                 String sacma;
-                for(int i=0; i<temp;i++) {
-                  sacma=snapshot.data.docs.elementAt(i).id;
+                for (int i = 0; i < temp; i++) {
+                  sacma = snapshot.data.docs.elementAt(i).id;
                   print(sacma);
                   //print(docn);
                   if (sacma == docn) {
-                    if(ty=="PhotoQuiz"){
+                    if (ty == "PhotoQuiz") {
                       phans = snapshot.data.docs.elementAt(i).get('answer');
                       phuri = snapshot.data.docs.elementAt(i).get('url');
-                    }
-                    else if(ty=="TextQuiz"){
+                    } else if (ty == "TextQuiz") {
                       phans = snapshot.data.docs.elementAt(i).get('answer');
-                      desc=snapshot.data.docs.elementAt(i).get('desc');
-                      sel1=snapshot.data.docs.elementAt(i).get('sel1');
-                      sel2=snapshot.data.docs.elementAt(i).get('sel2');
-                      sel3=snapshot.data.docs.elementAt(i).get('sel3');
-                      sel4=snapshot.data.docs.elementAt(i).get('sel4');
-                    }
-                    else if(ty=="PuzzleQuiz"){
+                      desc = snapshot.data.docs.elementAt(i).get('desc');
+                      sel1 = snapshot.data.docs.elementAt(i).get('sel1');
+                      sel2 = snapshot.data.docs.elementAt(i).get('sel2');
+                      sel3 = snapshot.data.docs.elementAt(i).get('sel3');
+                      sel4 = snapshot.data.docs.elementAt(i).get('sel4');
+                    } else if (ty == "PuzzleQuiz") {
                       phuri = snapshot.data.docs.elementAt(i).get('url');
                     }
                     //print(phans+"dsasd");
@@ -128,16 +127,16 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                 //phans = snapshot.data.docs.elementAt(0).get('answer');
                 //phuri = snapshot.data.docs.elementAt(0).get('url');
 
-                    //print(snapshot.data.docs.elementAt(0).get('answer'));
-                    //print(snapshot.data.docs.elementAt(0).get('url'));
+                //print(snapshot.data.docs.elementAt(0).get('answer'));
+                //print(snapshot.data.docs.elementAt(0).get('url'));
 
                 return ListView.separated(
                     separatorBuilder: (context, index) => Divider(
-                      color: Colors.white,
-                    ),
+                          color: Colors.white,
+                        ),
                     itemCount: 1,
                     itemBuilder: (BuildContext context, int index) {
-                      if(ty=="TextQuiz"){
+                      if (ty == "TextQuiz") {
                         return Padding(
                           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
                           child: SingleChildScrollView(
@@ -160,10 +159,12 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                     margin: EdgeInsets.only(top: 20),
                                     decoration: new BoxDecoration(
                                       color: Colors.green.shade400,
-                                      borderRadius: new BorderRadius.all(Radius.circular(10)),
+                                      borderRadius: new BorderRadius.all(
+                                          Radius.circular(10)),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 12, 0, 12),
                                       child: Text(desc),
                                     ),
                                   ),
@@ -172,7 +173,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                   children: [
                                     Radio(
                                       fillColor: MaterialStateColor.resolveWith(
-                                              (states) => Colors.redAccent[400]),
+                                          (states) => Colors.redAccent[400]),
                                       value: 1,
                                       groupValue: _answer,
                                       onChanged: (value) {
@@ -186,14 +187,16 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
                                           alignment: Alignment.centerLeft,
-                                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                          padding:
+                                              EdgeInsets.fromLTRB(15, 0, 15, 0),
                                           decoration: new BoxDecoration(
                                             color: Colors.green.shade400,
-                                            borderRadius:
-                                            new BorderRadius.all(Radius.circular(10)),
+                                            borderRadius: new BorderRadius.all(
+                                                Radius.circular(10)),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 12, 0, 12),
                                             child: Text(sel1),
                                           ),
                                         ),
@@ -205,7 +208,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                   children: [
                                     Radio(
                                       fillColor: MaterialStateColor.resolveWith(
-                                              (states) => Colors.redAccent[400]),
+                                          (states) => Colors.redAccent[400]),
                                       value: 2,
                                       groupValue: _answer,
                                       onChanged: (value) {
@@ -219,14 +222,16 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
                                           alignment: Alignment.centerLeft,
-                                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                          padding:
+                                              EdgeInsets.fromLTRB(15, 0, 15, 0),
                                           decoration: new BoxDecoration(
                                             color: Colors.green.shade400,
-                                            borderRadius:
-                                            new BorderRadius.all(Radius.circular(10)),
+                                            borderRadius: new BorderRadius.all(
+                                                Radius.circular(10)),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 12, 0, 12),
                                             child: Text(sel2),
                                           ),
                                         ),
@@ -238,7 +243,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                   children: [
                                     Radio(
                                       fillColor: MaterialStateColor.resolveWith(
-                                              (states) => Colors.redAccent[400]),
+                                          (states) => Colors.redAccent[400]),
                                       value: 3,
                                       groupValue: _answer,
                                       onChanged: (value) {
@@ -252,14 +257,16 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
                                           alignment: Alignment.centerLeft,
-                                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                          padding:
+                                              EdgeInsets.fromLTRB(15, 0, 15, 0),
                                           decoration: new BoxDecoration(
                                             color: Colors.green.shade400,
-                                            borderRadius:
-                                            new BorderRadius.all(Radius.circular(10)),
+                                            borderRadius: new BorderRadius.all(
+                                                Radius.circular(10)),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 12, 0, 12),
                                             child: Text(sel3),
                                           ),
                                         ),
@@ -271,7 +278,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                   children: [
                                     Radio(
                                       fillColor: MaterialStateColor.resolveWith(
-                                              (states) => Colors.redAccent[400]),
+                                          (states) => Colors.redAccent[400]),
                                       value: 4,
                                       groupValue: _answer,
                                       onChanged: (value) {
@@ -285,14 +292,16 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         padding: const EdgeInsets.all(8.0),
                                         child: Container(
                                           alignment: Alignment.centerLeft,
-                                          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                          padding:
+                                              EdgeInsets.fromLTRB(15, 0, 15, 0),
                                           decoration: new BoxDecoration(
                                             color: Colors.green.shade400,
-                                            borderRadius:
-                                            new BorderRadius.all(Radius.circular(10)),
+                                            borderRadius: new BorderRadius.all(
+                                                Radius.circular(10)),
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                0, 12, 0, 12),
                                             child: Text(sel4),
                                           ),
                                         ),
@@ -308,30 +317,37 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         child: Text(
                                           'submit',
                                           style: TextStyle(
-                                              color: Colors.white, fontWeight: FontWeight.bold),
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
                                         ),
                                         height: 40,
                                         minWidth: 120,
                                         onPressed: () async {
                                           if (_answer != null) {
                                             //print(phans);
-                                            if(_answer.toString()==phans){
+                                            if (_answer.toString() == phans) {
                                               _answerController.clear();
                                               _answer = null;
-                                              profilescreen.userscore+=MaxPoints;
+                                              ProfileScreen.userscore +=
+                                                  maxPoints;
                                               await updateUserData();
                                               //print(profilescreen.userscore);
                                               //print(k);
                                               //print(widget.index.toString());
-                                              FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
-                                                  {'isencrypted':false},SetOptions(merge: true) );
+                                              FirebaseFirestore.instance
+                                                  .collection('Chat')
+                                                  .doc(k)
+                                                  .collection("Messages")
+                                                  .doc(widget.index.toString())
+                                                  .set({'isencrypted': false},
+                                                      SetOptions(merge: true));
                                               Navigator.pop(context);
                                             } else {
                                               _answerController.clear();
                                               _answer = null;
-                                              MaxPoints -= 5;
-                                              if(MaxPoints<0) {
-                                                MaxPoints = 0;
+                                              maxPoints -= 5;
+                                              if (maxPoints < 0) {
+                                                maxPoints = 0;
                                               }
                                             }
                                           }
@@ -342,8 +358,7 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                             ),
                           ),
                         );
-                      }
-                      else if(ty=="PhotoQuiz"){
+                      } else if (ty == "PhotoQuiz") {
                         return Padding(
                           padding: EdgeInsets.fromLTRB(5, 15, 5, 15),
                           child: SingleChildScrollView(
@@ -367,13 +382,12 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                     margin: EdgeInsets.only(top: 20),
                                     decoration: new BoxDecoration(
                                         color: Colors.green.shade400,
-                                        borderRadius: new BorderRadius.all(Radius.circular(10)),
+                                        borderRadius: new BorderRadius.all(
+                                            Radius.circular(10)),
                                         image: DecorationImage(
                                           image: NetworkImage(phuri),
                                           fit: BoxFit.cover,
-                                        )
-                                    ),
-
+                                        )),
                                   ),
                                 ),
                                 Padding(
@@ -385,7 +399,8 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                     margin: EdgeInsets.only(top: 20),
                                     decoration: new BoxDecoration(
                                       color: Colors.green.shade400,
-                                      borderRadius: new BorderRadius.all(Radius.circular(10)),
+                                      borderRadius: new BorderRadius.all(
+                                          Radius.circular(10)),
                                     ),
                                     child: TextFormField(
                                       maxLength: 50,
@@ -398,8 +413,9 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                         return null;
                                       },
                                       decoration: InputDecoration(
-                                        hintStyle:
-                                        TextStyle(color: Colors.white60, fontSize: 15),
+                                        hintStyle: TextStyle(
+                                            color: Colors.white60,
+                                            fontSize: 15),
                                         hintText: 'Answer',
                                         border: InputBorder.none,
                                         counterText: "",
@@ -412,31 +428,43 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                     padding: const EdgeInsets.all(15.0),
                                     child: MaterialButton(
                                         color: Colors.redAccent[400],
-                                        child: Text('submit',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                                        child: Text(
+                                          'submit',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                         height: 40,
                                         minWidth: 120,
-                                        onPressed: () async{
+                                        onPressed: () async {
                                           //print(_answer.toString());
                                           //print(phans);
-                                          if (_answerController.text!=null) {
+                                          if (_answerController.text != null) {
                                             //print("x");
-                                            if(phans==_answerController.text){
+                                            if (phans ==
+                                                _answerController.text) {
                                               _answerController.clear();
                                               _answer = null;
-                                              profilescreen.userscore+=MaxPoints;
+                                              ProfileScreen.userscore +=
+                                                  maxPoints;
                                               await updateUserData();
                                               //print(profilescreen.userscore);
                                               //print(k);
                                               //print(widget.index.toString());
-                                              FirebaseFirestore.instance.collection('Chat').doc(k).collection("Messages").doc(widget.index.toString()).set(
-                                                  {'isencrypted':false},SetOptions(merge: true) );
+                                              FirebaseFirestore.instance
+                                                  .collection('Chat')
+                                                  .doc(k)
+                                                  .collection("Messages")
+                                                  .doc(widget.index.toString())
+                                                  .set({'isencrypted': false},
+                                                      SetOptions(merge: true));
                                               return Navigator.pop(context);
                                             } else {
                                               _answerController.clear();
                                               _answer = null;
-                                              MaxPoints -= 5;
-                                              if(MaxPoints<0) {
-                                                MaxPoints = 0;
+                                              maxPoints -= 5;
+                                              if (maxPoints < 0) {
+                                                maxPoints = 0;
                                               }
                                             }
                                           }
@@ -447,16 +475,18 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                             ),
                           ),
                         );
-                      }
-                      else{
+                      } else {
                         return Container(
-                          height: MediaQuery.of(context).size.height-100,
-                          width:  MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height - 100,
+                          width: MediaQuery.of(context).size.width,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Container(
-                                child: Image.network(phuri, fit: BoxFit.contain,),
+                                child: Image.network(
+                                  phuri,
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                               Expanded(
                                 child: Container(),
@@ -473,11 +503,12 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                                       //  color: Colors.white,
                                     ),
                                     color: Colors.green[400],
-                                    visualDensity:
-                                    VisualDensity(horizontal: 4, vertical: 4),
-                                    onPressed: ()  {
-                                      dex=widget.index;
-                                      Navigator.of(context).pushNamed('/generatePuzzle');
+                                    visualDensity: VisualDensity(
+                                        horizontal: 4, vertical: 4),
+                                    onPressed: () {
+                                      dex = widget.index;
+                                      Navigator.of(context)
+                                          .pushNamed('/generatePuzzle');
                                     }),
                               ),
                             ],
@@ -485,16 +516,15 @@ class _SolvePuzzleState extends State<SolvePuzzle> {
                         );
                       }
                       //child: Text('ENCRYPTED'),alignment:Alignment.bottomLeft//return Container(child: Text('ENCRYPTED'),alignment:Alignment.bottomRight );
-                    }
-                );
-              })
-      ),
+                    });
+              })),
     );
   }
 }
+
 Future updateUserData() async {
   final DocumentReference userCollection =
-  FirebaseFirestore.instance.collection('Users').doc(user.uid);
-  await userCollection.set({'score':profilescreen.userscore},SetOptions(merge: true));
-
+      FirebaseFirestore.instance.collection('Users').doc(user.uid);
+  await userCollection
+      .set({'score': ProfileScreen.userscore}, SetOptions(merge: true));
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:snap_puzzle/Puzzle.dart';
 
-final TextEditingController _URLController = new TextEditingController();
+final TextEditingController _urlController = new TextEditingController();
 
 var _difficulty;
+
 class SendPuzzle extends StatefulWidget {
   const SendPuzzle({Key key}) : super(key: key);
 
@@ -12,13 +13,12 @@ class SendPuzzle extends StatefulWidget {
 }
 
 class _SendPuzzleState extends State<SendPuzzle> {
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
         _difficulty = null;
-        _URLController.clear();
+        _urlController.clear();
         return Future.value(true);
       },
       child: Scaffold(
@@ -55,7 +55,7 @@ class _SendPuzzleState extends State<SendPuzzle> {
                     child: TextFormField(
                       maxLength: 250,
                       maxLines: 1,
-                      controller: _URLController,
+                      controller: _urlController,
                       validator: (String val) {
                         if (val.isEmpty) {
                           return "URL is empty";
@@ -64,7 +64,7 @@ class _SendPuzzleState extends State<SendPuzzle> {
                       },
                       decoration: InputDecoration.collapsed(
                         hintStyle:
-                        TextStyle(color: Colors.white60, fontSize: 15),
+                            TextStyle(color: Colors.white60, fontSize: 15),
                         hintText: 'Image URL',
                         border: InputBorder.none,
                       ),
@@ -119,19 +119,24 @@ class _SendPuzzleState extends State<SendPuzzle> {
                     padding: const EdgeInsets.all(15.0),
                     child: MaterialButton(
                         color: Colors.redAccent[400],
-                        child: Text('submit',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                        child: Text(
+                          'submit',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                         height: 40,
                         minWidth: 120,
                         onPressed: () {
-                          if (_difficulty != null&&!_URLController.text.isEmpty) {
+                          if (_difficulty != null &&
+                              _urlController.text.isNotEmpty) {
                             PuzzleQuiz puzzleQuiz = new PuzzleQuiz(
-                                _difficulty,
-                                _URLController.text,
-                                );
+                              _difficulty,
+                              _urlController.text,
+                            );
                             puzzleQuiz.submit();
                             print('success');
                             _difficulty = null;
-                            _URLController.clear();
+                            _urlController.clear();
                             Navigator.pop(context);
                           }
                         }),

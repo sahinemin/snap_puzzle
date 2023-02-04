@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:snap_puzzle/LogIn.dart';
 import 'package:snap_puzzle/profilescreen.dart';
 
@@ -26,10 +23,15 @@ class Register extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 45),
                   child: Container(
-                    child: Text('Please fill the missing information to \ncomplete your registration', maxLines: 2, textAlign: TextAlign.center, style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),),
+                    child: Text(
+                      'Please fill the missing information to \ncomplete your registration',
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
                   ),
                 ),
                 Container(
@@ -40,7 +42,7 @@ class Register extends StatelessWidget {
                       color: Color(0x60FFFFFF),
                       borderRadius: new BorderRadius.all(Radius.circular(10)),
                     ),
-                    child:TextFormField(
+                    child: TextFormField(
                       controller: _nameController,
                       /* validator: (String val){
                         if(val.isEmpty){
@@ -49,14 +51,11 @@ class Register extends StatelessWidget {
                         return null;
                       },*/
                       obscureText: false,
-                      decoration:  InputDecoration(
+                      decoration: InputDecoration(
                         hintText: "Full Name",
-                        hintStyle: TextStyle(
-                            color: Colors.white
-                        ),
-
+                        hintStyle: TextStyle(color: Colors.white),
                       ),
-                    ) ),
+                    )),
                 Container(
                     height: 60,
                     padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
@@ -65,7 +64,7 @@ class Register extends StatelessWidget {
                       color: Color(0x60FFFFFF),
                       borderRadius: new BorderRadius.all(Radius.circular(10)),
                     ),
-                    child:TextFormField(
+                    child: TextFormField(
                       controller: _schoolController,
                       /*  validator: (String val){
                         if(val.isEmpty){
@@ -76,15 +75,9 @@ class Register extends StatelessWidget {
                       obscureText: false,
                       decoration: const InputDecoration(
                         hintText: "School",
-                        hintStyle: TextStyle(
-                            color: Colors.white
-                        ),
+                        hintStyle: TextStyle(color: Colors.white),
                       ),
-
-
-                    ) ),
-
-
+                    )),
                 MaterialButton(
                   color: Color(0xFFE19600),
                   height: 50,
@@ -92,18 +85,19 @@ class Register extends StatelessWidget {
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(8.0)),
                   ),
-                  child: Text('REGISTER',
+                  child: Text(
+                    'REGISTER',
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
                       color: Colors.white,
                     ),
                   ),
                   onPressed: () async //async
-                  {
-                   await DatabaseService().addUserData();
-                   profilescreen.fullname=_nameController.text;
-                   profilescreen.school=_schoolController.text;
-                   Navigator.of(context).pushNamed('/MainPage');
+                      {
+                    await DatabaseService().addUserData();
+                    ProfileScreen.fullname = _nameController.text;
+                    ProfileScreen.school = _schoolController.text;
+                    Navigator.of(context).pushNamed('/MainPage');
                     //    _Register();
                   },
                 )
@@ -111,12 +105,19 @@ class Register extends StatelessWidget {
             )));
   }
 }
-class DatabaseService {
 
+class DatabaseService {
   //DatabaseService(this.uid);
-  final DocumentReference userCollection = FirebaseFirestore.instance.collection('Users').doc(user.uid);
+  final DocumentReference userCollection =
+      FirebaseFirestore.instance.collection('Users').doc(user.uid);
   Future addUserData() async {
     print(user.metadata.toString());
-    if(_nameController.text!=null&&_schoolController.text!=null)await userCollection.set({'name': _nameController.text,'school': _schoolController.text,'score':0, 'isAdmin' :false});
+    if (_nameController.text != null && _schoolController.text != null)
+      await userCollection.set({
+        'name': _nameController.text,
+        'school': _schoolController.text,
+        'score': 0,
+        'isAdmin': false
+      });
   }
 }

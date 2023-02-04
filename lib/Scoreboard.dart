@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +15,7 @@ class _ScoreboardState extends State<Scoreboard> {
 
   Future<String> getTopThree(userIndex) async {
     var resultThree =
-    await topThree.orderBy('score', descending: true).limit(3).get();
+        await topThree.orderBy('score', descending: true).limit(3).get();
     List<dynamic> temp = [];
     resultThree.docs.forEach((doc) {
       temp.add(doc['name']);
@@ -28,7 +26,6 @@ class _ScoreboardState extends State<Scoreboard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -67,13 +64,13 @@ class _ScoreboardState extends State<Scoreboard> {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                             fontSize:
-                            MediaQuery.of(context).textScaleFactor * 30,
+                                MediaQuery.of(context).textScaleFactor * 30,
                           ),
                         ),
                       ),
                       Padding(
                         padding:
-                        EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                         child: Container(
                           width: 280,
                           height: MediaQuery.of(context).size.height * 0.30,
@@ -98,7 +95,7 @@ class _ScoreboardState extends State<Scoreboard> {
                                     height: 240 * (1 / 4),
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         FutureBuilder(
                                           future: getTopThree(2),
@@ -109,14 +106,14 @@ class _ScoreboardState extends State<Scoreboard> {
                                                 textAlign: TextAlign.center,
                                                 style: GoogleFonts.roboto(
                                                   decoration:
-                                                  TextDecoration.none,
+                                                      TextDecoration.none,
                                                   textStyle: TextStyle(
                                                     color: Colors.white,
                                                   ),
                                                   fontSize:
-                                                  MediaQuery.of(context)
-                                                      .textScaleFactor *
-                                                      12,
+                                                      MediaQuery.of(context)
+                                                              .textScaleFactor *
+                                                          12,
                                                 ),
                                               );
                                             } else {
@@ -133,7 +130,7 @@ class _ScoreboardState extends State<Scoreboard> {
                                               color: Colors.white,
                                             ),
                                             fontSize: MediaQuery.of(context)
-                                                .textScaleFactor *
+                                                    .textScaleFactor *
                                                 17,
                                           ),
                                         ),
@@ -160,7 +157,7 @@ class _ScoreboardState extends State<Scoreboard> {
                                     height: 150 * (3 / 4),
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -174,13 +171,13 @@ class _ScoreboardState extends State<Scoreboard> {
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.roboto(
                                                     decoration:
-                                                    TextDecoration.none,
+                                                        TextDecoration.none,
                                                     textStyle: TextStyle(
                                                       color: Colors.white,
                                                     ),
                                                     fontSize: MediaQuery.of(
-                                                        context)
-                                                        .textScaleFactor *
+                                                                context)
+                                                            .textScaleFactor *
                                                         12,
                                                   ),
                                                 );
@@ -199,7 +196,7 @@ class _ScoreboardState extends State<Scoreboard> {
                                               color: Colors.white,
                                             ),
                                             fontSize: MediaQuery.of(context)
-                                                .textScaleFactor *
+                                                    .textScaleFactor *
                                                 17,
                                           ),
                                         ),
@@ -226,7 +223,7 @@ class _ScoreboardState extends State<Scoreboard> {
                                     height: 190 * (2 / 4),
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
@@ -240,13 +237,13 @@ class _ScoreboardState extends State<Scoreboard> {
                                                   textAlign: TextAlign.center,
                                                   style: GoogleFonts.roboto(
                                                     decoration:
-                                                    TextDecoration.none,
+                                                        TextDecoration.none,
                                                     textStyle: TextStyle(
                                                       color: Colors.white,
                                                     ),
                                                     fontSize: MediaQuery.of(
-                                                        context)
-                                                        .textScaleFactor *
+                                                                context)
+                                                            .textScaleFactor *
                                                         12,
                                                   ),
                                                 );
@@ -265,7 +262,7 @@ class _ScoreboardState extends State<Scoreboard> {
                                               color: Colors.white,
                                             ),
                                             fontSize: MediaQuery.of(context)
-                                                .textScaleFactor *
+                                                    .textScaleFactor *
                                                 17,
                                           ),
                                         ),
@@ -310,9 +307,9 @@ class _ScoreboardState extends State<Scoreboard> {
                     child: StreamBuilder(
                       stream: _usersStream,
                       builder: (
-                          BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot,
-                          ) {
+                        BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot,
+                      ) {
                         if (snapshot.hasError) {
                           return Text('Something went wrong');
                         }
@@ -338,7 +335,7 @@ class _ScoreboardState extends State<Scoreboard> {
                                     padding: const EdgeInsets.all(3.0),
                                     child: Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Align(
                                           alignment: Alignment.bottomLeft,
@@ -359,15 +356,15 @@ class _ScoreboardState extends State<Scoreboard> {
                                                 fontSize: 17,
                                                 fontWeight: FontWeight.w600,
                                                 color: index ==
-                                                    snapshot
-                                                        .data.docs.length
+                                                        snapshot
+                                                            .data.docs.length
                                                     ? Colors.yellow
                                                     : Colors.black),
                                           ),
                                         ),
                                         Padding(
                                           padding:
-                                          const EdgeInsets.only(left: 18.0),
+                                              const EdgeInsets.only(left: 18.0),
                                           child: Text(
                                             ' ${rev[index]['score'].toString()} pts',
                                             style: TextStyle(fontSize: 20),

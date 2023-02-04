@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:snap_puzzle/LogIn.dart';
 
 class SignUp extends StatefulWidget {
@@ -137,7 +135,7 @@ class _SignUpState extends State<SignUp> {
                   color: Colors.redAccent[400],
                   borderRadius: new BorderRadius.all(Radius.circular(10)),
                 ),
-                child: FlatButton(
+                child: ElevatedButton(
                   child: Text(
                     'REGISTER',
                     style: TextStyle(
@@ -146,7 +144,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                   onPressed: () async {
-                    _Register();
+                    _register();
                   },
                 ),
               )
@@ -157,7 +155,7 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  Future<void> _Register() async {
+  Future<void> _register() async {
     try {
       final User user = (await _auth.createUserWithEmailAndPassword(
               email: _emailController.text.trim(),
@@ -167,6 +165,7 @@ class _SignUpState extends State<SignUp> {
         if (!user.emailVerified) {
           await user.sendEmailVerification();
         }
+        // ignore: deprecated_member_use
         await user.updateProfile(displayName: _nameController.text);
         _auth.currentUser;
         Navigator.of(context).pushNamed('/LogIn').then((value) {
@@ -184,13 +183,13 @@ class DatabaseService {
   final DocumentReference userCollection =
       FirebaseFirestore.instance.collection('Users').doc(user.uid);
   Future addUserData() async {
-    if(_nameController.text!=null&&_schoolController.text.isNotEmpty){
+    if (_nameController.text != null && _schoolController.text.isNotEmpty) {
       print(user.metadata.toString());
       await userCollection.set({
         'name': _nameController.text,
         'school': _schoolController.text,
         'score': 0.toString(),
-        'isAdmin' : false,
+        'isAdmin': false,
       });
     }
   }

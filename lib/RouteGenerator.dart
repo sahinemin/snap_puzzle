@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:snap_puzzle/GoogleRegister.dart';
 import 'package:snap_puzzle/Scoreboard.dart';
@@ -15,12 +14,12 @@ import 'createPuzzle.dart';
 import 'createTextQuiz.dart';
 import 'settings.dart';
 import 'friends.dart';
-import 'solveTextQuiz.dart';
 import 'accountDetails.dart';
 
-
 class RouteGenerator {
+  // ignore: missing_return
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    // ignore: unused_local_variable
     final args = settings.arguments;
     switch (settings.name) {
       case '/LogIn':
@@ -34,7 +33,7 @@ class RouteGenerator {
       case '/Chat':
         return MaterialPageRoute(
             builder: (context) =>
-                chat(chatName: passedChatName, friendid: passedid));
+                Chat(chatName: passedChatName, friendid: passedid));
       case '/Scoreboard':
         return MaterialPageRoute(builder: (_) => Scoreboard());
       case '/GoogleRegister':
@@ -52,34 +51,37 @@ class RouteGenerator {
       case '/Friends':
         return MaterialPageRoute(builder: (_) => Friends());
       case '/addfriend':
-        return MaterialPageRoute(builder: (_) => addfriend());
+        return MaterialPageRoute(builder: (_) => Addfriend());
       case '/SolvePuzzle':
         return MaterialPageRoute(builder: (_) => SolvePuzzle(qqq));
       case '/generatePuzzle':
-        return MaterialPageRoute(builder: (_) => new GeneratePuzzle(imageUrl : phuri));
-    //   case '/SolvePhotoQuiz':
-    //     return MaterialPageRoute(            builder: (_) => SolvePhotoQuiz(
-    //             answer: passedAnswer,
-    //             maxPoints: passedMaxPoints,
-    //             url: passedURL));
-    //   case '/SolveTextQuiz':
-    //     return MaterialPageRoute(
-    //         builder: (_) => SolveTextQuiz(
-    //             correctAnswer: passedAnswer,
-    //             maxPoints: passedMaxPoints,
-    //             desc: passedDesc,
-    //             sel1: passedSel1,
-    //             sel2: passedSel2,
-    //             sel3: passedSel3,
-    //             sel4: passedSel4));
-    //   case '/SolvePuzzle':
-    //     return MaterialPageRoute(
-    //         builder: (_) => GeneratePuzzle(
-    //             maxPoints: passedMaxPoints,
-    //             url: passedURL,
-    //           difficulty: passedDifficulty,
-    //         ));
-    //
+        return MaterialPageRoute(
+            builder: (_) => new GeneratePuzzle(imageUrl: phuri));
+      default:
+        MaterialPageRoute(builder: (_) => LogIn());
+      //   case '/SolvePhotoQuiz':
+      //     return MaterialPageRoute(            builder: (_) => SolvePhotoQuiz(
+      //             answer: passedAnswer,
+      //             maxPoints: passedMaxPoints,
+      //             url: passedURL));
+      //   case '/SolveTextQuiz':
+      //     return MaterialPageRoute(
+      //         builder: (_) => SolveTextQuiz(
+      //             correctAnswer: passedAnswer,
+      //             maxPoints: passedMaxPoints,
+      //             desc: passedDesc,
+      //             sel1: passedSel1,
+      //             sel2: passedSel2,
+      //             sel3: passedSel3,
+      //             sel4: passedSel4));
+      //   case '/SolvePuzzle':
+      //     return MaterialPageRoute(
+      //         builder: (_) => GeneratePuzzle(
+      //             maxPoints: passedMaxPoints,
+      //             url: passedURL,
+      //           difficulty: passedDifficulty,
+      //         ));
+      //
     }
   }
 }

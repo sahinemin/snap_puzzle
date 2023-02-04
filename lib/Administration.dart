@@ -1,12 +1,49 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class administration extends StatelessWidget {
-  final List<String> entries = <String>['1', '2', '3','4', '5', '6','7', '8', '9','10', '11', '12','13', '14', '15','16', '17', '18'];
-  final List<int> colorCodes = <int>[600, 500,600, 500,600, 500,600, 500,600,500,600, 500,600, 500,600, 500,600,500];
+// ignore: must_be_immutable
+class Administration extends StatelessWidget {
+  final List<String> entries = <String>[
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18'
+  ];
+  final List<int> colorCodes = <int>[
+    600,
+    500,
+    600,
+    500,
+    600,
+    500,
+    600,
+    500,
+    600,
+    500,
+    600,
+    500,
+    600,
+    500,
+    600,
+    500,
+    600,
+    500
+  ];
 
-  administration(this.className);
+  Administration(this.className);
 
   String className;
 
@@ -26,33 +63,41 @@ class administration extends StatelessWidget {
                 Container(
                     child: Padding(
                         padding: EdgeInsets.fromLTRB(0, 15, 350, 15),
-                        child: Text('School Name\nMembers : 18', style: TextStyle(fontSize: 18, color: Colors.white),))),
+                        child: Text(
+                          'School Name\nMembers : 18',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ))),
                 Expanded(
                   child: ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(40,0,40,25),
+                      padding: const EdgeInsets.fromLTRB(40, 0, 40, 25),
                       itemCount: entries.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           height: 50,
                           color: Colors.amber[colorCodes[index]],
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,children: [
-                            Container(
-                              height: 30,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Text('Student ${entries[index]}'),
-                            ),
-                            Container(
-                              height: 30,
-                              child: FloatingActionButton(
-                                  heroTag: 'fab_block',
-                                  backgroundColor: Colors.red,
-                                  child: Icon(Icons.block, size: 20,),
-                                  onPressed: () {}),
-                            ),
-                          ],),
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 30,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Text('Student ${entries[index]}'),
+                              ),
+                              Container(
+                                height: 30,
+                                child: FloatingActionButton(
+                                    heroTag: 'fab_block',
+                                    backgroundColor: Colors.red,
+                                    child: Icon(
+                                      Icons.block,
+                                      size: 20,
+                                    ),
+                                    onPressed: () {}),
+                              ),
+                            ],
+                          ),
                         );
                       }),
                 )

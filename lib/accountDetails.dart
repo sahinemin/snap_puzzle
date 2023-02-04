@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:snap_puzzle/LogIn.dart';
@@ -137,7 +136,7 @@ class _AccountDetailsState extends State<AccountDetails> {
                   color: Colors.redAccent[400],
                   borderRadius: new BorderRadius.all(Radius.circular(10)),
                 ),
-                child: FlatButton(
+                child: ElevatedButton(
                   child: Text(
                     'Update',
                     style: TextStyle(
@@ -159,17 +158,21 @@ class _AccountDetailsState extends State<AccountDetails> {
 
   Future updateUserData() async {
     final DocumentReference userCollection =
-    FirebaseFirestore.instance.collection('Users').doc(user.uid);
-    if(_emailController.text.isNotEmpty) _auth.currentUser.updateEmail(_emailController.text);
-    if(_passwordController.text.isNotEmpty) _auth.currentUser.updatePassword(_passwordController.text);
-    if(_nameController.text!=null||_schoolController.text!=null)await userCollection.set({
-      'name': _nameController.text,
-      'school': _schoolController.text,
-      'isAdmin':false,
-      'score':profilescreen.userscore,
-    });
-    if(_nameController.text.isNotEmpty)profilescreen.fullname=_nameController.text;
-    if(_schoolController.text.isNotEmpty)profilescreen.school=_schoolController.text;
-
+        FirebaseFirestore.instance.collection('Users').doc(user.uid);
+    if (_emailController.text.isNotEmpty)
+      _auth.currentUser.updateEmail(_emailController.text);
+    if (_passwordController.text.isNotEmpty)
+      _auth.currentUser.updatePassword(_passwordController.text);
+    if (_nameController.text != null || _schoolController.text != null)
+      await userCollection.set({
+        'name': _nameController.text,
+        'school': _schoolController.text,
+        'isAdmin': false,
+        'score': ProfileScreen.userscore,
+      });
+    if (_nameController.text.isNotEmpty)
+      ProfileScreen.fullname = _nameController.text;
+    if (_schoolController.text.isNotEmpty)
+      ProfileScreen.school = _schoolController.text;
   }
 }

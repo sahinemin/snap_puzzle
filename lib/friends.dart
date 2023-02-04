@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,20 +6,22 @@ import 'contacts.dart';
 
 class Friends extends StatefulWidget {
   static var friends = [];
-  static var friendsid=[];
+  static var friendsid = [];
   const Friends({Key key}) : super(key: key);
   @override
   _FriendsState createState() => _FriendsState();
 }
+
 class _FriendsState extends State<Friends> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndFloat,
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).pushNamed('/addfriend');
-      }
-          , child: Icon(Icons.add),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed('/addfriend');
+          },
+          child: Icon(Icons.add),
           backgroundColor: Colors.redAccent[400]),
       appBar: AppBar(
         title: Text(
@@ -45,13 +46,14 @@ class _FriendsState extends State<Friends> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Text('Loading:');
             }
-            var chats=[];
-            for(int i=0;i<snapshot.data.size;i++){
+            var chats = [];
+            for (int i = 0; i < snapshot.data.size; i++) {
               chats.add(i);
               snapshot.data.docs.elementAt(i).id.contains(user.uid);
             }
             return StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('Users')
+              stream: FirebaseFirestore.instance
+                  .collection('Users')
                   .doc(user.uid)
                   .collection('Friends')
                   .snapshots(),
@@ -59,17 +61,27 @@ class _FriendsState extends State<Friends> {
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 Friends.friends.clear();
                 Friends.friendsid.clear();
-                if (snapshot.connectionState == ConnectionState.waiting) {return Container(width: 0,height: 0,);}
-                if (snapshot.hasError) {return Container(width: 0,height: 0,);}
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                    width: 0,
+                    height: 0,
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Container(
+                    width: 0,
+                    height: 0,
+                  );
+                }
                 for (int i = 0; i < snapshot.data.docs.length; i++) {
                   Friends.friendsid.add(snapshot.data.docs.elementAt(i).id);
-                  Friends.friends.add(snapshot.data.docs.elementAt(i).get('name').toString());
+                  Friends.friends.add(
+                      snapshot.data.docs.elementAt(i).get('name').toString());
                 }
                 return ListView.separated(
-                  separatorBuilder: (context, index) =>
-                      Divider(
-                        color: Colors.grey[800],
-                      ),
+                  separatorBuilder: (context, index) => Divider(
+                    color: Colors.grey[800],
+                  ),
                   itemCount: Friends.friends.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
@@ -78,8 +90,8 @@ class _FriendsState extends State<Friends> {
                         passedid = Friends.friendsid[index];
                         Navigator.of(context).pushNamed('/Chat');
                       },
-                      leading:
-                      CircleAvatar(backgroundColor: Colors.greenAccent[400]),
+                      leading: CircleAvatar(
+                          backgroundColor: Colors.greenAccent[400]),
                       trailing: Icon(
                         Icons.east_outlined,
                         color: Colors.purple[900],
@@ -91,8 +103,7 @@ class _FriendsState extends State<Friends> {
                 );
               },
             );
-          }
-      ),
+          }),
     );
   }
 }

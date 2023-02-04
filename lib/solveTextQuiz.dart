@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:snap_puzzle/LogIn.dart';
 
 var _answer;
 
-
-
+// ignore: must_be_immutable
 class SolveTextQuiz extends StatefulWidget {
   String correctAnswer;
   int maxPoints;
@@ -14,13 +12,15 @@ class SolveTextQuiz extends StatefulWidget {
   String sel3;
   String sel4;
   @override
-  SolveTextQuiz({ this.correctAnswer,
-  this.maxPoints,
-  this.desc,
-  this.sel1,
-  this.sel2,
-  this.sel3,
-  this.sel4,}) : super();
+  SolveTextQuiz({
+    this.correctAnswer,
+    this.maxPoints,
+    this.desc,
+    this.sel1,
+    this.sel2,
+    this.sel3,
+    this.sel4,
+  }) : super();
   _SolveTextQuizState createState() => _SolveTextQuizState();
 }
 
@@ -214,11 +214,11 @@ class _SolveTextQuizState extends State<SolveTextQuiz> {
                         minWidth: 120,
                         onPressed: () {
                           if (_answer != null) {
-                              if(_answer == widget.correctAnswer) {
-                                //Update user's score
-                                //Update encryption
-                                Navigator.pop(context);
-                              }
+                            if (_answer == widget.correctAnswer) {
+                              //Update user's score
+                              //Update encryption
+                              Navigator.pop(context);
+                            }
                           }
                         }),
                   ),
